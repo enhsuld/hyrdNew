@@ -1,0 +1,42 @@
+name: hyrd
+description: Hyrd project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  font_awesome_flutter: ^8.5.0
+  carousel_slider: ^1.3.0
+  flutter_svg: ^0.15.0
+  dropdownfield: ^1.0.3
+  multi_image_picker: ^4.6.1
+  dio: 2.1.16
+  smooth_star_rating: ^1.0.3
+  intl: ^0.16.0
+  grouped_buttons: ^1.0.4
+  badges: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/audi_lonetree.png
+    - assets/images/sell-lexus.png
+    - assets/images/auction-land.png
+    - assets/images/car1.png
+    - assets/images/car2.png
+    - assets/images/car3.png
+    - assets/images/car4.png
+    - assets/images/pic.png
+    - assets/images/mainLogo.svg

@@ -1,0 +1,640 @@
+import 'package:dropdownfield/dropdownfield.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:hyrd/screens/addNewAd/ad_new_step_2.dart';
+import 'package:hyrd/screens/add_car_screen.dart';
+import 'package:hyrd/screens/bottom_bar.dart';
+import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/widget/recent_list_item.dart';
+
+import '../../models/car.dart';
+import '../../widget/vertical_list_item.dart';
+import '../../widget/horizontal_list_item.dart';
+
+class AdNewScreen extends StatefulWidget {
+  static const routeName = '/adNew';
+
+  @override
+  _AdNewScreenState createState() => _AdNewScreenState();
+}
+
+class _AdNewScreenState extends State<AdNewScreen> {
+  static const textColor = Color(0xFF2D3853);
+  static const GradientRed = Color(0xFFDF2626);
+  String dropdownValue = 'Суудлын тэрэг';
+  String buildYear = '2015';
+
+  bool isSwitched = true;
+  bool isChecked = true;
+  var isSelected = [false, true];
+  List<String> countries = [
+    'INDIA',
+    'USA',
+    'JAPAN',
+  ];
+  final _formKey = GlobalKey<FormState>();
+  Map<String, dynamic> formData;
+  _ExampleFormState() {
+    formData = {
+      'City': 'Bangalore',
+      'Country': 'INDIA',
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        /*  appBar: new PreferredSize(
+          child: new Container(
+            padding: new EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: new Padding(
+              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+              child: new Text(
+                'Зар оруулах',
+                textAlign: TextAlign.center,
+                style: new TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              ),
+            ),
+            decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFFB755FF),
+                      Color(0xFF584BDD),
+                    ]),
+                boxShadow: [
+                  new BoxShadow(
+                    color: Colors.grey[500],
+                    blurRadius: 20.0,
+                    spreadRadius: 1.0,
+                  )
+                ]),
+          ),
+          preferredSize: new Size(MediaQuery.of(context).size.width, 150.0),
+        )*/
+        //backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Color(0xFF584BDD),
+          centerTitle: true,
+          leading: Builder(builder: (BuildContext context) {
+            return new SizedBox(
+                height: 18.0,
+                width: 18.0,
+                child: new IconButton(
+                  padding: new EdgeInsets.all(0.0),
+                  color: Colors.white,
+                  icon: new Icon(Icons.arrow_back_ios, size: 20.0),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ));
+          }),
+          title: Text("Зар оруулах 1/5",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+          elevation: 0.0,
+        ),
+        body: Container(
+         // padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+          child :  Form(
+            key: _formKey,
+            autovalidate: false,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                      child: Column(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Төрөл"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Дотор өнгө"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Хурдны хайрцаг"),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.only(top: 10),
+                                child: ToggleButtons(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                                  selectedColor: Colors.white,
+                                  color: Color(0xff6E7FAA),
+                                  fillColor: Color(0xff584BDD),
+                                  children: <Widget>[
+                                    Container(
+                                      width:
+                                      (MediaQuery.of(context).size.width - 43) /
+                                          2,
+                                      child: Text(
+                                        "Механик",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Container(
+                                      width:
+                                      (MediaQuery.of(context).size.width - 43) /
+                                          2,
+                                      child: Text(
+                                        "Автомат",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ],
+                                  onPressed: (int index) {
+                                    setState(() {
+                                      for (int buttonIndex = 0;
+                                      buttonIndex < isSelected.length;
+                                      buttonIndex++) {
+                                        if (buttonIndex == index) {
+                                          isSelected[buttonIndex] =
+                                          !isSelected[buttonIndex];
+                                        } else {
+                                          isSelected[buttonIndex] = false;
+                                        }
+                                      }
+                                    });
+                                  },
+                                  isSelected: isSelected,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Үйлдвэрлэсэн он"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Орж ирсэн он"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Хөдөлгүүр"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Явсан км"),
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: TextField(
+                                    obscureText: false,
+                                    style:  TextStyle(fontFamily: 'Roboto', color: Color(0xFF6E7FAA), fontSize: 15.0),
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                        hintText: "20229",
+                                        hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFF6E7FAA)),
+                                        contentPadding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                                        border: new UnderlineInputBorder(
+                                            borderSide: new BorderSide(
+                                                color: Colors.red
+                                            )
+                                        )
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Мотор багтаамж"),
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: TextField(
+                                    obscureText: false,
+                                    style:  TextStyle(fontFamily: 'Roboto', color: Color(0xFF6E7FAA), fontSize: 15.0),
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.left,
+                                    decoration: InputDecoration(
+                                        hintText: "2.0 л",
+                                        hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFF6E7FAA)),
+                                        contentPadding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                                        border: new UnderlineInputBorder(
+                                            borderSide: new BorderSide(
+                                                color: Colors.red
+                                            )
+                                        )
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Хүрд"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Суудал"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Хаалга"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Хөтлөгч"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                width: (MediaQuery.of(context).size.width * 2) / 5,
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    child: DropdownButton(
+                                      value: buildYear,
+                                      isDense: true,
+                                      style: TextStyle(
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          buildYear = newValue;
+                                        });
+                                      },
+                                      items: <String>['2015', '2016', '2017']
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
+                  width: MediaQuery.of(context).size.width,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(FadeRoute(builder: (context) => AdNewStep2Screen()));
+                    },
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: <Color>[
+                              Color(0xFFB755FF),
+                              Color(0xFF584BDD),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                      child: const Text('Үргэлжлүүлэх',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ));
+  }
+}
