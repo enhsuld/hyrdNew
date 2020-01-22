@@ -39,12 +39,12 @@ class BottomBar extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          new IconButton(icon: new Icon(Icons.home,  color: isSelected? Color(0xFF584BDD): Color(0xFF676E79)), onPressed: (){
+                          new IconButton(icon: new Icon(Icons.home,  color: Color(0xFF676E79)), onPressed: (){
                             Navigator.pop(context);
                             Navigator.of(context).push(FadeRoute(builder: (context) => DashboardScreen()));
                             //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>DashboardScreen()));
                           },),
-                          new IconButton(icon: new Icon(Icons.search, color: isSelected? Color(0xFF584BDD): Color(0xFF676E79)), onPressed: (){
+                          new IconButton(icon: new Icon(Icons.search, color: Color(0xFF676E79)), onPressed: (){
                             Navigator.pop(context);
                             Navigator.of(context).push(FadeRoute(builder: (context) => SearchCarScreen()));
                           },),
@@ -57,11 +57,11 @@ class BottomBar extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          new IconButton(icon: new Icon(Icons.shopping_basket, color: isSelected? Color(0xFF584BDD): Color(0xFF676E79)), onPressed: (){
+                          new IconButton(icon: new Icon(Icons.shopping_basket, color: Color(0xFF676E79)), onPressed: (){
                             Navigator.pop(context);
                             Navigator.of(context).push(FadeRoute(builder: (context) => TotalAdScreen()));
                           },),
-                          new IconButton(icon: new Icon(Icons.person_outline, color: isSelected? Color(0xFF584BDD): Color(0xFF676E79)), onPressed: (){
+                          new IconButton(icon: new Icon(Icons.person_outline, color: Color(0xFF676E79)), onPressed: (){
                             Navigator.pop(context);
                             Navigator.of(context).push(FadeRoute(builder: (context) => ProfileScreen()));
                           },),

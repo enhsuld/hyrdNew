@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
+        fontFamily: 'Gilroy'
       ),
       routes: <String, WidgetBuilder>{
         MovieDetailsScreen.routeName: (ctx) => MovieDetailsScreen(),

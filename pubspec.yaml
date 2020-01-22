@@ -27,8 +27,27 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-
   uses-material-design: true
+  fonts:
+    - family: Gilroy
+      fonts:
+        - asset: assets/fonts/Gilroy-Regular.ttf
+        - asset: assets/fonts/Gilroy-RegularItalic.ttf
+          style: italic
+        - asset: assets/fonts/Gilroy-Black.ttf
+          weight: 800
+        - asset: assets/fonts/Gilroy-BlackItalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/Gilroy-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Gilroy-Thin.ttf
+          weight: 400
+        - asset: assets/fonts/Gilroy-Light.ttf
+          weight: 200
+        - asset: assets/fonts/Gilroy-LightItalic.ttf
+          weight: 400
+          style: italic
 
   assets:
     - assets/images/audi_lonetree.png
