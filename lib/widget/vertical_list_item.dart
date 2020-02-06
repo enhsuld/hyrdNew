@@ -29,7 +29,7 @@ class VerticalListItem extends StatelessWidget {
             );
           },
           child: Card(
-            elevation: 5,
+            elevation: 3,
             child: Row(
               children: <Widget>[
                 Hero(
@@ -56,12 +56,30 @@ class VerticalListItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        highlighted[index].title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: bigTextColor
+                      Container(
+                        width: MediaQuery.of(context).size.width - 160,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              highlighted[index].title,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: bigTextColor
+                              ),
+                            ),
+                            new SizedBox(
+                                height: 20.0,
+                                width: 25.0,
+                                child: new IconButton(
+                                  focusColor: Colors.blue,
+                                  padding: new EdgeInsets.all(0.0),
+                                  color: Color(0xFF222455),
+                                  icon: new Icon(Icons.more_horiz, size: 25.0),
+                                  onPressed: (){},
+                                )
+                            )
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -100,12 +118,12 @@ class VerticalListItem extends StatelessWidget {
                               width: 230,
                               padding: EdgeInsets.only(top: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Үнэ :"+highlighted[index].price.toString(),
+                                    "Үнэ :"+highlighted[index].price.toString()+"₮",
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                         color: bigTextColor
                                     ),

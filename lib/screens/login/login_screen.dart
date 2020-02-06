@@ -130,10 +130,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.all(18),
                         child: SvgPicture.asset(
                           "assets/images/mainLogo.svg",
-                          color: Colors.white,
+                          color: Colors.white,colorBlendMode: BlendMode.srcIn,
                           width: MediaQuery.of(context).size.width - 250,
-                          semanticsLabel: 'Acme Logo',
-                          fit: BoxFit.contain,
+                         // semanticsLabel: 'Acme Logo',
+                       //   fit: BoxFit.contain,
                         ),
                       ),
                       SizedBox(height: 25.0),

@@ -24,7 +24,6 @@ class HorizontalListItem extends StatelessWidget {
             contentPadding: EdgeInsets.all(10.0),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
             content: Container(
-              //height:  MediaQuery.of(context).size.height/2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -107,7 +106,7 @@ class HorizontalListItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Card(
-              elevation: 8,
+              elevation: 3,
               child: Column(
                 children: <Widget>[
                   Hero(
@@ -166,7 +165,6 @@ class HorizontalListItem extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 12, color: miniTextColor
                             ),
-                            // besttopRatedCarList[index].wheelDrive,
                           ),
                         ],
                       )

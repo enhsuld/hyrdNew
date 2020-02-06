@@ -135,89 +135,25 @@ class _StepTwoExtendScreenState extends State<StepTwoExtendScreen> {
                           padding: EdgeInsets.only(left: 20,right: 20),
                           child: regNumField
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(top:20,left: 20,right: 20),
-                            child: DropdownButton<String>(
-                                isDense: true,
-                                style: TextStyle(color: Color(0xFF6E7FAA),),
-                                value: dropdownValue,
-                                onChanged: (String newValue) {
-                                  setState(() {
-                                    dropdownValue = newValue;
-                                  });
-                                },
-                                items: <String>['Mongolia', 'China', 'Russia']
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList()),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                              width:MediaQuery.of(context).size.width*0.45,
-                              padding: EdgeInsets.only(left: 20,right: 20),
-                              child: phoneField
-                          ),
-                          Container(
-                              width:MediaQuery.of(context).size.width*0.45,
-                              padding: EdgeInsets.only(top:10),
-                              child: ToggleButtons(
-                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                selectedColor: Colors.white,
-                                color: Color(0xff6E7FAA),
-                                fillColor: Color(0xff584BDD),
-                                //borderColor: Colors.white,
-                                children: <Widget>[
-                                  Container(
-                                    child: Text("Male"),
-                                  ),
-                                  Container(
-                                    child: Text("Female"),
-                                  )
-                                ],
-                                onPressed: (int index) {
-                                  setState(() {
-                                    for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                                      if (buttonIndex == index) {
-                                        isSelected[buttonIndex] = !isSelected[buttonIndex];
-                                      } else {
-                                        isSelected[buttonIndex] = false;
-                                      }
-                                    }
-                                  });
-                                },
-                                isSelected: isSelected,
-                              ),
-                          ),
-                        ],
-                      ),
                       SizedBox(
                         height: 10,
                       ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Checkbox(
-                            value: isChecked,
-                            onChanged: (value) {
-                              setState(() {
-                                isChecked = value;
-                              });
-                            },
+                      Container(
+                          padding: EdgeInsets.only(left: 5,right: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Checkbox(
+                                value: isChecked,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isChecked = value;
+                                  });
+                                },
+                              ),
+                              Text("Үйлчилгээний нөхцөл зөвшөөрч байна.", style: TextStyle(fontSize: 13,color: Color(0xff6E7FAA))),
+                            ],
                           ),
-                          Text("Үйлчилгээний нөхцөл зөвшөөрч байна.", style: TextStyle(fontSize: 13,color: Color(0xff6E7FAA))),
-                        ],
                       ),
                       _buildButtons(),
                     ],

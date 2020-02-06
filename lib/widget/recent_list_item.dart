@@ -27,98 +27,94 @@ class RecentListItem extends StatelessWidget {
               },
             );
           },
-          child: Card(
-            elevation: 5,
-            child: Row(
-              children: <Widget>[
-                Hero(
-                  tag: recentCarList[index].id,
-                  child: Container(
-                    height: 80,
-                    width: 100,
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
+          child: Row(
+            children: <Widget>[
+              Hero(
+                tag: recentCarList[index].id,
+                child: Container(
+                  height: 80,
+                  width: 100,
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: AssetImage(recentCarList[index].imageUrl)
-                    /*    image: NetworkImage(
+                      /*    image: NetworkImage(
                           recentCarList[index].imageUrl,
                         ),*/
-                      ),
                     ),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(left:10,right: 10),
-                  height: 80,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        recentCarList[index].title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+              ),
+              Container(
+                padding: const EdgeInsets.only(left:10,right: 10),
+                height: 80,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      recentCarList[index].title,
+                      style: TextStyle(
+                          fontSize: 15,
                           color: bigTextColor
-                        ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Container(
-                              width: 230,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    recentCarList[index].millage.toString()+ ' '+recentCarList[index].millageUnit,
-                                    style: TextStyle(
-                                        fontSize: 12, color: miniTextColor
-                                    ),
-                                  ),
-                                  Text(
-                                    recentCarList[index].capacity.toString()+ ' '+recentCarList[index].capacityUnit.toString(),
-                                    style: TextStyle(
-                                        fontSize: 12, color: miniTextColor
-                                    ),
-                                  ),
-                                  Text(
-                                    recentCarList[index].wheelDrive.toString(),
-                                    style: TextStyle(
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Container(
+                            width: 230,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  recentCarList[index].millage.toString()+ ' '+recentCarList[index].millageUnit,
+                                  style: TextStyle(
                                       fontSize: 12, color: miniTextColor
-                                    ),
-                                    // recentCarList[index].wheelDrive,
                                   ),
-                                ],
-                              )
-                          ),
-                          Container(
-                              width: 230,
-                              padding: EdgeInsets.only(top: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "Үнэ :"+recentCarList[index].price.toString(),
-                                    style: TextStyle(
-                                      fontSize: 16,
+                                ),
+                                Text(
+                                  recentCarList[index].capacity.toString()+ ' '+recentCarList[index].capacityUnit.toString(),
+                                  style: TextStyle(
+                                      fontSize: 12, color: miniTextColor
+                                  ),
+                                ),
+                                Text(
+                                  recentCarList[index].wheelDrive.toString(),
+                                  style: TextStyle(
+                                      fontSize: 12, color: miniTextColor
+                                  ),
+                                  // recentCarList[index].wheelDrive,
+                                ),
+                              ],
+                            )
+                        ),
+                        Container(
+                            width: 230,
+                            padding: EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "Үнэ :"+recentCarList[index].price.toString()+"₮",
+                                  style: TextStyle(
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
-                                        color: bigTextColor
-                                    ),
+                                      color: bigTextColor
                                   ),
-                                ],
-                              )
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                                ),
+                              ],
+                            )
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         SizedBox(

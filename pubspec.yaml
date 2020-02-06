@@ -21,6 +21,8 @@ dependencies:
   intl: ^0.16.0
   grouped_buttons: ^1.0.4
   badges: ^1.1.0
+  page_transition: "^1.1.5"
+  pin_entry_text_field: ^0.1.4
 
 dev_dependencies:
   flutter_test:
@@ -59,3 +61,4 @@ flutter:
     - assets/images/car4.png
     - assets/images/pic.png
     - assets/images/mainLogo.svg
+    - assets/images/mainLogo.png
