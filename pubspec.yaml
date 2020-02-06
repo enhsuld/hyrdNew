@@ -52,13 +52,5 @@ flutter:
           style: italic
 
   assets:
-    - assets/images/audi_lonetree.png
-    - assets/images/sell-lexus.png
-    - assets/images/auction-land.png
-    - assets/images/car1.png
-    - assets/images/car2.png
-    - assets/images/car3.png
-    - assets/images/car4.png
-    - assets/images/pic.png
-    - assets/images/mainLogo.svg
-    - assets/images/mainLogo.png
+    - assets/images/
+

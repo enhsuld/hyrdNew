@@ -123,18 +123,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        decoration: new BoxDecoration(
+                      /*  decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(50.0),
                           color: Colors.white.withOpacity(0.1),
-                        ),
-                        padding: EdgeInsets.all(18),
-                        child: SvgPicture.asset(
-                          "assets/images/mainLogo.svg",
-                          color: Colors.white,colorBlendMode: BlendMode.srcIn,
-                          width: MediaQuery.of(context).size.width - 250,
-                         // semanticsLabel: 'Acme Logo',
-                       //   fit: BoxFit.contain,
-                        ),
+                        ),*/
+                        child: Image.asset('assets/images/screen-logo.png',fit: BoxFit.cover,),
                       ),
                       SizedBox(height: 25.0),
                       Column(
