@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
@@ -33,45 +34,18 @@ class _StepTwoScreenScreenState extends State<StepTwoScreen> {
     );
   }
 
-
-  final passwordField = TextField(
-    obscureText: true,
-    style:  TextStyle(fontFamily: 'Roboto', color: Color(0xFF6E7FAA), fontSize: 15.0),
-    textAlign: TextAlign.left,
-    decoration: InputDecoration(
-        hintText: "Нууц үг",
-        hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFF6E7FAA)),
-        contentPadding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
-        border: new UnderlineInputBorder(
-            borderSide: new BorderSide(
-                color: Colors.red
-            )
-        )
-    ),
-  );
-
-  final passwordConfirmField = TextField(
-    obscureText: true,
-    style:  TextStyle(fontFamily: 'Roboto', color: Color(0xFF6E7FAA), fontSize: 15.0),
-    textAlign: TextAlign.left,
-    decoration: InputDecoration(
-      hintText: "Нууц үг давтан оруулах",
-      hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFF6E7FAA)),
-      contentPadding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
-        border: new UnderlineInputBorder(
-            borderSide: new BorderSide(
-                color: Colors.red
-            )
-        )
-    ),
-  );
+  String _password;
+  TextEditingController _ctlPassword = new TextEditingController();
 
   Widget _buildProfileImage() {
     return Padding(
       padding: EdgeInsets.all(10),
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         color: Colors.white,
-        elevation: 5,
+        elevation: 3,
         child: Column(
           children: <Widget>[
             Column(
@@ -80,12 +54,47 @@ class _StepTwoScreenScreenState extends State<StepTwoScreen> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                          padding: EdgeInsets.only(left: 20,right: 20),
-                          child: passwordField
+                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        child: TextFormField(
+                            controller: _ctlPassword,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                hintText: "Нууц үг",
+                                hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFF6E7FAA)),
+                                contentPadding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                                border: new UnderlineInputBorder(
+                                    borderSide: new BorderSide(
+                                        color: Colors.red
+                                    )
+                                )
+                            ),
+                            validator: (val) => val.length < 6
+                                ? 'The password must be at least 6 characters.'
+                                : null,
+                            onSaved: (val) => _password = val),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: 20,right: 20),
-                        child: passwordConfirmField
+                        padding: EdgeInsets.only(bottom: 20,right: 20,left: 20),
+                        child: TextFormField(
+                            textAlign: TextAlign.left,
+                            decoration: InputDecoration(
+                                hintText: "Нууц үг давтан оруулах",
+                                hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFF6E7FAA)),
+                                contentPadding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                                border: new UnderlineInputBorder(
+                                    borderSide: new BorderSide(
+                                        color: Colors.red
+                                    )
+                                )
+                            ),
+                            validator: (value) {
+                              if (value != _ctlPassword.text) {
+                                return 'Password is not matching';
+                              }
+                              return null;
+                            },
+                            obscureText: true,
+                            onChanged: (value) {}),
                       ),
                       SizedBox(
                         height: 10,
@@ -113,8 +122,10 @@ class _StepTwoScreenScreenState extends State<StepTwoScreen> {
       width: MediaQuery.of(context).size.width,
       child: FlatButton(
         onPressed: () {
-          Navigator.pop(context);
+        //  Navigator.pop(context);
           Navigator.of(context).push(FadeRoute(builder: (context) => StepTwoExtendScreen()));
+
+
         },
         textColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
@@ -183,14 +194,11 @@ class _StepTwoScreenScreenState extends State<StepTwoScreen> {
                     ),
                   ),
                   Container(
-                    decoration: new BoxDecoration(
-                      borderRadius: new BorderRadius.circular(150.0),
-                      color: Colors.white.withOpacity(0.1),
-                    ),
+                   padding: EdgeInsets.all(30),
+                    width: MediaQuery.of(context).size.width - 150,
                     child: Image.asset(
-                      "assets/images/pic.png",
-                      width: MediaQuery.of(context).size.width - 250,
-                      fit: BoxFit.contain,
+                      "assets/images/lock.png",
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                   SizedBox(height: 30),

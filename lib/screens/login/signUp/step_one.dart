@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
 import 'package:hyrd/screens/bottom_bar.dart';
@@ -50,15 +51,18 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
     ),
   );
 
-
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   String dropdownValue = 'Mongolia';
 
   Widget _buildProfileImage() {
     return Padding(
       padding: EdgeInsets.all(10),
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         color: Colors.white,
-        elevation: 5,
+        elevation: 3,
         child: Column(
           children: <Widget>[
             Column(
@@ -66,45 +70,53 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
                 Container(
                   child: Column(
                     children: <Widget>[
-                      Column(
+                      FormBuilder(
+                        key: _fbKey,
+                        initialValue: {
+                          'date': DateTime.now(),
+                          'accept_terms': false,
+                        },
+                        autovalidate: true,
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.only(top:20,left: 20,right: 20),
-                                child: DropdownButton<String>(
-                                    isDense: true,
-                                    style: TextStyle(color: Color(0xFF6E7FAA),),
-                                    value: dropdownValue,
-                                    onChanged: (String newValue) {
-                                      setState(() {
-                                        dropdownValue = newValue;
-                                      });
-                                    },
-                                    items: <String>['Mongolia', 'China', 'Russia']
-                                        .map<DropdownMenuItem<String>>((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList()),
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.only(top:20,left: 20,right: 20),
+                              child:  FormBuilderDropdown(
+                                attribute: "gender",
+                                decoration: InputDecoration(labelText: "Gender"),
+                                hint: Text('Select Gender'),
+                                validators: [FormBuilderValidators.required()],
+                                items: ['Male', 'Female', 'Other']
+                                    .map((gender) => DropdownMenuItem(
+                                    value: gender,
+                                    child: Text("$gender")
+                                )).toList(),
+                              ),
                             ),
+                            Container(
+                                padding: EdgeInsets.only(left: 20,right: 20),
+                                child:  FormBuilderTextField(
+                                  attribute: "phone",
+                                  decoration: InputDecoration(labelText: "Утасны дугаар"),
+                                  validators: [
+                                    FormBuilderValidators.required(),
+                                    FormBuilderValidators.numeric()
+                                  ],
+                                ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 20,right: 20,bottom: 30),
+                              child: Text("Таны оруулсан дугаарт код илгээж таныг баталгаажуулах болно.", style: TextStyle(fontSize: 13,color: Color(0xff6E7FAA))),
+                            ),
+                            _buildButtons(),
                           ],
+                        ),
                       ),
-
-
-                      Container(
-                        padding: EdgeInsets.only(left: 20,right: 20),
-                        child: phoneField
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 20,right: 20,bottom: 30),
-                        child: Text("Таны оруулсан дугаарт код илгээж таныг баталгаажуулах болно.", style: TextStyle(fontSize: 13,color: Color(0xff6E7FAA))),
-                      ),
-                      _buildButtons(),
                     ],
                   ),
                 ),
@@ -116,15 +128,17 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
     );
   }
 
-
   Widget _buildButtons() {
     return Container(
       padding: EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
       width: MediaQuery.of(context).size.width,
       child: FlatButton(
         onPressed: () {
-          Navigator.pop(context);
-          Navigator.of(context).push(FadeRoute(builder: (context) => StepOneExtendScreen()));
+          if (_fbKey.currentState.saveAndValidate()) {
+            print(_fbKey.currentState.value);
+         //   Navigator.pop(context);
+            Navigator.of(context).push(FadeRoute(builder: (context) => StepOneExtendScreen()));
+          }
         },
         textColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
@@ -158,44 +172,6 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-/*        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[
-                  Color(0xFFB755FF),
-                  Color(0xFF584BDD),
-                ],
-              ),
-            ),
-          ),
-          centerTitle: true,
-          title:Text(
-            "Бүртгэл 1/3",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Roboto',
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          leading: Builder(builder: (BuildContext context) {
-            return new SizedBox(
-                height: 15.0,
-                width: 15.0,
-                child: new IconButton(
-                  padding: new EdgeInsets.all(0.0),
-                //  color: MorePage.GradientRed,
-                  icon: new Icon(Icons.arrow_back_ios, size: 18.0),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ));
-          }),
-        ),*/
       body: Stack(
         children: <Widget>[
           _buildCoverImage(screenSize),
@@ -231,12 +207,8 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
                     ),
                   ),
                   Container(
-                    decoration: new BoxDecoration(
-                      borderRadius: new BorderRadius.circular(150.0),
-                      color: Colors.white.withOpacity(0.1),
-                    ),
                     child: Image.asset(
-                      "assets/images/pic.png",
+                      "assets/images/send.png",
                       width: MediaQuery.of(context).size.width - 250,
                       fit: BoxFit.contain,
                     ),
