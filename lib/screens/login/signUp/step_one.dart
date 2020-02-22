@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/screens/login/signUp/step_one_extend.dart';
-import 'package:hyrd/screens/profile/ad_screen.dart';
-import 'package:hyrd/screens/profile/follower_screen.dart';
-import 'package:hyrd/screens/profile/help_screen.dart';
-import 'package:hyrd/screens/profile/setting_screen.dart';
-import 'package:hyrd/screens/profile/user_information_screen.dart';
-import 'package:hyrd/screens/total_ad_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 
 class StepOneScreen extends StatefulWidget {
@@ -20,7 +12,6 @@ class StepOneScreen extends StatefulWidget {
 }
 
 class _StepOneScreenScreenState extends State<StepOneScreen> {
-
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       height: screenSize.height / 2,
@@ -33,22 +24,17 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
     );
   }
 
-
-
   final phoneField = TextField(
     obscureText: false,
-    style:  TextStyle(fontFamily: 'Roboto', color: Color(0xFF6E7FAA), fontSize: 15.0),
+    style: TextStyle(
+        fontFamily: 'Roboto', color: Color(0xFF6E7FAA), fontSize: 15.0),
     textAlign: TextAlign.left,
     decoration: InputDecoration(
-      hintText: "Утасны дугаар",
-      hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFF6E7FAA)),
-      contentPadding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+        hintText: "Утасны дугаар",
+        hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFF6E7FAA)),
+        contentPadding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
         border: new UnderlineInputBorder(
-            borderSide: new BorderSide(
-                color: Colors.red
-            )
-        )
-    ),
+            borderSide: new BorderSide(color: Colors.red))),
   );
 
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -72,46 +58,52 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
                     children: <Widget>[
                       FormBuilder(
                         key: _fbKey,
-                        initialValue: {
-                          'date': DateTime.now(),
-                          'accept_terms': false,
-                        },
+                        // initialValue: {
+                        //   'date': DateTime.now(),
+                        //   'accept_terms': false,
+                        // },
                         autovalidate: true,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
+                            // Container(
+                            //   width: MediaQuery.of(context).size.width,
+                            //   padding:
+                            //       EdgeInsets.only(top: 20, left: 20, right: 20),
+                            //   child: FormBuilderDropdown(
+                            //     attribute: "gender",
+                            //     decoration:
+                            //         InputDecoration(labelText: "Gender"),
+                            //     hint: Text('Select Gender'),
+                            //     validators: [FormBuilderValidators.required()],
+                            //     items: ['Male', 'Female', 'Other']
+                            //         .map((gender) => DropdownMenuItem(
+                            //             value: gender, child: Text("$gender")))
+                            //         .toList(),
+                            //   ),
+                            // ),
                             Container(
-                              width: MediaQuery.of(context).size.width,
-                              padding: EdgeInsets.only(top:20,left: 20,right: 20),
-                              child:  FormBuilderDropdown(
-                                attribute: "gender",
-                                decoration: InputDecoration(labelText: "Gender"),
-                                hint: Text('Select Gender'),
-                                validators: [FormBuilderValidators.required()],
-                                items: ['Male', 'Female', 'Other']
-                                    .map((gender) => DropdownMenuItem(
-                                    value: gender,
-                                    child: Text("$gender")
-                                )).toList(),
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: FormBuilderTextField(
+                                attribute: "phone",
+                                decoration:
+                                    InputDecoration(labelText: "Утасны дугаар"),
+                                validators: [
+                                  FormBuilderValidators.required(),
+                                  FormBuilderValidators.numeric()
+                                ],
                               ),
-                            ),
-                            Container(
-                                padding: EdgeInsets.only(left: 20,right: 20),
-                                child:  FormBuilderTextField(
-                                  attribute: "phone",
-                                  decoration: InputDecoration(labelText: "Утасны дугаар"),
-                                  validators: [
-                                    FormBuilderValidators.required(),
-                                    FormBuilderValidators.numeric()
-                                  ],
-                                ),
                             ),
                             SizedBox(
                               height: 10,
                             ),
                             Container(
-                              padding: EdgeInsets.only(left: 20,right: 20,bottom: 30),
-                              child: Text("Таны оруулсан дугаарт код илгээж таныг баталгаажуулах болно.", style: TextStyle(fontSize: 13,color: Color(0xff6E7FAA))),
+                              padding: EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 30),
+                              child: Text(
+                                  "Таны оруулсан дугаарт код илгээж таныг баталгаажуулах болно.",
+                                  style: TextStyle(
+                                      fontSize: 13, color: Color(0xff6E7FAA))),
                             ),
                             _buildButtons(),
                           ],
@@ -136,8 +128,13 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
         onPressed: () {
           if (_fbKey.currentState.saveAndValidate()) {
             print(_fbKey.currentState.value);
-         //   Navigator.pop(context);
-            Navigator.of(context).push(FadeRoute(builder: (context) => StepOneExtendScreen()));
+            //   Navigator.pop(context);
+            BackendService.getVerifyCode(phone: _fbKey.currentState.value)
+                .then((onValue) {
+              if (onValue != null)
+                Navigator.of(context).push(
+                    FadeRoute(builder: (context) => StepOneExtendScreen()));
+            });
           }
         },
         textColor: Colors.white,
@@ -153,7 +150,7 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
                     Color(0xFF584BDD),
                   ],
                 ),
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
             padding: const EdgeInsets.fromLTRB(30, 15, 15, 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,55 +169,55 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          _buildCoverImage(screenSize),
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(top:20,bottom: 10),
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          padding: new EdgeInsets.all(20),
-                          icon: new Icon(Icons.arrow_back_ios,color: Colors.white, size: 18.0),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 120,
-                          child: Text(
-                            "Бүртгэл 1/3",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700,
-                            ),
+        body: Stack(
+      children: <Widget>[
+        _buildCoverImage(screenSize),
+        SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        padding: new EdgeInsets.all(20),
+                        icon: new Icon(Icons.arrow_back_ios,
+                            color: Colors.white, size: 18.0),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 120,
+                        child: Text(
+                          "Бүртгэл 1/3",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    child: Image.asset(
-                      "assets/images/send.png",
-                      width: MediaQuery.of(context).size.width - 250,
-                      fit: BoxFit.contain,
-                    ),
+                ),
+                Container(
+                  child: Image.asset(
+                    "assets/images/send.png",
+                    width: MediaQuery.of(context).size.width - 250,
+                    fit: BoxFit.contain,
                   ),
-                  SizedBox(height: 30),
-                  _buildProfileImage(),
-                ],
-              ),
+                ),
+                SizedBox(height: 30),
+                _buildProfileImage(),
+              ],
             ),
           ),
-        ],
-      )
-    );
+        ),
+      ],
+    ));
   }
 }
