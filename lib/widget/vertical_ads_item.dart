@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
+import 'package:intl/intl.dart';
 
 class VerticalAdsItem extends StatelessWidget {
   final int index;
@@ -11,6 +12,10 @@ class VerticalAdsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final formatter = new NumberFormat("#,###");
+
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -116,9 +121,7 @@ class VerticalAdsItem extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Үнэ :" +
-                                        (item?.price ?? 0).toString() +
-                                        "₮",
+                                    "Үнэ :" + formatter.format(item?.price ?? 0) + "₮",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -126,6 +129,8 @@ class VerticalAdsItem extends StatelessWidget {
                                   ),
                                 ],
                               )),
+
+
                         ],
                       )
                     ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:intl/intl.dart';
 
 class HorizontalCarItem extends StatefulWidget {
   final int index;
@@ -14,6 +15,9 @@ class HorizontalCarItem extends StatefulWidget {
 }
 
 class _HorizontalCarItemState extends State<HorizontalCarItem> {
+
+  final formatter = new NumberFormat("#,###");
+
   @override
   Widget build(BuildContext context) {
     void _showDialog() {
@@ -185,7 +189,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Үнэ :" + widget.item.price.toString() + "₮",
+                            "Үнэ :" +  formatter.format(widget?.item?.price ?? "0") + "₮",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,

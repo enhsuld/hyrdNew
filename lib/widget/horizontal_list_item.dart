@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 import '../models/car.dart';
 
@@ -12,6 +13,7 @@ class HorizontalListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final formatter = new NumberFormat("#,###");
 
     void _showDialog() {
       showDialog(
@@ -177,7 +179,7 @@ class HorizontalListItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Үнэ :"+topRatedCarList[index].price.toString()+"₮",
+                            "Үнэ :"+formatter.format(topRatedCarList[index].price)+"₮",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,

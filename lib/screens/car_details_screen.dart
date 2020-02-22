@@ -550,22 +550,34 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        width: 200,
-        height: 50,
-        color: Colors.red,
+        height: 80,
+        color: Colors.white,
+        padding: const EdgeInsets.all(15),
+        width: MediaQuery.of(context).size.width-40,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
+              width: MediaQuery.of(context).size.width/2,
+              padding: EdgeInsets.only(left: 30,top: 5),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text("үнэ:"),
-                  Text("24 сая₮"),
+                  Text("үнэ:",style: TextStyle(
+                    fontSize: 8,
+                    color: Color(0xFF6E7FAA),
+                  ),),
+                  Text("24 сая₮",  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF222455),
+                  ),),
                 ],
               ),
             ),
             Container(
-                width: MediaQuery.of(context).size.width/2,
+                width: MediaQuery.of(context).size.width/2-30,
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
@@ -576,9 +588,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                       ],
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                padding: const EdgeInsets.fromLTRB(30, 15, 15, 15),
+                padding: const EdgeInsets.all(15),
                 child: Text("ХОЛБОГДОХ".toUpperCase(),
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 16)),
             )
           ],
