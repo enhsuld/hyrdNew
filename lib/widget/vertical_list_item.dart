@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hyrd/screens/car_details_screen.dart';
 import '../models/car.dart';
-import '../screens/movie_details_screen.dart';
 
 class VerticalListItem extends StatelessWidget {
   final int index;
@@ -16,7 +16,7 @@ class VerticalListItem extends StatelessWidget {
         GestureDetector(
           onTap: () {
             Navigator.of(context).pushNamed(
-              MovieDetailsScreen.routeName,
+              CarDetailsScreen.routeName,
               arguments: {
                 'id': highlighted[index].id,
                 'title': highlighted[index].title,

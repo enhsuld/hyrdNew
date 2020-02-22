@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hyrd/screens/car_details_screen.dart';
 
 import '../models/car.dart';
-import '../screens/movie_details_screen.dart';
 
 class TopRatedListItem extends StatelessWidget {
   final int index;
@@ -15,7 +15,7 @@ class TopRatedListItem extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(
-            MovieDetailsScreen.routeName,
+            CarDetailsScreen.routeName,
             arguments: {
               'id': topRatedCarList[index].id,
               'title': topRatedCarList[index].title,

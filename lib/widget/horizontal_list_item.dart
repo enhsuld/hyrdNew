@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hyrd/screens/movie_details_screen.dart';
 
 import '../models/car.dart';
 
