@@ -41,6 +41,7 @@ class CarModel {
   String _wheelPosition;
   String _length;
   String _archiveNumber;
+  int _mileage;
   String _createdAt;
   String _updatedAt;
   int _views;
@@ -89,6 +90,7 @@ class CarModel {
       String wheelPosition,
       String length,
       String archiveNumber,
+      int mileage,
       String createdAt,
       String updatedAt,
       int views,
@@ -135,6 +137,7 @@ class CarModel {
     this._wheelPosition = wheelPosition;
     this._length = length;
     this._archiveNumber = archiveNumber;
+    this._mileage = mileage;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
     this._views = views;
@@ -227,6 +230,8 @@ class CarModel {
   set length(String length) => _length = length;
   String get archiveNumber => _archiveNumber;
   set archiveNumber(String archiveNumber) => _archiveNumber = archiveNumber;
+  int get mileage => _mileage;
+  set mileage(int mileage) => _mileage = mileage;
   String get createdAt => _createdAt;
   set createdAt(String createdAt) => _createdAt = createdAt;
   String get updatedAt => _updatedAt;
@@ -279,6 +284,7 @@ class CarModel {
     _wheelPosition = json['wheelPosition'];
     _length = json['length'];
     _archiveNumber = json['archiveNumber'];
+    _mileage = json['mileage'];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _views = json['views'];
@@ -336,6 +342,7 @@ class CarModel {
     data['wheelPosition'] = this._wheelPosition;
     data['length'] = this._length;
     data['archiveNumber'] = this._archiveNumber;
+    data['mileage'] = this._mileage;
     data['created_at'] = this._createdAt;
     data['updated_at'] = this._updatedAt;
     data['views'] = this._views;

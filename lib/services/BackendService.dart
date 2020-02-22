@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:hyrd/models/json_data.dart';
 import 'package:hyrd/utils/debug_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BackendService {
   static String api = "https://hyrd.mn/api";
@@ -36,6 +37,23 @@ class BackendService {
     final response = (await http.post(api + '/verify/phone', body: phone));
     if (response.statusCode == 200) {
       return response.body;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<String> postAdsView({id}) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getString("token") != null &&
+        preferences.getString("token").isNotEmpty) {
+      final response = (await http.post(apiAds + '/$id/views', headers: {
+        "Authorization": "Bearer " + preferences.getString("token")
+      }));
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

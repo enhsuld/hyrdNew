@@ -159,12 +159,12 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          // Text(
-                          //   widget.item._millage.toString(),
-                          //   style: TextStyle(
-                          //       fontSize: 12,
-                          //       color: HorizontalCarItem.miniTextColor),
-                          // ),
+                          Text(
+                            (widget?.item?.mileage ?? 0).toString(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: HorizontalCarItem.miniTextColor),
+                          ),
                           Text(
                             (widget?.item?.capacity ?? 0).toString(),
                             style: TextStyle(

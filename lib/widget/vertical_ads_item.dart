@@ -19,7 +19,7 @@ class VerticalAdsItem extends StatelessWidget {
             Navigator.of(context).pushNamed(
               CarDetailsScreen.routeName,
               arguments: {
-                'id': item.id,
+                'id': item.id.toString(),
                 'title': item.name,
                 'imageUrl': "assets/images/auction-land.png",
                 'description': item.description,
@@ -91,13 +91,11 @@ class VerticalAdsItem extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  // Text(
-                                  //   item.millage.toString() +
-                                  //       ' ' +
-                                  //       item.millageUnit,
-                                  //   style: TextStyle(
-                                  //       fontSize: 12, color: miniTextColor),
-                                  // ),
+                                  Text(
+                                    (item?.mileage ?? 0).toString(),
+                                    style: TextStyle(
+                                        fontSize: 12, color: miniTextColor),
+                                  ),
                                   Text(
                                     (item?.capacity ?? 0).toString(),
                                     style: TextStyle(
