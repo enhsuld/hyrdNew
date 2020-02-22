@@ -10,7 +10,8 @@ class BackendService {
   static String apiAds = api + "/car-ads";
 
   final BuildContext _context;
-  static int pageSize = 10;
+
+  static Map<String, String> header = {"Content-Type": "application/json"};
 
   BackendService(BuildContext context) : _context = context;
 
@@ -40,30 +41,33 @@ class BackendService {
     }
   }
 
-  static Future<String> getAds({page}) async {
+  static Future<List<dynamic>> getAds({page, pageSize: 10}) async {
     final response = (await http.post(apiAds + '?page=$page&limit=$pageSize'));
     if (response.statusCode == 200) {
-      return response.body;
+      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
     } else {
       return null;
     }
   }
 
-  static Future<String> getPopular({page}) async {
+  static Future<List<dynamic>> getPopular({page, pageSize: 10}) async {
     final response =
-        (await http.post(apiAds + '/popular?page=$page&limit=$pageSize'));
+        (await http.get(apiAds + '/popular?page=$page&limit=$pageSize'
+            //headers: {"Content-Type": "application/json"}
+            ));
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      return response.body;
+      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
     } else {
       return null;
     }
   }
 
-  static Future<String> getHighlight({page}) async {
+  static Future<List<dynamic>> getHighlight({page, pageSize: 10}) async {
     final response =
-        (await http.post(api + '/highlight?page=$page&limit=$pageSize'));
+        (await http.get(apiAds + '/highlight?page=$page&limit=$pageSize'));
     if (response.statusCode == 200) {
-      return response.body;
+      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
     } else {
       return null;
     }

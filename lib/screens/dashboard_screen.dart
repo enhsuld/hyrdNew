@@ -1,13 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
 import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/screens/notification/notification_screen.dart';
 import 'package:hyrd/screens/profile/setting_screen.dart';
 import 'package:hyrd/screens/profile_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/recent_list_item.dart';
+import 'package:hyrd/widget/vertical_ads_item.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../models/car.dart';
@@ -45,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,7 +77,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: IconButton(
                             icon: Icon(Icons.notifications),
                             onPressed: () {
-                              Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration: Duration(microseconds: 300000), child: NotificationScreen()));
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      duration: Duration(microseconds: 300000),
+                                      child: NotificationScreen()));
                             },
                             color: Color(0xFF222455),
                             iconSize: 20.0,
@@ -84,7 +93,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: IconButton(
                             icon: Icon(Icons.format_line_spacing),
                             onPressed: () {
-                              Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration: Duration(microseconds: 300000), child: SettingScreen()));
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      duration: Duration(microseconds: 300000),
+                                      child: SettingScreen()));
                             },
                             color: Color(0xFF222455),
                             iconSize: 20.0,
@@ -124,7 +138,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: <Widget>[
                             new ClipRRect(
                                 borderRadius: new BorderRadius.circular(8.0),
-                                child: Image.asset(imgUrl, width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, fit: BoxFit.fill)),
+                                child: Image.asset(imgUrl,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    fit: BoxFit.fill)),
                           ],
                         ));
                   },
@@ -172,13 +189,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             Container(
-              height: 270,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: topRatedCarList.length,
-                itemBuilder: (ctx, i) => HorizontalListItem(i),
-              ),
-            ),
+                height: 270,
+                child: FutureBuilder(
+                  future: BackendService.getPopular(page: 1, pageSize: 5),
+                  builder: (context, snapshot) {
+                    List<dynamic> adsPopulars;
+                    if (snapshot.hasData) {
+                      adsPopulars = snapshot.data;
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: adsPopulars.length,
+                        itemBuilder: (ctx, i) => HorizontalCarItem(
+                            index: i, item: CarModel.fromJson(adsPopulars[i])),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                )),
             Padding(
               padding: EdgeInsets.only(left: 20, top: 20, right: 5),
               child: Row(
@@ -202,14 +232,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
-            Container(
-              height: double.parse(highlighted.length.toString()) * 118,
-              padding: EdgeInsets.only(bottom: 20, top: 0, left: 10, right: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: highlighted.length,
-                itemBuilder: (ctx, i) => VerticalListItem(i),
-              ),
+            FutureBuilder(
+              future: BackendService.getHighlight(page: 1, pageSize: 5),
+              builder: (context, snapshot) {
+                List<dynamic> lists;
+                if (snapshot.hasData) {
+                  lists = snapshot.data;
+                  return Container(
+                    height: double.parse(lists.length.toString()) * 118,
+                    padding: EdgeInsets.only(
+                        bottom: 20, top: 0, left: 10, right: 10),
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: lists.length,
+                      itemBuilder: (ctx, i) => VerticalAdsItem(
+                        index: i,
+                        item: CarModel.fromJson(lists[i]["car_ad"]),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
             Padding(
               padding: EdgeInsets.only(top: 10, left: 20, right: 5),
@@ -236,6 +283,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 itemBuilder: (ctx, i) => RecentListItem(i),
               ),
             ),
+            SizedBox(
+              height: 50,
+            )
           ],
         ),
       ),

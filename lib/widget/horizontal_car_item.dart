@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hyrd/models/car_model.dart';
 
-import '../models/car.dart';
-
-class HorizontalListItem extends StatelessWidget {
+class HorizontalCarItem extends StatefulWidget {
   final int index;
-  HorizontalListItem(this.index);
+  final CarModel item;
+  HorizontalCarItem({this.index, this.item});
 
   static const miniTextColor = Color(0xFF6E7FAA);
 
+  @override
+  _HorizontalCarItemState createState() => _HorizontalCarItemState();
+}
+
+class _HorizontalCarItemState extends State<HorizontalCarItem> {
   @override
   Widget build(BuildContext context) {
     void _showDialog() {
@@ -119,7 +124,7 @@ class HorizontalListItem extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Hero(
-                    tag: topRatedCarList[index].id,
+                    tag: widget.item.id,
                     child: Container(
                       height: 160,
                       decoration: BoxDecoration(
@@ -128,7 +133,7 @@ class HorizontalListItem extends StatelessWidget {
                             topRight: const Radius.circular(5.0)),
                         image: DecorationImage(
                             fit: BoxFit.fitWidth,
-                            image: AssetImage(topRatedCarList[index].imageUrl)
+                            image: AssetImage("assets/images/auction-land.png")
                             /*    image: NetworkImage(
                           besttopRatedCarList[index].imageUrl,
                         ),*/
@@ -138,42 +143,39 @@ class HorizontalListItem extends StatelessWidget {
                     ),
                   ),
                   Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            topRatedCarList[index].title.toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      )),
+                    padding: EdgeInsets.all(10),
+                    width: double.infinity,
+                    child: Text(
+                      widget?.item?.name ?? 0,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
                   Container(
                       padding: EdgeInsets.only(left: 10, right: 10, top: 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
+                          // Text(
+                          //   widget.item._millage.toString(),
+                          //   style: TextStyle(
+                          //       fontSize: 12,
+                          //       color: HorizontalCarItem.miniTextColor),
+                          // ),
                           Text(
-                            topRatedCarList[index].millage.toString() +
-                                ' ' +
-                                topRatedCarList[index].millageUnit,
-                            style:
-                                TextStyle(fontSize: 12, color: miniTextColor),
+                            (widget?.item?.capacity ?? 0).toString(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: HorizontalCarItem.miniTextColor),
                           ),
                           Text(
-                            topRatedCarList[index].capacity.toString() +
-                                ' ' +
-                                topRatedCarList[index].capacityUnit.toString(),
-                            style:
-                                TextStyle(fontSize: 12, color: miniTextColor),
-                          ),
-                          Text(
-                            topRatedCarList[index].wheelDrive.toString(),
-                            style:
-                                TextStyle(fontSize: 12, color: miniTextColor),
+                            widget?.item?.wheelPosition ?? "",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: HorizontalCarItem.miniTextColor),
                           ),
                         ],
                       )),
@@ -183,9 +185,7 @@ class HorizontalListItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Үнэ :" +
-                                topRatedCarList[index].price.toString() +
-                                "₮",
+                            "Үнэ :" + widget.item.price.toString() + "₮",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
