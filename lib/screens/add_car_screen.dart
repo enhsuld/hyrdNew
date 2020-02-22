@@ -124,18 +124,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-          Navigator.of(context)
-              .push(FadeRoute(builder: (context) => AddCarScreen()));
-        },
-        backgroundColor: Color(0xFF584BDD),
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBar(),
+      )
     );
   }
 }

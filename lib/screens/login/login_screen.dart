@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
 import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
+import 'package:hyrd/screens/home_screen.dart';
 import 'package:hyrd/screens/login/signUp/step_one.dart';
 import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/follower_screen.dart';
@@ -95,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Navigator.of(context).push(FadeRoute(builder: (context) => DashboardScreen()));
+          Navigator.of(context).push(FadeRoute(builder: (context) => HomeScreen()));
         },
         child: Text("Нэвтрэх".toUpperCase(),
             textAlign: TextAlign.center,

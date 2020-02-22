@@ -196,16 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.pop(context);
-        Navigator.of(context).push(FadeRoute(builder: (context) => AddCarScreen()));
-      },
-        backgroundColor: Color(0xFF584BDD),
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBar(),
+      )
     );
   }
 }
