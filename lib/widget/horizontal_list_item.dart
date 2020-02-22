@@ -11,6 +11,8 @@ class HorizontalListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     void _showDialog() {
       showDialog(
         context: context,
@@ -19,8 +21,7 @@ class HorizontalListItem extends StatelessWidget {
           return AlertDialog(
             backgroundColor: Color(0xffF4F4F4),
             contentPadding: EdgeInsets.all(10.0),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
             content: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -38,38 +39,27 @@ class HorizontalListItem extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    child: Text("Зар устгах",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Color(0xff584BDD),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600)),
+                    child:  Text("Зар устгах",textAlign: TextAlign.center,style: TextStyle(color: Color(0xff584BDD),fontSize: 18, fontWeight: FontWeight.w600)),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 20,),
                   Container(
-                    padding: EdgeInsets.only(left: 50, right: 50),
-                    child: Text(
-                        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu.",
-                        textAlign: TextAlign.center,
-                        style:
-                            TextStyle(color: Color(0xff8D8D8D), fontSize: 13)),
+                      padding: EdgeInsets.only(left: 50,right: 50),
+                    child:  Text("Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu.",textAlign: TextAlign.center,style: TextStyle(color: Color(0xff8D8D8D),fontSize: 13)),
                   ),
                 ],
               ),
             ),
             actions: <Widget>[
               Container(
-                padding: EdgeInsets.only(left: 50, right: 50),
-                width: MediaQuery.of(context).size.width - 96,
+                padding: EdgeInsets.only(left:50,right: 50),
+                width:  MediaQuery.of(context).size.width-96,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10.0),
                       bottomRight: Radius.circular(10.0)),
                 ),
-                child: Row(
+                child:  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     FlatButton(
@@ -99,7 +89,7 @@ class HorizontalListItem extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           _showDialog();
-          /*  Navigator.of(context).pushNamed(
+        /*  Navigator.of(context).pushNamed(
             MovieDetailsScreen.routeName,
             arguments: {
               'id': topRatedCarList[index].id,
@@ -115,6 +105,9 @@ class HorizontalListItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               elevation: 3,
               child: Column(
                 children: <Widget>[
@@ -123,17 +116,17 @@ class HorizontalListItem extends StatelessWidget {
                     child: Container(
                       height: 160,
                       decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.only(
-                            topLeft: const Radius.circular(5.0),
-                            topRight: const Radius.circular(5.0)),
+                          borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(5.0),
+                              topRight: const Radius.circular(5.0)),
                         image: DecorationImage(
-                            fit: BoxFit.fitWidth,
+                          fit: BoxFit.cover,
                             image: AssetImage(topRatedCarList[index].imageUrl)
                             /*    image: NetworkImage(
                           besttopRatedCarList[index].imageUrl,
                         ),*/
-                            // image: NetworkImage(topRatedCarList[index].imageUrl),
-                            ),
+                         // image: NetworkImage(topRatedCarList[index].imageUrl),
+                        ),
                       ),
                     ),
                   ),
@@ -150,49 +143,49 @@ class HorizontalListItem extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )),
+                      )
+                  ),
                   Container(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 0),
+                    padding: EdgeInsets.only(left: 10,right: 10,top: 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            topRatedCarList[index].millage.toString() +
-                                ' ' +
-                                topRatedCarList[index].millageUnit,
-                            style:
-                                TextStyle(fontSize: 12, color: miniTextColor),
+                            topRatedCarList[index].millage.toString()+ ' '+topRatedCarList[index].millageUnit,
+                            style: TextStyle(
+                                fontSize: 12, color: miniTextColor
+                            ),
                           ),
                           Text(
-                            topRatedCarList[index].capacity.toString() +
-                                ' ' +
-                                topRatedCarList[index].capacityUnit.toString(),
-                            style:
-                                TextStyle(fontSize: 12, color: miniTextColor),
+                            topRatedCarList[index].capacity.toString()+ ' '+topRatedCarList[index].capacityUnit.toString(),
+                            style: TextStyle(
+                                fontSize: 12, color: miniTextColor
+                            ),
                           ),
                           Text(
                             topRatedCarList[index].wheelDrive.toString(),
-                            style:
-                                TextStyle(fontSize: 12, color: miniTextColor),
+                            style: TextStyle(
+                                fontSize: 12, color: miniTextColor
+                            ),
                           ),
                         ],
-                      )),
+                      )
+                  ),
                   Container(
-                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 10),
+                      padding: EdgeInsets.only(top: 10,bottom: 10,left: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Үнэ :" +
-                                topRatedCarList[index].price.toString() +
-                                "₮",
+                            "Үнэ :"+topRatedCarList[index].price.toString()+"₮",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
-                      )),
+                      )
+                  ),
                 ],
               ),
             ),
