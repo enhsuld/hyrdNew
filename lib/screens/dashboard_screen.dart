@@ -24,14 +24,14 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   CarouselSlider carouselSlider;
 
-  int _current = 0;
+  int _current = 1;
 
   List imgList = [
-    'assets/images/audi_lonetree.png',
-    'assets/images/sell-lexus.png',
-    'assets/images/auction-land.png',
-    'assets/images/audi_lonetree.png',
-    'assets/images/sell-lexus.png',
+    'assets/images/img1.jpg',
+    'assets/images/img2.jpg',
+    'assets/images/img3.png',
+    'assets/images/img4.jpg',
+    'assets/images/img5.jpg',
   ];
 
   List<T> map<T>(List list, Function handler) {
@@ -98,7 +98,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             CarouselSlider(
               height: 190.0,
-              initialPage: 0,
+              initialPage: 1,
+              viewportFraction: 0.8,
+              aspectRatio: MediaQuery.of(context).size.aspectRatio,
               enlargeCenterPage: true,
               autoPlay: false,
               reverse: false,
@@ -118,14 +120,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     return Container(
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        ),
                         child: Stack(
                           children: <Widget>[
                             new ClipRRect(
                                 borderRadius: new BorderRadius.circular(8.0),
-                                child: Image.asset(imgUrl, fit: BoxFit.fill)),
+                                child: Image.asset(imgUrl, width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, fit: BoxFit.fill)),
                           ],
                         ));
                   },

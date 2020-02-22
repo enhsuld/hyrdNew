@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hyrd/screens/car_details_screen.dart';
 import '../models/car.dart';
-import '../screens/movie_details_screen.dart';
 
 class RecentListItem extends StatelessWidget {
   final int index;
   RecentListItem(this.index);
   static const miniTextColor = Color(0xFF6E7FAA);
   static const bigTextColor = Color(0xFF222455);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class RecentListItem extends StatelessWidget {
         GestureDetector(
           onTap: () {
             Navigator.of(context).pushNamed(
-              MovieDetailsScreen.routeName,
+              CarDetailsScreen.routeName,
               arguments: {
                 'id': recentCarList[index].id,
                 'title': recentCarList[index].title,

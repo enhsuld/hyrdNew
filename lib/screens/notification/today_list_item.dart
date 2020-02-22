@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car.dart';
-import 'package:hyrd/screens/movie_details_screen.dart';
 
 class TodayListItem extends StatelessWidget {
   final int index;

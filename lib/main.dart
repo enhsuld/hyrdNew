@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
+import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
 import 'package:hyrd/screens/login/login_screen.dart';
-import 'package:hyrd/screens/movie_details_screen.dart';
 import 'package:hyrd/screens/profile_screen.dart';
 import 'package:hyrd/screens/search_car_screen.dart';
 import 'package:hyrd/screens/total_ad_screen.dart';
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto'
       ),
       routes: <String, WidgetBuilder>{
-        MovieDetailsScreen.routeName: (ctx) => MovieDetailsScreen(),
+        CarDetailsScreen.routeName: (ctx) => CarDetailsScreen(),
         DashboardScreen.routeName: (ctx) => DashboardScreen(),
         SearchCarScreen.routeName: (ctx) => SearchCarScreen(),
         AddCarScreen.routeName: (ctx) => AddCarScreen(),
