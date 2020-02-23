@@ -3,10 +3,10 @@ import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:intl/intl.dart';
 
-class VerticalAdsItem extends StatelessWidget {
+class VerticalNewsItem extends StatelessWidget {
   final int index;
   final CarModel item;
-  VerticalAdsItem({this.index, this.item});
+  VerticalNewsItem({this.index, this.item});
   static const miniTextColor = Color(0xFF6E7FAA);
   static const bigTextColor = Color(0xFF222455);
 
@@ -26,7 +26,7 @@ class VerticalAdsItem extends StatelessWidget {
               arguments: {
                 'id': item.id.toString(),
                 'title': item.name,
-                'imageUrl': "assets/images/auction-land.png",
+                'imageUrl': "assets/images/img5.jpg",
                 'description': item.description,
                 'rating': item.name,
                 'year': item.name,
@@ -38,7 +38,7 @@ class VerticalAdsItem extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            elevation: 3,
+            elevation: 5,
             child: Row(
               children: <Widget>[
                 Hero(
@@ -46,16 +46,13 @@ class VerticalAdsItem extends StatelessWidget {
                   child: Container(
                     height: 80,
                     width: 100,
-                    margin: EdgeInsets.all(5),
+                    margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          image: AssetImage("assets/images/auction-land.png")
-                          /*    image: NetworkImage(
-                          item.imageUrl,
-                        ),*/
-                          ),
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/images/img5.jpg")
+                      ),
                     ),
                   ),
                 ),
@@ -66,25 +63,15 @@ class VerticalAdsItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        width: MediaQuery.of(context).size.width - 165,
+                        width: MediaQuery.of(context).size.width - 180,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
                               item?.name ?? "",
                               style:
-                                  TextStyle(fontSize: 15, color: bigTextColor),
-                            ),
-                            new SizedBox(
-                                height: 20.0,
-                                width: 25.0,
-                                child: new IconButton(
-                                  focusColor: Colors.blue,
-                                  padding: new EdgeInsets.all(0.0),
-                                  color: Color(0xFF222455),
-                                  icon: new Icon(Icons.more_horiz, size: 25.0),
-                                  onPressed: () {},
-                                ))
+                                  TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color: bigTextColor),
+                            )
                           ],
                         ),
                       ),
@@ -97,10 +84,10 @@ class VerticalAdsItem extends StatelessWidget {
                               width: 230,
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    (item?.mileage ?? 0).toString(),
+                                    "Дуусах хугацаа: ",
                                     style: TextStyle(
                                         fontSize: 12, color: miniTextColor),
                                   ),
@@ -108,12 +95,6 @@ class VerticalAdsItem extends StatelessWidget {
                                     (item?.capacity ?? 0).toString(),
                                     style: TextStyle(
                                         fontSize: 12, color: miniTextColor),
-                                  ),
-                                  Text(
-                                    item?.wheelPosition ?? "",
-                                    style: TextStyle(
-                                        fontSize: 12, color: miniTextColor),
-                                    // item.wheelDrive,
                                   ),
                                 ],
                               )),
@@ -126,9 +107,8 @@ class VerticalAdsItem extends StatelessWidget {
                                   Text(
                                     "Үнэ :" + formatter.format(item?.price ?? 0) + "₮",
                                     style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: bigTextColor),
+                                        fontSize: 12,
+                                        color: miniTextColor),
                                   ),
                                 ],
                               )),
