@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
-
-import '../../models/car.dart';
-import '../../widget/vertical_list_item.dart';
-import '../../widget/horizontal_list_item.dart';
+import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/widget/vertical_follower_item.dart';
 
 class HelpScreen extends StatefulWidget {
   static const routeName = '/help';
@@ -18,151 +14,115 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top:40,left: 20,right: 20,bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Нийт зар',
-                    style: TextStyle(
-                      fontSize: 21.0,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width:30,
-                          child: IconButton(
-                            icon: Icon(Icons.notifications),
-                            onPressed: () {},
-                            color: Color(0xFF222455),
-                            iconSize: 20.0,
-                          ),
-                        ),
-                        Container(
-                          width:30,
-                          child: IconButton(
-                            icon: Icon(Icons.settings),
-                            onPressed: () {},
-                            color: Color(0xFF222455),
-                            iconSize: 20.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Popular',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 280,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: topRatedCarList.length,
-                itemBuilder: (ctx, i) => HorizontalListItem(i),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Highlighted Ads',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 460,
-              padding: const EdgeInsets.only(left: 10,right: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: highlighted.length,
-                itemBuilder: (ctx, i) => VerticalListItem(i),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Recent posts',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 460,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: recentCarList.length,
-                itemBuilder: (ctx, i) => RecentListItem(i),
-              ),
-            ),
-          ],
+        appBar: AppBar(
+          backgroundColor: Color(0xFF584BDD),
+          centerTitle: true,
+          leading: Builder(builder: (BuildContext context) {
+            return new SizedBox(
+                height: 18.0,
+                width: 18.0,
+                child: new IconButton(
+                  padding: new EdgeInsets.all(0.0),
+                  color: Colors.white,
+                  icon: new Icon(Icons.arrow_back_ios, size: 20.0),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ));
+          }),
+          title: Text("Тусламж",
+              style:
+              TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+          elevation: 0.0,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>AddCarScreen()));
-      },
-        backgroundColor: Color(0xFF584BDD),
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBar(),
+        body: Container(
+            padding: EdgeInsets.all(15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child:  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 5,
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Text("Холбогдох утас:", style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Text("(+976) 89951555", style: TextStyle(fontSize: 12,color: Color(0xFF6E7FAA)),textAlign: TextAlign.left),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child:  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 5,
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Text("Хаяг:", style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Text("'Таван Богд' ХХК-н Toyota төв, 1-р Олимпийн гудамж, Сүхбаатаатар дүүрэг, Улаанбаатар хот, Монгол улс (0.73 mi) Ulaanbaatar, Mongolia", style: TextStyle(fontSize: 12,color: Color(0xFF6E7FAA)),textAlign: TextAlign.left),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child:  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 5,
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Text("Цахим шуудан:", style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Text("info@jmtech.mn", style: TextStyle(fontSize: 12,color: Color(0xFF6E7FAA)),textAlign: TextAlign.left),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+        )
     );
   }
 }

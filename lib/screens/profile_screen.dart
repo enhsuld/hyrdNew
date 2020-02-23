@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
 import 'package:hyrd/screens/bottom_bar.dart';
@@ -22,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildCoverImage(Size screenSize) {
     return Container(
-      height: screenSize.height / 2.6,
+      height: 250,
       decoration: const BoxDecoration(
           gradient: LinearGradient(
         begin: Alignment.centerLeft,
@@ -37,37 +38,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: EdgeInsets.all(10),
       child: Card(
         color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         elevation: 5,
         child: Column(
           children: <Widget>[
-            Center(
-              child: Container(
-                width: 140.0,
-                height: 140.0,
-                transform: Matrix4.translationValues(0.0, -70.0, 0.0),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    new BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
-                    )
-                  ],
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/pic.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(80.0),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 3.0,
-                  ),
-                ),
-              ),
-            ),
             Column(
               children: <Widget>[
                 Container(
-                  transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+                  padding: EdgeInsets.only(top:100,bottom: 30),
                   child: Text(
                     _fullName,
                     style: TextStyle(
@@ -78,8 +58,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
+                new Divider(
+                  color: Color(0xFF6E7FAA),
+                  height: 2,
+                  thickness: 2,
+                ),
                 Container(
-                  transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                  padding: EdgeInsets.only(top:30),
                   child: Column(
                     children: <Widget>[
                       _buildButton('Миний мэдээлэл',UserInformationScreen()),
@@ -166,15 +151,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Stack(
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
         children: <Widget>[
-          _buildCoverImage(screenSize),
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
+          Scaffold(
+            body: Stack(
+              children: <Widget>[
+                Positioned(
+                  right: 0,
+                  left: 0,
+                  child: _buildCoverImage(screenSize),
+                ),
+                Positioned(
+                  left: 10,
+                  top: 30,
+                  child:  Container(
                     padding: EdgeInsets.only(top: 40, left: 20),
                     width: MediaQuery.of(context).size.width - 20,
                     child: Text(
@@ -188,13 +180,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: screenSize.height / 6.4),
-                  _buildProfileImage(),
-                  _buildButtons(),
-                ],
-              ),
+                ),
+                Positioned(
+                  left: 10,
+                  right: 10,
+                  top: 180,
+                  child:  _buildProfileImage(),
+                ),
+                Positioned(
+                    right: 0,
+                    left: 0,
+                    top: 120,
+                    child: Center(
+                      child: Container(
+                        width: 140.0,
+                        height: 140.0,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            new BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
+                            )
+                          ],
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/pic.png'),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(80.0),
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 3.0,
+                          ),
+                        ),
+                      ),
+                    )
+                ),
+                Positioned(
+                  left: 10,
+                  right: 10,
+                  bottom: 80,
+                  child:  _buildButtons(),
+                ),
+              ],
             ),
-          ),
+          )
         ],
       )
     );
