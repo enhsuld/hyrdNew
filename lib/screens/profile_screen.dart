@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/follower_screen.dart';
 import 'package:hyrd/screens/profile/help_screen.dart';
 import 'package:hyrd/screens/profile/setting_screen.dart';
 import 'package:hyrd/screens/profile/user_information_screen.dart';
-import 'package:hyrd/screens/total_ad_screen.dart';
-import 'package:hyrd/utils/fade_route.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';

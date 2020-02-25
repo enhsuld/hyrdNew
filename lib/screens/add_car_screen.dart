@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_1.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/utils/fade_route.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
 import '../models/car.dart';
 import '../widget/vertical_list_item.dart';
-import '../widget/horizontal_list_item.dart';
 
 class AddCarScreen extends StatefulWidget {
   static const routeName = '/add-car';

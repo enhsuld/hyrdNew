@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/widget/recent_list_item.dart';
 
 import '../../models/car.dart';
@@ -155,14 +154,6 @@ class _AdScreenState extends State<SettingScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>AddCarScreen()));
-      },
-        backgroundColor: Color(0xFF584BDD),
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBar(),
     );
   }
 }

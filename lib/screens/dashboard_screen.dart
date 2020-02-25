@@ -2,21 +2,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/screens/notification/notification_screen.dart';
 import 'package:hyrd/screens/profile/setting_screen.dart';
-import 'package:hyrd/screens/profile_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../models/car.dart';
-import '../widget/vertical_list_item.dart';
-import '../widget/horizontal_list_item.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/home';

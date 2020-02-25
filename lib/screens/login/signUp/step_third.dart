@@ -1,15 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
-import 'package:hyrd/screens/login/signUp/step_two.dart';
-import 'package:hyrd/screens/profile/ad_screen.dart';
-import 'package:hyrd/screens/profile/follower_screen.dart';
-import 'package:hyrd/screens/profile/help_screen.dart';
-import 'package:hyrd/screens/profile/setting_screen.dart';
-import 'package:hyrd/screens/profile/user_information_screen.dart';
-import 'package:hyrd/screens/total_ad_screen.dart';
 import 'package:hyrd/utils/fade_route.dart';
 
 class StepThirdScreen extends StatefulWidget {

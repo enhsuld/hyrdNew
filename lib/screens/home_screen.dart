@@ -1,22 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
-import 'package:hyrd/screens/notification/notification_screen.dart';
-import 'package:hyrd/screens/profile/setting_screen.dart';
 import 'package:hyrd/screens/profile_screen.dart';
 import 'package:hyrd/screens/search_car_screen.dart';
 import 'package:hyrd/screens/total_ad_screen.dart';
 import 'package:hyrd/utils/fade_route.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
-import 'package:page_transition/page_transition.dart';
-
-import '../models/car.dart';
-import '../widget/vertical_list_item.dart';
-import '../widget/horizontal_list_item.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -26,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-
   TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
@@ -40,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   final List<Widget> _children = [
     DashboardScreen(),
+    SearchCarScreen(),
     SearchCarScreen(),
     TotalAdScreen(),
     ProfileScreen()
@@ -97,9 +87,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         body: TabBarView(
             children: _children,
             controller: _tabController,
-            physics: NeverScrollableScrollPhysics()
-        )
-      );
+            physics: NeverScrollableScrollPhysics()));
   }
 }
 
