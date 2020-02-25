@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_1.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import '../models/car.dart';
@@ -14,6 +15,9 @@ class AddCarScreen extends StatefulWidget {
 class _AddCarScreenState extends State<AddCarScreen> {
   @override
   Widget build(BuildContext context) {
+
+    final newCar = new CarModel();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -65,11 +69,9 @@ class _AddCarScreenState extends State<AddCarScreen> {
             Container(
               padding: EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
               width: MediaQuery.of(context).size.width,
-              // height: 95,
               child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .push(FadeRoute(builder: (context) => AdNewScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AdNewScreen(car: newCar)));
                 },
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(

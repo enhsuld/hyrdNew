@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_4.dart';
 import 'package:hyrd/screens/addNewAd/customCalendar.dart';
 import 'package:hyrd/utils/fade_route.dart';
@@ -15,8 +16,10 @@ class AdNewStep3Screen extends StatefulWidget {
   final DateTime initialEndDate;
   final Function(DateTime, DateTime) onApplyClick;
   final Function onCancelClick;
+  final CarModel car;
+  AdNewStep3Screen({Key key, @required this.car, this.minimumDate, this.maximumDate, this.barrierDismissible, this.initialStartDate, this.initialEndDate, this.onApplyClick, this.onCancelClick}) : super(key: key);
 
-  const AdNewStep3Screen({Key key, this.minimumDate, this.maximumDate, this.barrierDismissible, this.initialStartDate, this.initialEndDate, this.onApplyClick, this.onCancelClick}) : super(key: key);
+ // const AdNewStep3Screen({Key key, this.minimumDate, this.maximumDate, this.barrierDismissible, this.initialStartDate, this.initialEndDate, this.onApplyClick, this.onCancelClick}) : super(key: key);
 
   @override
   _AdNewStep3ScreenState createState() => _AdNewStep3ScreenState();
@@ -61,6 +64,9 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
     animationController.dispose();
     super.dispose();
   }
+
+  TextEditingController _priceController = new TextEditingController();
+  TextEditingController _descriptionController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +161,7 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                                               fontSize: 16,
                                               fontFamily: "Sans",
                                               fontWeight: FontWeight.bold)),
+                                      controller: _priceController,
                                       keyboardType: TextInputType.number,
                                       style: TextStyle(
                                           fontFamily: "Sans",
@@ -185,11 +192,14 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                                 height: 200,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/images/sell-lexus.png"),
-                                    fit: BoxFit.contain,
+                                    image: AssetImage("assets/images/mainLogo.png"),
+                                    fit: BoxFit.scaleDown,
                                   ),
                                 ),
-                                child: Text("s")
+                                child: TextField(
+                                  maxLines: 8,
+                                  decoration: InputDecoration.collapsed(hintText: "Enter your text here"),
+                                ),
                               )
                             ),
                           ),
@@ -231,7 +241,9 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                 width: MediaQuery.of(context).size.width,
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).push(FadeRoute(builder: (context) => AdNewStep4Screen()));
+                    widget.car.price=int.parse(_priceController?.text ?? 0);
+                    widget.car.description=_descriptionController?.text ?? "";
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep4Screen(car: widget.car)));
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

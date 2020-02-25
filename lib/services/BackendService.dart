@@ -1,7 +1,12 @@
+import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/json_data.dart';
+import 'package:hyrd/models/taxonomy.dart';
 import 'package:hyrd/utils/debug_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -89,6 +94,53 @@ class BackendService {
     } else {
       return null;
     }
+  }
+
+
+  static Future<List<TaxonomyModel>> getTaxonomies({taxonomy = ''}) async {
+    final responseBody = (await http.get(api + '/taxonomies$taxonomy'));
+    print(responseBody);
+    return TaxonomyModel.fromJsonList(json.decode(utf8.decode(responseBody.bodyBytes)));
+  }
+
+  static createCarAds({Map<String, dynamic> taxonomy}) async {
+    FormData formData = new FormData.from(taxonomy);
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("Token") ?? "";
+    Map<String, String> map = new HashMap();
+    if (token.length > 0) {
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    }
+
+    print(formData);
+    Dio dio = new Dio();
+    var response = await dio.post(api + "/car-ads", data: formData, options: Options(headers: map));
+
+    print(response.statusCode);
+    print(response.toString());
+    if (response.statusCode == 200)
+      return CarModel.fromJson(json.decode(response.toString()));
+    else
+      return null;
+
+  }
+
+  static Future<Map<String, dynamic>> uploadFiles(item,  List<UploadFileInfo> data) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("Token") ?? "";
+
+    Map<String, String> map = new HashMap();
+    if (token.length > 0) {
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    }
+
+    FormData formData = new FormData.from(item);
+  //  formData.add("media[]", data);
+    print(formData);
+    Dio dio = new Dio();
+    var response = await dio.post(api + "/car-ads", data: formData, options: Options(headers: map));
+    print(response);
+    return response.data;
   }
 
   // static Future<List<ProjectModel>> getSearch(search, offset, limit) async {
