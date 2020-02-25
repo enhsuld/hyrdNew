@@ -26,7 +26,7 @@ class VerticalAdsItem extends StatelessWidget {
               arguments: {
                 'id': item.id.toString(),
                 'title': item.name,
-                'imageUrl': "assets/images/auction-land.png",
+                'imageUrl': "assets/images/img4.jpg",
                 'description': item.description,
                 'rating': item.name,
                 'year': item.name,
@@ -50,8 +50,8 @@ class VerticalAdsItem extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          image: AssetImage("assets/images/auction-land.png")
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/images/img4.jpg")
                           /*    image: NetworkImage(
                           item.imageUrl,
                         ),*/

@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final List<Widget> _children = [
     DashboardScreen(),
     SearchCarScreen(),
-    SearchCarScreen(),
     TotalAdScreen(),
     ProfileScreen()
   ];

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/recent_list_item.dart';
+import 'package:hyrd/widget/vertical_ads_item.dart';
 
 import '../models/car.dart';
 import '../widget/vertical_list_item.dart';
@@ -13,28 +17,6 @@ class SearchCarScreen extends StatefulWidget {
 }
 
 class _SearchCarScreenState extends State<SearchCarScreen> {
-
-  int getColorHexFromStr(String colorStr) {
-    colorStr = "FF" + colorStr;
-    colorStr = colorStr.replaceAll("#", "");
-    int val = 0;
-    int len = colorStr.length;
-    for (int i = 0; i < len; i++) {
-      int hexDigit = colorStr.codeUnitAt(i);
-      if (hexDigit >= 48 && hexDigit <= 57) {
-        val += (hexDigit - 48) * (1 << (4 * (len - 1 - i)));
-      } else if (hexDigit >= 65 && hexDigit <= 70) {
-        // A..F
-        val += (hexDigit - 55) * (1 << (4 * (len - 1 - i)));
-      } else if (hexDigit >= 97 && hexDigit <= 102) {
-        // a..f
-        val += (hexDigit - 87) * (1 << (4 * (len - 1 - i)));
-      } else {
-        throw new FormatException("An error occurred when converting a color");
-      }
-    }
-    return val;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +51,7 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Popular',
+                    'Эрэлттэй зарууд',
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF222455),
@@ -77,27 +59,40 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                     ),
                   ),
                   FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
+                    child: Text('бүгдийг харах', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13), ),
                     onPressed: () {},
                   ),
                 ],
               ),
             ),
             Container(
-              height: 280,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: topRatedCarList.length,
-                itemBuilder: (ctx, i) => HorizontalListItem(i),
-              ),
-            ),
+                height: 270,
+                child: FutureBuilder(
+                  future: BackendService.getPopular(page: 1, pageSize: 5),
+                  builder: (context, snapshot) {
+                    List<dynamic> adsPopulars;
+                    if (snapshot.hasData) {
+                      adsPopulars = snapshot.data;
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: adsPopulars.length,
+                        itemBuilder: (ctx, i) => HorizontalCarItem(
+                            index: i, item: CarModel.fromJson(adsPopulars[i])),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                )),
             Padding(
               padding: EdgeInsets.only(top:10,left: 20,right: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Highlighted Ads',
+                    'Онцлох',
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF222455),
@@ -105,50 +100,38 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                     ),
                   ),
                   FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
+                    child: Text('бүгдийг харах', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13), ),
                     onPressed: () {},
                   ),
                 ],
               ),
             ),
-            Container(
-              height: 460,
-              padding: const EdgeInsets.only(left: 10,right: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: highlighted.length,
-                itemBuilder: (ctx, i) => VerticalListItem(i),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Recent posts',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
+            FutureBuilder(
+              future: BackendService.getHighlight(page: 1, pageSize: 5),
+              builder: (context, snapshot) {
+                List<dynamic> lists;
+                if (snapshot.hasData) {
+                  lists = snapshot.data;
+                  return Container(
+                    height: double.parse(lists.length.toString()) * 118,
+                    padding: EdgeInsets.only(
+                        bottom: 20, top: 0, left: 10, right: 10),
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: lists.length,
+                      itemBuilder: (ctx, i) => VerticalAdsItem(
+                        index: i,
+                        item: CarModel.fromJson(lists[i]["car_ad"]),
+                      ),
                     ),
-                  ),
-                  FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 460,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: recentCarList.length,
-                itemBuilder: (ctx, i) => RecentListItem(i),
-              ),
-            ),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            )
           ],
         ),
       ),

@@ -136,8 +136,8 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                             topLeft: const Radius.circular(5.0),
                             topRight: const Radius.circular(5.0)),
                         image: DecorationImage(
-                            fit: BoxFit.fitWidth,
-                            image: AssetImage("assets/images/auction-land.png")
+                            fit: BoxFit.cover,
+                            image: AssetImage("assets/images/img5.jpg")
                             /*    image: NetworkImage(
                           besttopRatedCarList[index].imageUrl,
                         ),*/
