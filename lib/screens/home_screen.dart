@@ -18,21 +18,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  List<Widget> _children=[];
 
   @override
   void initState() {
     super.initState();
+    _children = [
+      DashboardScreen(),
+      SearchCarScreen(),
+      TotalAdScreen(),
+      ProfileScreen(onLogOut: (){
+        _selectedTab(0);
+      },)
+    ];
     _tabController = TabController(vsync: this, length: _children.length);
   }
 
   int currentIndex = 0;
 
-  final List<Widget> _children = [
-    DashboardScreen(),
-    SearchCarScreen(),
-    TotalAdScreen(),
-    ProfileScreen()
-  ];
+
 
   void _selectedTab(int index) {
     setState(() {

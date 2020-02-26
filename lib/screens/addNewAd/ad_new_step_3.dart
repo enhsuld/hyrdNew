@@ -64,7 +64,7 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
     animationController.dispose();
     super.dispose();
   }
-
+  bool _autovalidate = false;
   TextEditingController _priceController = new TextEditingController();
   TextEditingController _descriptionController = new TextEditingController();
 
@@ -150,7 +150,8 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                                   Padding(
                                     padding: EdgeInsets.only(
                                         bottom: 20, left: 20, right: 20),
-                                    child: new TextField(
+                                    child: new TextFormField(
+                                      validator: (value) => value.isEmpty ? 'Price is required' : null,
                                       decoration: new InputDecoration(
                                           suffixText: "Сая ₮",
                                           hintText: '0.00',
@@ -194,8 +195,9 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                                     fit: BoxFit.scaleDown,
                                   ),
                                 ),
-                                child: TextField(
+                                child: TextFormField(
                                   maxLines: 8,
+                                  validator: (value) => value.isEmpty ? 'Description is required' : null,
                                   decoration: InputDecoration.collapsed(hintText: "Enter your text here"),
                                 ),
                               )
@@ -239,9 +241,21 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                 width: MediaQuery.of(context).size.width,
                 child: FlatButton(
                   onPressed: () {
-                    widget.car.price=int.parse(_priceController?.text ?? 0);
-                    widget.car.description=_descriptionController?.text ?? "";
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep4Screen(car: widget.car)));
+                    print(_priceController.text);
+
+                    if (_formKey.currentState.validate()) {
+                      if(_priceController.text.length>0){
+                        widget.car.price=int.parse(_priceController?.text ?? 0);
+                      }
+                      widget.car.description=_descriptionController?.text ?? "";
+                      _formKey.currentState.save();
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep4Screen(car: widget.car)));
+                    } else {
+                      setState(() {
+                        _autovalidate = true;
+                      });
+                    }
+
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

@@ -146,6 +146,37 @@ class BackendService {
     return responseBody.data;
   }
 
+  static logOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    await preferences.setBool('isLogin', false);
+    print("logout");
+    await preferences.setString('Name', "");
+    await preferences.setString('userName', "");
+    await preferences.setString('LastEmail', "");
+    await preferences.setString('Token', "");
+    await preferences.setString('Email', "");
+    await preferences.setString('avatar', "");
+    await preferences.setInt('UserId', 0);
+  }
+
+  static Future<List<CarModel>> getCashList(offset, limit,) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    final responseBody = (await http.get(
+        api + '/user/car-ads?page=$offset&limit=$limit',
+        headers: map))
+        .body;
+    print(api +'/user/car-ads?page=$offset&limit=$limit');
+    print(responseBody);
+
+    return CarModel.fromJsonList(json.decode(responseBody));
+  }
+
   // static Future<List<ProjectModel>> getSearch(search, offset, limit) async {
   //   var params = 'page=$offset&size=$limit';
   //   if (search.startsWith("search=") && search.length > 7) {

@@ -215,53 +215,6 @@ class _AdNewStep5ScreenState extends State<AdNewStep5Screen> {
                           ],
                         ),
                       ),
-                      Divider(thickness: 1, color: Color(0xFF584BDD)),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                new Radio(
-                                  activeColor: Color(0xFF584BDD),
-                                  value: "free",
-                                  groupValue: _radioPublish,
-                                  onChanged: _handleRadioPriceChange,
-                                ),
-                                Text(
-                                  "Эрхтэй зар",
-                                  style: TextStyle(
-                                      color:  (_radioPublish == "free") ? Color(0xff222455) : Color(0xff6E7FAA),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            (_radioPublish == "free")
-                                ? Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              height: 250,
-                              child: Column(children: <Widget>[
-                                new Container(
-                                  alignment: Alignment.centerLeft,
-                                  margin: new EdgeInsets.only(top: 20.0, left: 10.0),
-                                  child: new Text(
-                                    "2 хоног",
-                                    style: new TextStyle(
-                                      color: Color(0xff6E7FAA),
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.1,
-                                    ),
-                                  ),
-                                ),
-                                Divider(),
-                                Text("Эрхтэй зар нь багц төлбөр төлсөн хэрэглэгч сард 3 удаа онцгой зар дээр байршуулах эрхтэй зар юм."),
-                              ]),
-                            )
-                                : SizedBox(height: 0)
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 )),

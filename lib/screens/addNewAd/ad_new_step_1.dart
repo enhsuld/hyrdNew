@@ -113,13 +113,12 @@ class _AdNewScreenState extends State<AdNewScreen> {
     }
     return items;
   }
-
+  bool _autovalidate = false;
   TextEditingController _capacityController = new TextEditingController();
   TextEditingController _mileageController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF584BDD),
@@ -169,10 +168,12 @@ class _AdNewScreenState extends State<AdNewScreen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
+                                child: DropdownButtonFormField<TaxonomyModel>(
                                     value: carType,
                                     hint: Text("Сонгох"),
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
@@ -182,7 +183,8 @@ class _AdNewScreenState extends State<AdNewScreen> {
                                         widget.car.type = item.name;
                                       });
                                     },
-                                    items:buildAndGetDropDownMenuItems(carTypes)),
+                                    items:
+                                        buildAndGetDropDownMenuItems(carTypes)),
                               ),
                             ),
                           ),
@@ -204,10 +206,12 @@ class _AdNewScreenState extends State<AdNewScreen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
+                                child: DropdownButtonFormField<TaxonomyModel>(
                                     value: carColor,
                                     hint: Text("Сонгох"),
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
@@ -296,9 +300,11 @@ class _AdNewScreenState extends State<AdNewScreen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton(
+                                child: DropdownButtonFormField(
                                   value: buildYear,
                                   isDense: true,
+                                  validator: (value) =>
+                                      value == null ? 'field required' : null,
                                   style: TextStyle(
                                     color: Color(0xFF6E7FAA),
                                   ),
@@ -337,9 +343,11 @@ class _AdNewScreenState extends State<AdNewScreen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton(
+                                child: DropdownButtonFormField(
                                   value: buildYear,
                                   isDense: true,
+                                  validator: (value) =>
+                                      value == null ? 'field required' : null,
                                   style: TextStyle(
                                     color: Color(0xFF6E7FAA),
                                   ),
@@ -378,10 +386,12 @@ class _AdNewScreenState extends State<AdNewScreen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
+                                child: DropdownButtonFormField<TaxonomyModel>(
                                     value: carFuelType,
                                     hint: Text("Сонгох"),
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
@@ -414,10 +424,12 @@ class _AdNewScreenState extends State<AdNewScreen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
+                                child: DropdownButtonFormField<TaxonomyModel>(
                                     value: carWheelPosition,
                                     hint: Text("Сонгох"),
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
@@ -450,10 +462,12 @@ class _AdNewScreenState extends State<AdNewScreen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
+                                child: DropdownButtonFormField<TaxonomyModel>(
                                     value: carManCount,
                                     hint: Text("Сонгох"),
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
@@ -484,7 +498,8 @@ class _AdNewScreenState extends State<AdNewScreen> {
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width,
-                              child: TextField(
+                              child: TextFormField(
+                                validator: (value) => value.isEmpty ? 'Mileage is required' : null,
                                 obscureText: false,
                                 controller: _mileageController,
                                 style: TextStyle(
@@ -516,7 +531,8 @@ class _AdNewScreenState extends State<AdNewScreen> {
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width,
-                              child: TextField(
+                              child: TextFormField(
+                                validator: (value) => value.isEmpty ? 'Capacity is required' : null,
                                 obscureText: false,
                                 controller: _capacityController,
                                 style: TextStyle(
@@ -567,11 +583,22 @@ class _AdNewScreenState extends State<AdNewScreen> {
                       print(onValue);
 
                     });*/
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AdNewStep2Screen(car: widget.car)));
+
+                    if (_formKey.currentState.validate()) {
+                      //form is valid, proceed further
+                      _formKey.currentState.save();//save once fields are valid, onSaved method invoked for every form fields
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AdNewStep2Screen(car: widget.car)));
+                    } else {
+                      setState(() {
+                        _autovalidate = true; //enable realtime validation
+                      });
+                    }
+
+
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

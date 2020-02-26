@@ -51,8 +51,6 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
     };
   }
 
-
-
   var carMarks = new List<TaxonomyModel>();
   var carModels = new List<TaxonomyModel>();
   var carFuelTypes = new List<TaxonomyModel>();
@@ -73,7 +71,6 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
 
   @override
   void initState() {
-
     BackendService.getTaxonomies(taxonomy: '/mark').then((taxonomy) {
       setState(() {
         this.carMarks = taxonomy;
@@ -101,6 +98,7 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
     return items;
   }
 
+  bool _autovalidate = false;
   TextEditingController _addressController = new TextEditingController();
   TextEditingController _phoneController = new TextEditingController();
 
@@ -127,7 +125,7 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
@@ -173,21 +171,23 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
+                                child: DropdownButtonFormField<TaxonomyModel>(
                                     value: carMark,
                                     hint: Text("Сонгох"),
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
                                     onChanged: (TaxonomyModel item) {
                                       setState(() {
                                         carMark = item;
-                                        widget.car.markName =item.name;
+                                        widget.car.markName = item.name;
                                       });
                                     },
-                                    items: buildAndGetDropDownMenuItems(
-                                        carMarks)),
+                                    items:
+                                        buildAndGetDropDownMenuItems(carMarks)),
                               ),
                             ),
                           ),
@@ -209,17 +209,19 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
+                                child: DropdownButtonFormField<TaxonomyModel>(
                                     value: carModel,
                                     hint: Text("Сонгох"),
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
                                     onChanged: (TaxonomyModel item) {
                                       setState(() {
                                         carModel = item;
-                                        widget.car.modelName =item.name;
+                                        widget.car.modelName = item.name;
                                       });
                                     },
                                     items: buildAndGetDropDownMenuItems(
@@ -245,10 +247,12 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
+                                child: DropdownButtonFormField<TaxonomyModel>(
                                     value: carDriveTrain,
                                     hint: Text("Сонгох"),
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
@@ -279,8 +283,9 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width,
-                              child: TextField(
+                              child: TextFormField(
                                 obscureText: false,
+                                validator: (value) => value.isEmpty ? 'Mileage is required' : null,
                                 controller: _addressController,
                                 style: TextStyle(
                                     fontFamily: 'Roboto',
@@ -307,7 +312,6 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             width: MediaQuery.of(context).size.width,
                             child: Text("Утас"),
                           ),
-
                         ],
                       ),
                       Container(
@@ -319,9 +323,11 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                                   (MediaQuery.of(context).size.width * 2) / 5,
                               child: DropdownButtonHideUnderline(
                                 child: ButtonTheme(
-                                  child: DropdownButton(
+                                  child: DropdownButtonFormField(
                                     value: buildYear,
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
@@ -330,9 +336,13 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                                         buildYear = newValue;
                                       });
                                     },
-                                    items: <String>['Mongolia (+976)', '2015','2016', '2017']
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
+                                    items: <String>[
+                                      'Mongolia (+976)',
+                                      '2015',
+                                      '2016',
+                                      '2017'
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
                                         child: Text(value),
@@ -345,7 +355,8 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             Container(
                                 width:
                                     (MediaQuery.of(context).size.width * 2) / 5,
-                                child: TextField(
+                                child: TextFormField(
+                                  validator: (value) => value.isEmpty ? 'Phone is required' : null,
                                   obscureText: false,
                                   controller: _phoneController,
                                   style: TextStyle(
@@ -378,9 +389,21 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                 width: MediaQuery.of(context).size.width,
                 child: FlatButton(
                   onPressed: () {
-                    widget.car.ownerAddress=_addressController.text;
-                    widget.car.ownerHandphone=_phoneController.text;
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep3Screen(car: widget.car)));
+                    widget.car.ownerAddress = _addressController.text;
+                    widget.car.ownerHandphone = _phoneController.text;
+
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AdNewStep3Screen(car: widget.car)));
+                    } else {
+                      setState(() {
+                        _autovalidate = true;
+                      });
+                    }
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
