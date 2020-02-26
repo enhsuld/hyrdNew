@@ -8,16 +8,14 @@ import 'package:hyrd/screens/search_car_screen.dart';
 import 'package:hyrd/screens/total_ad_screen.dart';
 
 void main() => runApp(MyApp());
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hyrd',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        fontFamily: 'Roboto'
-      ),
+      theme: ThemeData(primarySwatch: Colors.indigo, fontFamily: 'Roboto'),
       routes: <String, WidgetBuilder>{
         CarDetailsScreen.routeName: (ctx) => CarDetailsScreen(),
         DashboardScreen.routeName: (ctx) => DashboardScreen(),
