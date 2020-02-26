@@ -103,10 +103,10 @@ class BackendService {
     return TaxonomyModel.fromJsonList(json.decode(utf8.decode(responseBody.bodyBytes)));
   }
 
-  static createCarAds({Map<String, dynamic> taxonomy}) async {
+  static updateCarAds({Map<String, dynamic> taxonomy, int id}) async {
     FormData formData = new FormData.from(taxonomy);
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String token = preferences.getString("Token") ?? "";
+    String token = preferences.getString("token") ?? "";
     Map<String, String> map = new HashMap();
     if (token.length > 0) {
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
@@ -114,7 +114,7 @@ class BackendService {
 
     print(formData);
     Dio dio = new Dio();
-    var response = await dio.post(api + "/car-ads", data: formData, options: Options(headers: map));
+    var response = await dio.put(api + "/car-ads/"+id.toString(), data: formData, options: Options(headers: map));
 
     print(response.statusCode);
     print(response.toString());
@@ -133,17 +133,17 @@ class BackendService {
     if (token.length > 0) {
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
     }
-    print("aaa");
-    print(token);
-    print(map);
     FormData formData = new FormData.from(item);
     formData.add("media[]", data);
     print(formData);
     Dio dio = new Dio();
-    var response = await dio.post(api + "/car-ads", data: formData, options: Options(headers: map));
-    print(response.statusCode);
-    print(response.data);
-    return response.data;
+    var responseBody = await dio.post(api + "/car-ads", data: formData, options: Options(headers: map));
+    print(responseBody.statusCode);
+    Map<String, dynamic> taxonomy=responseBody.data;
+    print(taxonomy);
+    print(responseBody.data);
+   // return CarModel.fromJson(json.decode(taxonomy.toString()).data);
+    return responseBody.data;
   }
 
   // static Future<List<ProjectModel>> getSearch(search, offset, limit) async {

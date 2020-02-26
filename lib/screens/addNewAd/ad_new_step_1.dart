@@ -32,20 +32,8 @@ class _AdNewScreenState extends State<AdNewScreen> {
   bool isSwitched = true;
   bool isChecked = true;
   var isSelected = [false, true];
-  List<String> countries = [
-    'INDIA',
-    'USA',
-    'JAPAN',
-  ];
   final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> formData;
-
-  _ExampleFormState() {
-    formData = {
-      'City': 'Bangalore',
-      'Country': 'INDIA',
-    };
-  }
 
   var nowDate = new DateTime.now();
   List<int> yearList;
@@ -132,36 +120,6 @@ class _AdNewScreenState extends State<AdNewScreen> {
   @override
   Widget build(BuildContext context) {
 
-    Widget fbDropDownInt(
-        {Key key, String label, String attribute, List<int> items}) {
-      return new Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        child: FormBuilderDropdown(
-          attribute: attribute,
-          decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700)),
-          // initialValue: 'Male',
-          hint: Text("Сонгох"),
-          onChanged: (value) {
-            //value = value;
-            setState(() {
-              print(value);
-              yearList =
-                  List.generate(nowDate.year + 1 - value, (i) => value + i);
-            });
-          },
-          items: items
-              .map((taxonomy) =>
-                  DropdownMenuItem(value: taxonomy, child: Text("$taxonomy")))
-              .toList(),
-        ),
-      );
-    }
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF584BDD),
@@ -224,8 +182,7 @@ class _AdNewScreenState extends State<AdNewScreen> {
                                         widget.car.type = item.name;
                                       });
                                     },
-                                    items:
-                                        buildAndGetDropDownMenuItems(carTypes)),
+                                    items:buildAndGetDropDownMenuItems(carTypes)),
                               ),
                             ),
                           ),
@@ -450,6 +407,79 @@ class _AdNewScreenState extends State<AdNewScreen> {
                           Container(
                             padding: EdgeInsets.only(top: 20),
                             width: MediaQuery.of(context).size.width,
+                            child: Text("Хүрд"),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            width: (MediaQuery.of(context).size.width * 2) / 5,
+                            child: DropdownButtonHideUnderline(
+                              child: ButtonTheme(
+                                child: DropdownButton<TaxonomyModel>(
+                                    value: carWheelPosition,
+                                    hint: Text("Сонгох"),
+                                    isDense: true,
+                                    style: TextStyle(
+                                      color: Color(0xFF6E7FAA),
+                                    ),
+                                    onChanged: (TaxonomyModel item) {
+                                      setState(() {
+                                        carWheelPosition = item;
+                                        widget.car.wheelPosition = item.name;
+                                      });
+                                    },
+                                    items: buildAndGetDropDownMenuItems(
+                                        carWheelPositions)),
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(top: 20),
+                            width: MediaQuery.of(context).size.width,
+                            child: Text("Суудал"),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            width: (MediaQuery.of(context).size.width * 2) / 5,
+                            child: DropdownButtonHideUnderline(
+                              child: ButtonTheme(
+                                child: DropdownButton<TaxonomyModel>(
+                                    value: carManCount,
+                                    hint: Text("Сонгох"),
+                                    isDense: true,
+                                    style: TextStyle(
+                                      color: Color(0xFF6E7FAA),
+                                    ),
+                                    onChanged: (TaxonomyModel item) {
+                                      setState(() {
+                                        carManCount = item;
+                                        widget.car.manCount =
+                                            int.parse(item.name);
+                                      });
+                                    },
+                                    items: buildAndGetDropDownMenuItems(
+                                        carManCounts)),
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(top: 20),
+                            width: MediaQuery.of(context).size.width,
                             child: Text("Явсан км"),
                           ),
                           Container(
@@ -508,78 +538,6 @@ class _AdNewScreenState extends State<AdNewScreen> {
                               )),
                         ],
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(top: 20),
-                            width: MediaQuery.of(context).size.width,
-                            child: Text("Хүрд"),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
-                            width: (MediaQuery.of(context).size.width * 2) / 5,
-                            child: DropdownButtonHideUnderline(
-                              child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
-                                    value: carWheelPosition,
-                                    hint: Text("Сонгох"),
-                                    isDense: true,
-                                    style: TextStyle(
-                                      color: Color(0xFF6E7FAA),
-                                    ),
-                                    onChanged: (TaxonomyModel item) {
-                                      setState(() {
-                                        carWheelPosition = item;
-                                        widget.car.wheelPosition = item.name;
-                                      });
-                                    },
-                                    items: buildAndGetDropDownMenuItems(
-                                        carWheelPositions)),
-                              ),
-                            ),
-                          ),
-                          Divider(
-                            height: 1,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(top: 20),
-                            width: MediaQuery.of(context).size.width,
-                            child: Text("Суудал"),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
-                            width: (MediaQuery.of(context).size.width * 2) / 5,
-                            child: DropdownButtonHideUnderline(
-                              child: ButtonTheme(
-                                child: DropdownButton<TaxonomyModel>(
-                                    value: carManCount,
-                                    hint: Text("Сонгох"),
-                                    isDense: true,
-                                    style: TextStyle(
-                                      color: Color(0xFF6E7FAA),
-                                    ),
-                                    onChanged: (TaxonomyModel item) {
-                                      setState(() {
-                                        carManCount = item;
-                                        widget.car.manCount =int.parse(item.name);
-                                      });
-                                    },
-                                    items: buildAndGetDropDownMenuItems(
-                                        carManCounts)),
-                              ),
-                            ),
-                          ),
-                          Divider(
-                            height: 1,
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 )),
@@ -590,7 +548,7 @@ class _AdNewScreenState extends State<AdNewScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: FlatButton(
                   onPressed: () {
-                   /* widget.car.mileage =
+                    /* widget.car.mileage =
                         int.parse(_mileageController?.text ?? "0");
                     widget.car.capacity =
                         int.parse(_capacityController?.text ?? "0");
@@ -609,7 +567,11 @@ class _AdNewScreenState extends State<AdNewScreen> {
                       print(onValue);
 
                     });*/
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep2Screen(car: widget.car)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AdNewStep2Screen(car: widget.car)));
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

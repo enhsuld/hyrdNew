@@ -128,8 +128,7 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: (){
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 20, left: 10),

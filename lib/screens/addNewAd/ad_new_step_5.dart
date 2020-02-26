@@ -1,12 +1,16 @@
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
+import 'package:hyrd/screens/home_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 
 class AdNewStep5Screen extends StatefulWidget {
   static const routeName = '/adNew';
-
+  final CarModel car;
+  AdNewStep5Screen({Key key, @required this.car}) : super(key: key);
   @override
   _AdNewStep5ScreenState createState() => _AdNewStep5ScreenState();
 }
@@ -81,11 +85,7 @@ class _AdNewStep5ScreenState extends State<AdNewStep5Screen> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: (){
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 20, left: 10),
@@ -272,8 +272,16 @@ class _AdNewStep5ScreenState extends State<AdNewStep5Screen> {
                 width: MediaQuery.of(context).size.width,
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                        FadeRoute(builder: (context) => DashboardScreen()));
+                    print(widget.car.markName);
+                    print(widget.car.id);
+                    print(viewId);
+                   // widget.car.publishTariff=viewId;
+
+
+                    BackendService.updateCarAds(taxonomy:widget.car.toJson(),id:widget.car.id).then((response) {
+                      print(response);
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    });
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -123,14 +125,12 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
     });
   }
 
-  List<String> uploadImage() {
+  String uploadImage() {
     print(imageFiles.length);
 
     BackendService.uploadFiles(widget.car.toJson(),imageFiles).then((response) {
-      UploadImage image = UploadImage.fromJson(response);
-      return image.images;
+      return response;
     });
-
     return null;
   }
 
@@ -158,10 +158,7 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 20, left: 10),
@@ -228,7 +225,12 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
               width: MediaQuery.of(context).size.width,
               child: FlatButton(
                 onPressed: () {
-                  uploadImage();
+                  BackendService.uploadFiles(widget.car.toJson(),imageFiles).then((response) {
+                  //  Map<String, dynamic> rVal =response;
+                  //  print(rVal['data']);
+                    widget.car.id=CarModel.fromJson(response['data']).id;
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep5Screen(car: widget.car)));
+                  });
                 },
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(

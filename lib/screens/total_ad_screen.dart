@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 
-import '../models/car.dart';
-import '../widget/vertical_list_item.dart';
-import '../widget/horizontal_list_item.dart';
 
 class TotalAdScreen extends StatefulWidget {
-  static const routeName = '/search-car';
+  static const routeName = '/total-ads';
 
   @override
   _TotalAdScreenState createState() => _TotalAdScreenState();
