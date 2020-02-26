@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/json_data.dart';
@@ -38,13 +39,31 @@ class BackendService {
     }
   }
 
-  static Future<String> getVerifyCode({phone}) async {
-    final response = (await http.post(api + '/verify/phone', body: phone));
+  static Future<String> getVerifyCode({Map<String, String> body}) async {
+    body["country_code"] = body["country_code"].replaceAll("+", "");
+    print(body);
+    final response = (await http.post(api + '/verify/phone', body: body));
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return response.body;
     } else {
       return null;
     }
+  }
+
+  static Future<http.Response> getVerifyEqual(
+      {Map<String, String> body}) async {
+    body["country_code"] = body["country_code"].replaceAll("+", "");
+    print(body);
+    final response = (await http.post(api + '/verify/code', body: body));
+    print(response.statusCode);
+    return response;
+    // if (response.statusCode == 200) {
+    //   return response;
+    // } else {
+    //   print(json.decode(response.body)["error"]["message"]);
+    //   return null;
+    // }
   }
 
   static Future<String> postAdsView({id}) async {
@@ -96,11 +115,11 @@ class BackendService {
     }
   }
 
-
   static Future<List<TaxonomyModel>> getTaxonomies({taxonomy = ''}) async {
     final responseBody = (await http.get(api + '/taxonomies$taxonomy'));
     print(responseBody);
-    return TaxonomyModel.fromJsonList(json.decode(utf8.decode(responseBody.bodyBytes)));
+    return TaxonomyModel.fromJsonList(
+        json.decode(utf8.decode(responseBody.bodyBytes)));
   }
 
   static updateCarAds({Map<String, dynamic> taxonomy, int id}) async {
@@ -114,7 +133,8 @@ class BackendService {
 
     print(formData);
     Dio dio = new Dio();
-    var response = await dio.put(api + "/car-ads/"+id.toString(), data: formData, options: Options(headers: map));
+    var response = await dio.put(api + "/car-ads/" + id.toString(),
+        data: formData, options: Options(headers: map));
 
     print(response.statusCode);
     print(response.toString());
@@ -122,10 +142,10 @@ class BackendService {
       return CarModel.fromJson(json.decode(response.toString()));
     else
       return null;
-
   }
 
-  static Future<Map<String, dynamic>> uploadFiles(Map<String, dynamic> item,  List<UploadFileInfo> data) async {
+  static Future<Map<String, dynamic>> uploadFiles(
+      Map<String, dynamic> item, List<UploadFileInfo> data) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String token = preferences.getString("token") ?? "";
 
@@ -137,12 +157,13 @@ class BackendService {
     formData.add("media[]", data);
     print(formData);
     Dio dio = new Dio();
-    var responseBody = await dio.post(api + "/car-ads", data: formData, options: Options(headers: map));
+    var responseBody = await dio.post(api + "/car-ads",
+        data: formData, options: Options(headers: map));
     print(responseBody.statusCode);
-    Map<String, dynamic> taxonomy=responseBody.data;
+    Map<String, dynamic> taxonomy = responseBody.data;
     print(taxonomy);
     print(responseBody.data);
-   // return CarModel.fromJson(json.decode(taxonomy.toString()).data);
+    // return CarModel.fromJson(json.decode(taxonomy.toString()).data);
     return responseBody.data;
   }
 
