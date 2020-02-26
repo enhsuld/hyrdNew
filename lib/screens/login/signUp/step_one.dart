@@ -4,6 +4,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hyrd/screens/login/signUp/step_one_extend.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 
 class StepOneScreen extends StatefulWidget {
@@ -155,16 +156,14 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
             map["phone"] = _fbKey.currentState.value["phone"];
             if (countryCode != null && countryCode.isNotEmpty)
               map["country_code"] = countryCode;
-            //   Navigator.pop(context);
-            // BackendService.getVerifyCode(phone: _fbKey.currentState.value)
-            //     .then((onValue) {
-            //   if (onValue != null)
-            print(map);
-            Navigator.of(context).push(FadeRoute(
-                builder: (context) => StepOneExtendScreen(
-                      map: map,
-                    )));
-            //});
+            Navigator.pop(context);
+            BackendService.getVerifyCode(body: map).then((onValue) {
+              if (onValue != null) print(map);
+              Navigator.of(context).push(FadeRoute(
+                  builder: (context) => StepOneExtendScreen(
+                        map: map,
+                      )));
+            });
           }
         },
         textColor: Colors.white,
