@@ -7,14 +7,14 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../models/car.dart';
 
-class NotificationSettingsScreen extends StatefulWidget {
-  static const routeName = '/notification/settings';
+class NotificationScreen extends StatefulWidget {
+  static const routeName = '/notifications';
 
   @override
   _AdScreenState createState() => _AdScreenState();
 }
 
-class _AdScreenState extends State<NotificationSettingsScreen> {
+class _AdScreenState extends State<NotificationScreen> {
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       //height: 90,

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/json_data.dart';
+import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/models/taxonomy.dart';
 import 'package:hyrd/utils/debug_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -202,6 +203,80 @@ class BackendService {
     print(responseBody);
 
     return CarModel.fromJsonList(json.decode(responseBody));
+  }
+
+
+
+  static Future<int> createFeedback({Map<String, dynamic> taxonomy}) async {
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+    Map<String, String> map = new HashMap();
+    map[HttpHeaders.CONTENT_TYPE] = "application/json";
+    if (token.length > 0) {
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    }
+
+    Dio dio = new Dio();
+    var response = await dio.post(api + "/feedbacks", data: json.encode(taxonomy), options: Options(headers: map));
+
+    print(response.statusCode);
+    return response.statusCode ;
+
+  }
+
+
+  static Future<Map<String, dynamic>> crud(String method, String url,Map<String, dynamic> data) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+
+    print(url);
+    Map<String, String> map = new HashMap();
+    map[HttpHeaders.CONTENT_TYPE] = "application/json";
+    if (token.length > 0) {
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    }
+
+    if(method=="delete"){
+      print(api +"$url");
+      map[HttpHeaders.CONTENT_TYPE] = "application/json";
+      Dio dio = new Dio();
+      var response = await dio.delete(api +"$url", options: Options(headers: map));
+      print(response.statusCode);
+      return response.data;
+    }
+
+  }
+
+  static Future<ProfileModel> getUserProfileData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+
+    final responseBody = (await http.get(api + '/user', headers: map)).body;
+    print(responseBody);
+    return ProfileModel.fromJson(json.decode(responseBody));
+  }
+
+
+  static Future<Map<String, dynamic>> updateUser(
+      Map<String, dynamic> userMap) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    map[HttpHeaders.CONTENT_TYPE] = "application/json";
+    final responseBody = await http.put(api + '/user/settings', headers: map, body: json.encode(userMap));
+    print(responseBody.body);
+    if (responseBody.statusCode == 200)
+      return json.decode(responseBody.body);
+    else
+      return null;
   }
 
   // static Future<List<ProjectModel>> getSearch(search, offset, limit) async {

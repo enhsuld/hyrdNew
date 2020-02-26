@@ -3,6 +3,7 @@ import 'package:hyrd/screens/notification/notification_settings_screen.dart';
 import 'package:hyrd/screens/notification/read_list_item.dart';
 import 'package:hyrd/screens/notification/today_list_item.dart';
 import 'package:hyrd/screens/notification/unread_list_item.dart';
+import 'package:hyrd/screens/profile/notification_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../models/car.dart';

@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
 import 'package:hyrd/screens/main/dealer_screen.dart';
+import 'package:hyrd/screens/notification/notification_screen.dart';
+import 'package:hyrd/screens/notification/notification_settings_screen.dart';
+import 'package:hyrd/screens/profile/feed_back_screen.dart';
+import 'package:hyrd/screens/profile/notification_screen.dart';
+import 'package:hyrd/screens/profile/saved_info_screen.dart';
+import 'package:hyrd/screens/profile/term_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:hyrd/widget/recent_list_item.dart';
+import 'package:toast/toast.dart';
 
 import '../../models/car.dart';
 import '../../widget/vertical_list_item.dart';
@@ -17,6 +26,20 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  bool isSwitched = true;
+
+  ProfileModel user;
+
+  @override
+  void initState() {
+    super.initState();
+    BackendService.getUserProfileData().then((data) {
+      setState(() {
+        this.user = data;
+        print(data);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +83,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 elevation: 5,
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(left:20,top: 20,bottom: 20,right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -86,7 +109,24 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                       ),
                       Container(
-                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 30,),
+                        height: 20,
+                        child: Transform.scale( scale: 1,
+                          child:  Switch(
+                            value: this.user?.data?.setting?.autoLogin ?? false,
+                            onChanged: (value) {
+                              setState(() {
+                                this.user.data.setting.mobileData = value;
+                                var map = new Map<String, dynamic>();
+                                map["autoLogin"] = value;
+                                BackendService.updateUser(map).then((onValue) {
+                                  showToast("Амжилттай", gravity: Toast.BOTTOM);
+                                });
+                              });
+                            },
+                            activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
+                            activeColor: Color(0xFFB755FF),
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -104,7 +144,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 elevation: 5,
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(left:20,top: 20,bottom: 20,right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -130,7 +170,25 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                       ),
                       Container(
-                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 30,),
+                        height: 20,
+                        child: Transform.scale( scale: 1,
+                          child:  Switch(
+                            value: this.user?.data?.setting?.mobileData ?? false,
+                            onChanged: (value) {
+                              setState(() {
+                                print(value);
+                                this.user.data.setting.mobileData = value;
+                                var map = new Map<String, dynamic>();
+                                map["mobileData"] = value;
+                                BackendService.updateUser(map).then((onValue) {
+                                  showToast("Амжилттай", gravity: Toast.BOTTOM);
+                                });
+                              });
+                            },
+                            activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
+                            activeColor: Color(0xFFB755FF),
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -140,7 +198,7 @@ class _SettingScreenState extends State<SettingScreen> {
             SizedBox(height: 10,),
             new GestureDetector(
               onTap: ()=> {
-                //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                Navigator.push(context, FadeRoute(builder: (context) => NotificationSettingsScreen(user: this.user)))
               },
               child: new Card(
                 shape: RoundedRectangleBorder(
@@ -174,7 +232,8 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                       ),
                       Container(
-                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 30,),
+                        height: 20,
+                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 25,),
                       )
                     ],
                   ),
@@ -184,7 +243,7 @@ class _SettingScreenState extends State<SettingScreen> {
             SizedBox(height: 10,),
             new GestureDetector(
               onTap: ()=> {
-                //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                Navigator.push(context, FadeRoute(builder: (context) => SavedInfoScreen(user: this.user)))
               },
               child: new Card(
                 shape: RoundedRectangleBorder(
@@ -218,7 +277,8 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                       ),
                       Container(
-                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 30,),
+                        height: 20,
+                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 25,),
                       )
                     ],
                   ),
@@ -228,7 +288,7 @@ class _SettingScreenState extends State<SettingScreen> {
             SizedBox(height: 10,),
             new GestureDetector(
               onTap: ()=> {
-                //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                Navigator.push(context, FadeRoute(builder: (context) => FeedBackScreen()))
               },
               child: new Card(
                 shape: RoundedRectangleBorder(
@@ -262,7 +322,8 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                       ),
                       Container(
-                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 30,),
+                        height: 20,
+                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 25,),
                       )
                     ],
                   ),
@@ -272,7 +333,7 @@ class _SettingScreenState extends State<SettingScreen> {
             SizedBox(height: 10,),
             new GestureDetector(
               onTap: ()=> {
-                Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                Navigator.push(context, FadeRoute(builder: (context) => TermScreen()))
               },
               child: new Card(
                 shape: RoundedRectangleBorder(
@@ -306,7 +367,8 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                       ),
                       Container(
-                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 30,),
+                        height: 20,
+                        child: Icon(Icons.keyboard_arrow_right,color: Color(0xFF6E7FAA),size: 25,),
                       )
                     ],
                   ),
@@ -359,5 +421,9 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
       ),
     );
+  }
+
+  void showToast(String msg, {int duration, int gravity}) {
+    Toast.show(msg, context, duration: 1, gravity: gravity);
   }
 }
