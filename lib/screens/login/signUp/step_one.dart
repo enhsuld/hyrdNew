@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hyrd/screens/login/signUp/step_one_extend.dart';
@@ -12,6 +13,7 @@ class StepOneScreen extends StatefulWidget {
 }
 
 class _StepOneScreenScreenState extends State<StepOneScreen> {
+  String countryCode = "";
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       height: screenSize.height / 2,
@@ -83,9 +85,29 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
                             //   ),
                             // ),
                             Container(
+                              padding: EdgeInsets.only(left: 15),
+                              //alignment: Alignment.centerLeft,
+                              child: new CountryCodePicker(
+                                onChanged: (code) {
+                                  //print(code);
+                                  countryCode = code.toString();
+                                },
+                                // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                initialSelection: 'MN',
+                                favorite: ['+7', 'MN'],
+                                // optional. Shows only country name and flag
+                                showCountryOnly: false,
+                                // optional. Shows only country name and flag when popup is closed.
+                                showOnlyCountryWhenClosed: true,
+                                // optional. aligns the flag and the Text left
+                                alignLeft: true,
+                              ),
+                            ),
+                            Container(
                               padding: EdgeInsets.only(left: 20, right: 20),
                               child: FormBuilderTextField(
                                 attribute: "phone",
+                                keyboardType: TextInputType.phone,
                                 decoration:
                                     InputDecoration(labelText: "Утасны дугаар"),
                                 validators: [

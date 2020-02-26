@@ -42,10 +42,13 @@ class CarModel {
   String _length;
   String _archiveNumber;
   int _mileage;
+  Null _drivetrain;
   String _createdAt;
   String _updatedAt;
   int _views;
   List<Reports> _reports;
+  Null _publishTariff;
+  List<Null> _medias;
 
   CarModel(
       {int id,
@@ -91,10 +94,13 @@ class CarModel {
       String length,
       String archiveNumber,
       int mileage,
+      Null drivetrain,
       String createdAt,
       String updatedAt,
       int views,
-      List<Reports> reports}) {
+      List<Reports> reports,
+      Null publishTariff,
+      List<Null> medias}) {
     this._id = id;
     this._user = user;
     this._name = name;
@@ -138,10 +144,13 @@ class CarModel {
     this._length = length;
     this._archiveNumber = archiveNumber;
     this._mileage = mileage;
+    this._drivetrain = drivetrain;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
     this._views = views;
     this._reports = reports;
+    this._publishTariff = publishTariff;
+    this._medias = medias;
   }
 
   int get id => _id;
@@ -232,6 +241,8 @@ class CarModel {
   set archiveNumber(String archiveNumber) => _archiveNumber = archiveNumber;
   int get mileage => _mileage;
   set mileage(int mileage) => _mileage = mileage;
+  Null get drivetrain => _drivetrain;
+  set drivetrain(Null drivetrain) => _drivetrain = drivetrain;
   String get createdAt => _createdAt;
   set createdAt(String createdAt) => _createdAt = createdAt;
   String get updatedAt => _updatedAt;
@@ -240,6 +251,10 @@ class CarModel {
   set views(int views) => _views = views;
   List<Reports> get reports => _reports;
   set reports(List<Reports> reports) => _reports = reports;
+  Null get publishTariff => _publishTariff;
+  set publishTariff(Null publishTariff) => _publishTariff = publishTariff;
+  List<Null> get medias => _medias;
+  set medias(List<Null> medias) => _medias = medias;
 
   CarModel.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
@@ -285,15 +300,23 @@ class CarModel {
     _length = json['length'];
     _archiveNumber = json['archiveNumber'];
     _mileage = json['mileage'];
+    _drivetrain = json['drivetrain'];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _views = json['views'];
-    // if (json['reports'] != null) {
-    //   _reports = new List<Reports>();
-    //   json['reports'].forEach((v) {
-    //     _reports.add(new Reports.fromJson(v));
-    //   });
-    // }
+    if (json['reports'] != null) {
+      _reports = new List<Reports>();
+      // json['reports'].forEach((v) {
+      //   _reports.add(new Reports.fromJson(v));
+      // });
+    }
+    _publishTariff = json['publish_tariff'];
+    if (json['medias'] != null) {
+      _medias = new List<Null>();
+      // json['medias'].forEach((v) {
+      //   _medias.add(new Null.fromJson(v));
+      // });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -343,11 +366,16 @@ class CarModel {
     data['length'] = this._length;
     data['archiveNumber'] = this._archiveNumber;
     data['mileage'] = this._mileage;
+    data['drivetrain'] = this._drivetrain;
     data['created_at'] = this._createdAt;
     data['updated_at'] = this._updatedAt;
     data['views'] = this._views;
     if (this._reports != null) {
       data['reports'] = this._reports.map((v) => v.toJson()).toList();
+    }
+    data['publish_tariff'] = this._publishTariff;
+    if (this._medias != null) {
+      //data['medias'] = this._medias.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -478,7 +506,7 @@ class Reports {
     _id = json['id'];
     _type = json['type'];
     _description = json['description'];
-    //_user = json['user'];
+    _user = json['user'];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
   }
