@@ -246,6 +246,17 @@ class BackendService {
       return response.data;
     }
 
+    if(method=="put" && url=="user"){
+      map[HttpHeaders.CONTENT_TYPE] = "application/json";
+      map[HttpHeaders.ACCEPT] = "application/json";
+      final responseBody = await http.put(api + '/user', headers: map, body: json.encode(data));
+      print(responseBody.body);
+      if (responseBody.statusCode == 200)
+        return json.decode(responseBody.body);
+      else
+        return null;
+    }
+
   }
 
   static Future<ProfileModel> getUserProfileData() async {
@@ -277,6 +288,22 @@ class BackendService {
       return json.decode(responseBody.body);
     else
       return null;
+  }
+
+
+  static Future<Map<String, dynamic>> uploadProfile({url = 'doc', FormData data}) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+
+    Map<String, String> map = new HashMap();
+    if (token.length > 0) {
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    }
+    Dio dio = new Dio();
+    var response = await dio.post(api + "/user/avatar",
+        data: data, options: Options(headers: map));
+    print(response);
+    return response.data;
   }
 
   // static Future<List<ProjectModel>> getSearch(search, offset, limit) async {

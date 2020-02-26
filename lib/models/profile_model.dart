@@ -20,6 +20,7 @@ class Data {
   int id;
   String phone;
   String type;
+  String avatar;
   String firstname;
   String lastname;
   String regnum;
@@ -37,6 +38,7 @@ class Data {
       {this.id,
         this.phone,
         this.type,
+        this.avatar,
         this.firstname,
         this.lastname,
         this.regnum,
@@ -54,6 +56,7 @@ class Data {
     id = json['id'];
     phone = json['phone'];
     type = json['type'];
+    avatar = json['avatar'];
     firstname = json['firstname'];
     lastname = json['lastname'];
     regnum = json['regnum'];
@@ -74,6 +77,7 @@ class Data {
     data['id'] = this.id;
     data['phone'] = this.phone;
     data['type'] = this.type;
+    data['avatar'] = this.avatar;
     data['firstname'] = this.firstname;
     data['lastname'] = this.lastname;
     data['regnum'] = this.regnum;

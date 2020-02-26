@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/profile_model.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/main/dealer_screen.dart';
-import 'package:hyrd/screens/notification/notification_screen.dart';
-import 'package:hyrd/screens/notification/notification_settings_screen.dart';
 import 'package:hyrd/screens/profile/feed_back_screen.dart';
 import 'package:hyrd/screens/profile/notification_screen.dart';
 import 'package:hyrd/screens/profile/saved_info_screen.dart';
@@ -11,12 +7,8 @@ import 'package:hyrd/screens/profile/term_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:toast/toast.dart';
 
-import '../../models/car.dart';
-import '../../widget/vertical_list_item.dart';
-import '../../widget/horizontal_list_item.dart';
 
 class SettingScreen extends StatefulWidget {
   static const routeName = '/settings';
@@ -115,7 +107,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             value: this.user?.data?.setting?.autoLogin ?? false,
                             onChanged: (value) {
                               setState(() {
-                                this.user.data.setting.mobileData = value;
+                                this.user.data.setting.autoLogin = value;
                                 var map = new Map<String, dynamic>();
                                 map["autoLogin"] = value;
                                 BackendService.updateUser(map).then((onValue) {

@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
+import 'package:hyrd/screens/login/login_screen.dart';
 import 'package:hyrd/screens/profile_screen.dart';
 import 'package:hyrd/screens/search_car_screen.dart';
 import 'package:hyrd/screens/total_ad_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -20,6 +24,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   List<Widget> _children=[];
 
+  ProfileModel user;
+  bool isLogin = false;
+  String token = "";
+  SharedPreferences sharedPreferences;
+
   @override
   void initState() {
     super.initState();
@@ -27,9 +36,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       DashboardScreen(),
       SearchCarScreen(),
       TotalAdScreen(),
-      ProfileScreen(onLogOut: (){
-        _selectedTab(0);
-      },)
+      ProfileScreen(onLogOut: (){ _selectedTab(0);})
     ];
     _tabController = TabController(vsync: this, length: _children.length);
   }
@@ -40,14 +47,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void _selectedTab(int index) {
     setState(() {
+
+      if(index==3){
+        print(isLogin);
+        if(!isLogin) {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+        }
+      }
       currentIndex = index;
       _tabController.animateTo(currentIndex);
+
       print('Selected: $index');
     });
   }
 
+  void navigationPage() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if (this.mounted) {
+      setState(() {
+        token = sharedPreferences.getString("token") ?? "";
+        if (token != "") {
+          isLogin = true;
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    navigationPage();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.black,
@@ -138,17 +166,6 @@ class _FABBottomAppBarState extends State<FABBottomAppBar> {
     setState(() {
       _selectedIndex = index;
       print('selecte state $index');
-      // if (_selectedIndex == 0) {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => HomePage()),
-      //   );
-      // } else if (_selectedIndex == 2) {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => NemeltPage()),
-      //   );
-      // }
     });
   }
 

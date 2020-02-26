@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
 import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/follower_screen.dart';
@@ -21,6 +22,19 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final String _fullName = "Шүрэн-цэцэг Тэмүүжин";
   final String _logOut = "Системээс гарах";
+
+  ProfileModel user;
+
+  @override
+  void initState() {
+    super.initState();
+    BackendService.getUserProfileData().then((data) {
+      setState(() {
+        this.user = data;
+        print(data);
+      });
+    });
+  }
 
   Widget _buildCoverImage(Size screenSize) {
     return Container(
@@ -50,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   padding: EdgeInsets.only(top:100,bottom: 30),
                   child: Text(
-                    _fullName,
+                    (this.user?.data?.lastname ?? "").toUpperCase() + ' '+ (this.user?.data?.firstname ?? ""),
                     style: TextStyle(
                       fontFamily: 'Roboto',
                       color: Color(0xFF222455),
@@ -68,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: EdgeInsets.only(top:30),
                   child: Column(
                     children: <Widget>[
-                      _buildButton(Hyrd.profile,'Миний мэдээлэл',UserInformationScreen()),
+                      _buildButton(Hyrd.profile,'Миний мэдээлэл',UserInformationScreen(user: this.user)),
                       _buildButton(Hyrd.star,'Оруулсан зар',AdScreen()),
                       _buildButton(Hyrd.settings,'Тохиргоо',SettingScreen()),
                       _buildButton(Hyrd.report,'Тусламж',HelpScreen()),
@@ -207,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )
                           ],
                           image: DecorationImage(
-                            image: AssetImage('assets/images/pic.png'),
+                            image: (this.user?.data?.avatar == null) ?   AssetImage('assets/images/pic.png') : NetworkImage(this.user?.data?.avatar),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(80.0),

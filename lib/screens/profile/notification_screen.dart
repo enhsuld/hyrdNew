@@ -107,12 +107,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               value: widget.user.data.setting.notifPosts,
                               onChanged: (value) {
                                 setState(() {
-                                  widget.user.data.setting.notifPosts = value;
-                                  var map = new Map<String, dynamic>();
-                                  map["notifPosts"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай", gravity: Toast.BOTTOM);
-                                  });
+                                  isSwitched = value;
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
@@ -174,12 +169,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               value: widget.user.data.setting.notifAds,
                               onChanged: (value) {
                                 setState(() {
-                                  widget.user.data.setting.notifAds = value;
-                                  var map = new Map<String, dynamic>();
-                                  map["notifAds"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай", gravity: Toast.BOTTOM);
-                                  });
+                                  isSwitched = value;
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
@@ -239,12 +229,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               value: widget.user.data.setting.notifVibration,
                               onChanged: (value) {
                                 setState(() {
-                                  widget.user.data.setting.notifVibration = value;
-                                  var map = new Map<String, dynamic>();
-                                  map["notifVibration"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай", gravity: Toast.BOTTOM);
-                                  });
+                                  isSwitched = value;
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
@@ -304,12 +289,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               value: widget.user.data.setting.notifSound,
                               onChanged: (value) {
                                 setState(() {
-                                  widget.user.data.setting.notifSound = value;
-                                  var map = new Map<String, dynamic>();
-                                  map["notifSound"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай", gravity: Toast.BOTTOM);
-                                  });
+                                  isSwitched = value;
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
@@ -369,12 +349,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               value: widget.user.data.setting.sendSearchToOrg,
                               onChanged: (value) {
                                 setState(() {
-                                  widget.user.data.setting.sendSearchToOrg = value;
-                                  var map = new Map<String, dynamic>();
-                                  map["sendSearchToOrg"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай", gravity: Toast.BOTTOM);
-                                  });
+                                  isSwitched = value;
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
