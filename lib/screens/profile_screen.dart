@@ -1,13 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hyrd/screens/dashboard_screen.dart';
 import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/follower_screen.dart';
 import 'package:hyrd/screens/profile/help_screen.dart';
 import 'package:hyrd/screens/profile/setting_screen.dart';
 import 'package:hyrd/screens/profile/user_information_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/utils/hyrd_icons.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
+  final Function onLogOut;
+  ProfileScreen({this.onLogOut});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -63,11 +68,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: EdgeInsets.only(top:30),
                   child: Column(
                     children: <Widget>[
-                      _buildButton('Миний мэдээлэл',UserInformationScreen()),
-                      _buildButton('Оруулсан зар',AdScreen()),
-                      _buildButton('Тохиргоо',SettingScreen()),
-                      _buildButton('Тусламж',HelpScreen()),
-                      _buildButton('Дагаж байгаа',FollowerScreen()),
+                      _buildButton(Hyrd.profile,'Миний мэдээлэл',UserInformationScreen()),
+                      _buildButton(Hyrd.star,'Оруулсан зар',AdScreen()),
+                      _buildButton(Hyrd.settings,'Тохиргоо',SettingScreen()),
+                      _buildButton(Hyrd.report,'Тусламж',HelpScreen()),
+                      _buildButton(Hyrd.team,'Дагаж байгаа',FollowerScreen()),
                     ],
                   ),
                 ),
@@ -79,10 +84,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildButton(String name, Widget pageUrl) {
+  Widget _buildButton(IconData icon,String name, Widget pageUrl) {
     return new MaterialButton(
       onPressed: () {
-        // Navigator.of(context).pop();
          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => pageUrl));
       },
       child: new Container(
@@ -93,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               child: Row(
                 children: <Widget>[
-                  new Icon(Icons.supervised_user_circle, color: Color(0xFFB6BED4), size: 30),
+                  new Icon(icon, color: Color(0xFFB6BED4), size: 20),
                   Container(
                     padding: const EdgeInsets.only(left: 20, top: 0),
                     child: new Text(name, textAlign: TextAlign.left, style:TextStyle(color: Color(0xFFB6BED4), fontSize: 16)),
@@ -115,7 +119,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       width: MediaQuery.of(context).size.width,
       // height: 95,
       child: FlatButton(
-        onPressed: () {},
+        onPressed: () {
+          BackendService.logOut().then((onValue) {
+            widget.onLogOut();
+          });
+        },
         textColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         child: Container(

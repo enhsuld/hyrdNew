@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pagewise/flutter_pagewise.dart';
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/recent_list_item.dart';
+import 'package:hyrd/widget/vertical_ads_item.dart';
+import 'package:hyrd/widget/vertical_own_ads_item.dart';
 
 import '../../models/car.dart';
 import '../../widget/vertical_list_item.dart';
@@ -14,146 +20,65 @@ class AdScreen extends StatefulWidget {
 }
 
 class _AdScreenState extends State<AdScreen> {
+  static const int PAGE_SIZE = 8;
+  Future<List<CarModel>> _fetchCash(pageIndex) async {
+    return BackendService.getCashList(pageIndex + 1, PAGE_SIZE);
+  }
+
+  final _pageLoadController = PagewiseLoadController(
+      pageSize: PAGE_SIZE,
+      pageFuture: (pageIndex) =>
+          BackendService.getCashList(pageIndex + 1, PAGE_SIZE));
+
 
   @override
   Widget build(BuildContext context) {
 
+
+
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top:40,left: 20,right: 20,bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Нийт зар',
-                    style: TextStyle(
-                      fontSize: 21.0,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width:30,
-                          child: IconButton(
-                            icon: Icon(Icons.notifications),
-                            onPressed: () {},
-                            color: Color(0xFF222455),
-                            iconSize: 20.0,
-                          ),
-                        ),
-                        Container(
-                          width:30,
-                          child: IconButton(
-                            icon: Icon(Icons.settings),
-                            onPressed: () {},
-                            color: Color(0xFF222455),
-                            iconSize: 20.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Popular',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 280,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: topRatedCarList.length,
-                itemBuilder: (ctx, i) => HorizontalListItem(i),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Highlighted Ads',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 460,
-              padding: const EdgeInsets.only(left: 10,right: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: highlighted.length,
-                itemBuilder: (ctx, i) => VerticalListItem(i),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Recent posts',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  FlatButton(
-                    child: Text('View All', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 16), ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 460,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: recentCarList.length,
-                itemBuilder: (ctx, i) => RecentListItem(i),
-              ),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF584BDD),
+        centerTitle: true,
+        leading: Builder(builder: (BuildContext context) {
+          return new SizedBox(
+              height: 18.0,
+              width: 18.0,
+              child: new IconButton(
+                padding: new EdgeInsets.all(0.0),
+                color: Colors.white,
+                icon: new Icon(Icons.arrow_back_ios, size: 20.0),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ));
+        }),
+        title: Text("Оруулсан зар",
+            style:
+            TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+        elevation: 0.0,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  this._pageLoadController.reset();
+                  await Future.value({});
+                },
+                child: PagewiseListView(
+                  itemBuilder: this._itemBuilder,
+                  pageLoadController: this._pageLoadController,
+                ),
+              )),
+        ],
       ),
     );
+  }
+
+  Widget _itemBuilder(context, CarModel entry, _) {
+    return VerticalOwnAdsItem(_,entry);
   }
 }

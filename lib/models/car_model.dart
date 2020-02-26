@@ -379,6 +379,11 @@ class CarModel {
     }
     return data;
   }
+
+  static List<CarModel> fromJsonList(jsonList) {
+    var data = jsonList['data'];
+    return data.map<CarModel>((obj) => CarModel.fromJson(obj)).toList();
+  }
 }
 
 class User {
@@ -521,4 +526,7 @@ class Reports {
     data['updated_at'] = this._updatedAt;
     return data;
   }
+
+
+
 }
