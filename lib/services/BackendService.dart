@@ -40,7 +40,9 @@ class BackendService {
   }
 
   static Future<String> getVerifyCode({Map<String, String> body}) async {
-    body["country_code"] = body["country_code"].replaceAll("+", "");
+    if (body["country_code"] != null &&
+        body["country_code"].toString().isNotEmpty)
+      body["country_code"] = body["country_code"].replaceAll("+", "");
     print(body);
     final response = (await http.post(api + '/verify/phone', body: body));
     print(response.statusCode);
@@ -53,7 +55,9 @@ class BackendService {
 
   static Future<http.Response> getVerifyEqual(
       {Map<String, String> body}) async {
-    body["country_code"] = body["country_code"].replaceAll("+", "");
+    if (body["country_code"] != null &&
+        body["country_code"].toString().isNotEmpty)
+      body["country_code"] = body["country_code"].replaceAll("+", "");
     print(body);
     final response = (await http.post(api + '/verify/code', body: body));
     print(response.statusCode);
@@ -181,18 +185,20 @@ class BackendService {
     await preferences.setInt('UserId', 0);
   }
 
-  static Future<List<CarModel>> getCashList(offset, limit,) async {
+  static Future<List<CarModel>> getCashList(
+    offset,
+    limit,
+  ) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String token = preferences.getString("token") ?? "";
 
     Map<String, String> map = new HashMap();
     if (token.length > 0)
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
-    final responseBody = (await http.get(
-        api + '/user/car-ads?page=$offset&limit=$limit',
-        headers: map))
+    final responseBody = (await http
+            .get(api + '/user/car-ads?page=$offset&limit=$limit', headers: map))
         .body;
-    print(api +'/user/car-ads?page=$offset&limit=$limit');
+    print(api + '/user/car-ads?page=$offset&limit=$limit');
     print(responseBody);
 
     return CarModel.fromJsonList(json.decode(responseBody));
