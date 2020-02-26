@@ -100,8 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   context, _phoneController.text, _passwordController.text)
               .then((onValue) {
             if (onValue != null) {
-              Navigator.of(context)
-                  .push(FadeRoute(builder: (context) => HomeScreen()));
+              Navigator.of(context).pushReplacement(
+                  FadeRoute(builder: (context) => HomeScreen()));
             }
           });
         },
@@ -178,7 +178,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: Colors.white, fontSize: 15)),
                                 ),
                                 onTap: () {
-                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => StepOneScreen()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              StepOneScreen()));
                                   //Navigator.of(context).push(FadeRoute( builder: (context) => StepOneScreen()));
                                 }),
                           ],
