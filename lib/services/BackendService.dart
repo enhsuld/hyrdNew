@@ -125,21 +125,24 @@ class BackendService {
 
   }
 
-  static Future<Map<String, dynamic>> uploadFiles(item,  List<UploadFileInfo> data) async {
+  static Future<Map<String, dynamic>> uploadFiles(Map<String, dynamic> item,  List<UploadFileInfo> data) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String token = preferences.getString("Token") ?? "";
+    String token = preferences.getString("token") ?? "";
 
     Map<String, String> map = new HashMap();
     if (token.length > 0) {
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
     }
-
+    print("aaa");
+    print(token);
+    print(map);
     FormData formData = new FormData.from(item);
-  //  formData.add("media[]", data);
+    formData.add("media[]", data);
     print(formData);
     Dio dio = new Dio();
     var response = await dio.post(api + "/car-ads", data: formData, options: Options(headers: map));
-    print(response);
+    print(response.statusCode);
+    print(response.data);
     return response.data;
   }
 

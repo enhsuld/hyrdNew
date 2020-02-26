@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("Та бүртгэлүй бол?",
+                            Text("Та бүртгэлгүй бол?",
                                 style: style.copyWith(
                                     color: Colors.grey, fontSize: 15)),
                             new InkWell(
@@ -178,8 +178,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: Colors.white, fontSize: 15)),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).push(FadeRoute(
-                                      builder: (context) => StepOneScreen()));
+                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => StepOneScreen()));
+                                  //Navigator.of(context).push(FadeRoute( builder: (context) => StepOneScreen()));
                                 }),
                           ],
                         ),

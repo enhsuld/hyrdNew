@@ -10,6 +10,5 @@ saveCurrentLogin(Map responseJson) async {
     token = "";
   }
   print("hatnaa.token $token");
-  await preferences.setString(
-      'token', (token != null && token.length > 0) ? token : "");
+  await preferences.setString('token', (token != null && token.length > 0) ? token : "");
 }

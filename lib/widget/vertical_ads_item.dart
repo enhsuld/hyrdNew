@@ -51,7 +51,7 @@ class VerticalAdsItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage("assets/images/img4.jpg")
+                          image: AssetImage("assets/images/img1.jpg")
                           /*    image: NetworkImage(
                           item.imageUrl,
                         ),*/
