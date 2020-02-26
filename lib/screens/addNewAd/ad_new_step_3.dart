@@ -92,9 +92,7 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
               color: Colors.transparent,
               child: InkWell(
                 onTap: (){
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 20, left: 10),
