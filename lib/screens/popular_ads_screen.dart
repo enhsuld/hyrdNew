@@ -62,7 +62,7 @@ class _PopularAdsScreenState extends State<PopularAdsScreen> {
                   await Future.value({});
                 },
                 child: PagewiseListView(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
                   itemBuilder: this._itemBuilder,
                   pageLoadController: this._pageLoadController,
                 ),
