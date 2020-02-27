@@ -30,7 +30,14 @@ class _AdScreenState extends State<AdScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF584BDD),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.topRight,
+                colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+              )),
+        ),
         centerTitle: true,
         leading: Builder(builder: (BuildContext context) {
           return new SizedBox(
