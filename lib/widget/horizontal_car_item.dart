@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:intl/intl.dart';
 
 class HorizontalCarItem extends StatefulWidget {
@@ -108,19 +109,19 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
       width: 206,
       child: GestureDetector(
         onTap: () {
-          _showDialog();
-          /*  Navigator.of(context).pushNamed(
-            MovieDetailsScreen.routeName,
+         // _showDialog();
+          Navigator.of(context).pushNamed(
+            CarDetailsScreen.routeName,
             arguments: {
-              'id': topRatedCarList[index].id,
-              'title': topRatedCarList[index].title,
-              'imageUrl': topRatedCarList[index].imageUrl,
-              'description': topRatedCarList[index].description,
-              'rating': topRatedCarList[index].title,
-              'year': topRatedCarList[index].title,
-              'duration': topRatedCarList[index].title,
+              'id': widget.item.id.toString(),
+              'title': widget.item.name,
+              'imageUrl': "assets/images/img4.jpg",
+              'description': widget.item.description,
+              'rating': widget.item.name,
+              'year': widget.item.name,
+              'duration': widget.item.name,
             },
-          );*/
+          );
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
