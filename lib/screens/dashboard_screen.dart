@@ -249,6 +249,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 }
               },
             ),
+
             Padding(
               padding: EdgeInsets.only(left: 20, right: 5),
               child: Row(
@@ -274,8 +275,60 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 itemBuilder: (ctx, i) => RecentListItem(i),
               ),
             ),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Шинээр нэмэгдсэн',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFF222455),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'бүгдийг харах',
+                      style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, FadeRoute(builder: (context) => SpecialAdsScreen()));
+                    },
+                  ),
+                ],
+              ),
+            ),
+            FutureBuilder(
+              future: BackendService.getHighlight(page: 1, pageSize: 5),
+              builder: (context, snapshot) {
+                List<dynamic> lists;
+                if (snapshot.hasData) {
+                  lists = snapshot.data;
+                  return Container(
+                    height: double.parse(lists.length.toString()) * 112,
+                    padding: EdgeInsets.only(
+                        bottom: 20, top: 0, left: 10, right: 10),
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: 0, bottom: 0),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: lists.length,
+                      itemBuilder: (ctx, i) => VerticalAdsItem(
+                        index: i,
+                        item: CarModel.fromJson(lists[i]["car_ad"]),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
             SizedBox(
-              height: 50,
+              height: 60,
             )
           ],
         ),

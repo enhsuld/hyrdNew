@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
+import 'package:hyrd/screens/main/detail_screen.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:intl/intl.dart';
 
 class HorizontalCarItem extends StatefulWidget {
@@ -109,19 +111,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
       width: 206,
       child: GestureDetector(
         onTap: () {
-         // _showDialog();
-          Navigator.of(context).pushNamed(
-            CarDetailsScreen.routeName,
-            arguments: {
-              'id': widget.item.id.toString(),
-              'title': widget.item.name,
-              'imageUrl': "assets/images/img4.jpg",
-              'description': widget.item.description,
-              'rating': widget.item.name,
-              'year': widget.item.name,
-              'duration': widget.item.name,
-            },
-          );
+          Navigator.push(context, FadeRoute(builder: (context) => DetailScreen(item: widget.item)));
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +125,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
               child: Column(
                 children: <Widget>[
                   Hero(
-                    tag: widget.item.id,
+                    tag: widget.item?.id ?? 0,
                     child: Container(
                       height: 170,
                       decoration: BoxDecoration(
@@ -144,11 +134,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                             topRight: const Radius.circular(5.0)),
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage("assets/images/img5.jpg")
-                            /*    image: NetworkImage(
-                          besttopRatedCarList[index].imageUrl,
-                        ),*/
-                            // image: NetworkImage(topRatedCarList[index].imageUrl),
+                            image: NetworkImage(widget.item?.medias[0]?.thumb)
                             ),
                       ),
                     ),
@@ -157,7 +143,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                     padding: EdgeInsets.all(10),
                     width: double.infinity,
                     child: Text(
-                      widget?.item?.name ?? 0,
+                      widget?.item?.name ?? "",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
@@ -196,7 +182,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Үнэ :" +  formatter.format(widget?.item?.price ?? "0") + "₮",
+                            "Үнэ :" + (widget.item?.priceFormat??"") + "₮",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,

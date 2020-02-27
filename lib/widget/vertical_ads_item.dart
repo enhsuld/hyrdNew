@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
+import 'package:hyrd/screens/main/detail_screen.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:intl/intl.dart';
 
 class VerticalAdsItem extends StatelessWidget {
@@ -23,18 +25,7 @@ class VerticalAdsItem extends StatelessWidget {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(
-              CarDetailsScreen.routeName,
-              arguments: {
-                'id': item.id.toString(),
-                'title': item.name,
-                'imageUrl': "assets/images/img4.jpg",
-                'description': item.description,
-                'rating': item.name,
-                'year': item.name,
-                'duration': item.name,
-              },
-            );
+            Navigator.push(context, FadeRoute(builder: (context) => DetailScreen(item: item)));
           },
           child: Card(
             shape: RoundedRectangleBorder(
@@ -51,10 +42,7 @@ class VerticalAdsItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage("assets/images/img1.jpg")
-                      /*    image: NetworkImage(
-                          item.imageUrl,
-                        ),*/
+                        image: NetworkImage(item?.medias[0]?.thumb)
                     ),
                   ),
                 ),
@@ -124,7 +112,7 @@ class VerticalAdsItem extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Үнэ :" + formatter.format(item?.price ?? 0) + "₮",
+                                    "Үнэ :" +  (item?.priceFormat??"") + "₮",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,

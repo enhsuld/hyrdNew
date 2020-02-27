@@ -4,6 +4,7 @@ import 'package:hyrd/screens/notification/read_list_item.dart';
 import 'package:hyrd/screens/notification/today_list_item.dart';
 import 'package:hyrd/screens/notification/unread_list_item.dart';
 import 'package:hyrd/screens/profile/notification_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../models/car.dart';
@@ -16,6 +17,16 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _AdScreenState extends State<NotificationScreen> {
+
+  @override
+  void initState() {
+   /* BackendService.getNotification(url: '/mark').then((value) {
+      setState(() {
+
+      });
+    });*/
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
