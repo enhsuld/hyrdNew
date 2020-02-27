@@ -205,10 +205,7 @@ class BackendService {
     return CarModel.fromJsonList(json.decode(responseBody));
   }
 
-
-
   static Future<int> createFeedback({Map<String, dynamic> taxonomy}) async {
-
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String token = preferences.getString("token") ?? "";
     Map<String, String> map = new HashMap();
@@ -218,15 +215,15 @@ class BackendService {
     }
 
     Dio dio = new Dio();
-    var response = await dio.post(api + "/feedbacks", data: json.encode(taxonomy), options: Options(headers: map));
+    var response = await dio.post(api + "/feedbacks",
+        data: json.encode(taxonomy), options: Options(headers: map));
 
     print(response.statusCode);
-    return response.statusCode ;
-
+    return response.statusCode;
   }
 
-
-  static Future<Map<String, dynamic>> crud(String method, String url,Map<String, dynamic> data) async {
+  static Future<Map<String, dynamic>> crud(
+      String method, String url, Map<String, dynamic> data) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String token = preferences.getString("token") ?? "";
 
@@ -237,26 +234,27 @@ class BackendService {
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
     }
 
-    if(method=="delete"){
-      print(api +"$url");
+    if (method == "delete") {
+      print(api + "$url");
       map[HttpHeaders.CONTENT_TYPE] = "application/json";
       Dio dio = new Dio();
-      var response = await dio.delete(api +"$url", options: Options(headers: map));
+      var response =
+          await dio.delete(api + "$url", options: Options(headers: map));
       print(response.statusCode);
       return response.data;
     }
 
-    if(method=="put" && url=="user"){
+    if (method == "put" && url == "user") {
       map[HttpHeaders.CONTENT_TYPE] = "application/json";
       map[HttpHeaders.ACCEPT] = "application/json";
-      final responseBody = await http.put(api + '/user', headers: map, body: json.encode(data));
+      final responseBody =
+          await http.put(api + '/user', headers: map, body: json.encode(data));
       print(responseBody.body);
       if (responseBody.statusCode == 200)
         return json.decode(responseBody.body);
       else
         return null;
     }
-
   }
 
   static Future<ProfileModel> getUserProfileData() async {
@@ -272,7 +270,6 @@ class BackendService {
     return ProfileModel.fromJson(json.decode(responseBody));
   }
 
-
   static Future<Map<String, dynamic>> updateUser(
       Map<String, dynamic> userMap) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -282,7 +279,8 @@ class BackendService {
     if (token.length > 0)
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
     map[HttpHeaders.CONTENT_TYPE] = "application/json";
-    final responseBody = await http.put(api + '/user/settings', headers: map, body: json.encode(userMap));
+    final responseBody = await http.put(api + '/user/settings',
+        headers: map, body: json.encode(userMap));
     print(responseBody.body);
     if (responseBody.statusCode == 200)
       return json.decode(responseBody.body);
@@ -290,8 +288,8 @@ class BackendService {
       return null;
   }
 
-
-  static Future<Map<String, dynamic>> uploadProfile({url = 'doc', FormData data}) async {
+  static Future<Map<String, dynamic>> uploadProfile(
+      {url = 'doc', FormData data}) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String token = preferences.getString("token") ?? "";
 
@@ -306,17 +304,53 @@ class BackendService {
     return response.data;
   }
 
-  // static Future<List<ProjectModel>> getSearch(search, offset, limit) async {
-  //   var params = 'page=$offset&size=$limit';
-  //   if (search.startsWith("search=") && search.length > 7) {
-  //     params = search + '&page=$offset&size=$limit';
-  //   } else if (search.length > 1) {
-  //     params = search + '&page=$offset&size=$limit';
-  //   }
-  //   final responseBody =
-  //       (await http.get(apiV1 + '/search/manual?$params')).body;
-  //   //print(responseBody);
-  //   return ProjectModel.fromJsonList(json.decode(responseBody), 'content');
-  // }
+  static Future<List<CarModel>> getPopularList(
+    offset,
+    limit,
+  ) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    final responseBody = (await http
+            .get(api + '/car-ads/popular?page=$offset&limit=$limit', headers: map))
+        .body;
+    print(api + '/car-ads/popular?page=$offset&limit=$limit');
+    print(responseBody);
+
+    return CarModel.fromJsonList(json.decode(responseBody));
+  }
+
+  static Future<List<CarModel>> getSpecialList(
+    offset,
+    limit,
+  ) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    final responseBody = (await http
+            .get(api + '/car-ads/highlight?page=$offset&limit=$limit', headers: map))
+        .body;
+    print(api + '/car-ads/highlight?page=$offset&limit=$limit');
+    print(responseBody);
+
+    return CarModel.fromJsonList(json.decode(responseBody));
+  }
+
+// static Future<List<ProjectModel>> getSearch(search, offset, limit) async {
+//   var params = 'page=$offset&size=$limit';
+//   if (search.startsWith("search=") && search.length > 7) {
+//     params = search + '&page=$offset&size=$limit';
+//   } else if (search.length > 1) {
+//     params = search + '&page=$offset&size=$limit';
+//   }
+//   final responseBody =
+//       (await http.get(apiV1 + '/search/manual?$params')).body;
+//   //print(responseBody);
+//   return ProjectModel.fromJsonList(json.decode(responseBody), 'content');
+// }
 
 }

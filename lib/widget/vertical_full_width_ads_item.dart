@@ -12,7 +12,7 @@ class VerticalFullWidthAdsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final formatterDate = new DateFormat.yMMMMd('en_US');
     final formatter = new NumberFormat("#,###");
 
 
@@ -102,7 +102,7 @@ class VerticalFullWidthAdsItem extends StatelessWidget {
                                     color: bigTextColor),
                               ),
                               Text(
-                                item?.createdAt?.substring(0,4) ?? "",
+                                formatterDate.format(DateTime.parse(item.createdAt)),
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,

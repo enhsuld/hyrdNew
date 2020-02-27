@@ -10,6 +10,7 @@ import 'package:hyrd/screens/search_car_screen.dart';
 import 'package:hyrd/screens/total_ad_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -87,10 +88,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       selectedColor: Colors.black,
       notchedShape: CircularNotchedRectangle(),
       items: [
-        FABBottomAppBarItem(iconData: Icons.home, text: 'Home'),
-        FABBottomAppBarItem(iconData: Icons.search, text: 'Place'),
-        FABBottomAppBarItem(iconData: Icons.shopping_basket, text: 'Style'),
-        FABBottomAppBarItem(iconData: Icons.person_outline, text: 'Profile')
+        FABBottomAppBarItem(iconData: Hyrd.home, text: 'Home'),
+        FABBottomAppBarItem(iconData: Hyrd.search, text: 'Place'),
+        FABBottomAppBarItem(iconData: Hyrd.calendar_star, text: 'Style'),
+        FABBottomAppBarItem(iconData: Hyrd.avatar, text: 'Profile')
       ],
     );
 

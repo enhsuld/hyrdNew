@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:intl/intl.dart';
@@ -103,7 +104,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
     }
 
     return Container(
-      padding: const EdgeInsets.only(bottom: 10, left: 10),
+      padding: const EdgeInsets.only(left: 10),
       width: 206,
       child: GestureDetector(
         onTap: () {
@@ -122,6 +123,8 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
           );*/
         },
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Card(
               shape: RoundedRectangleBorder(
@@ -133,7 +136,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                   Hero(
                     tag: widget.item.id,
                     child: Container(
-                      height: 160,
+                      height: 170,
                       decoration: BoxDecoration(
                         borderRadius: new BorderRadius.only(
                             topLeft: const Radius.circular(5.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +19,7 @@ class VerticalAdsItem extends StatelessWidget {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         GestureDetector(
           onTap: () {
@@ -41,21 +43,18 @@ class VerticalAdsItem extends StatelessWidget {
             elevation: 3,
             child: Row(
               children: <Widget>[
-                Hero(
-                  tag: item?.id ?? 0,
-                  child: Container(
-                    height: 80,
-                    width: 100,
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage("assets/images/img1.jpg")
-                          /*    image: NetworkImage(
+                Container(
+                  height: 80,
+                  width: 100,
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage("assets/images/img1.jpg")
+                      /*    image: NetworkImage(
                           item.imageUrl,
                         ),*/
-                          ),
                     ),
                   ),
                 ),
@@ -63,6 +62,7 @@ class VerticalAdsItem extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   height: 80,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(

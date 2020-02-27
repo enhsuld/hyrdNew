@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/widget/vertical_full_width_ads_item.dart';
 import 'package:hyrd/widget/vertical_own_ads_item.dart';
 
-class AdScreen extends StatefulWidget {
-  static const routeName = '/ad';
+class PopularAdsScreen extends StatefulWidget {
+  static const routeName = '/ad-popular';
 
   @override
-  _AdScreenState createState() => _AdScreenState();
+  _PopularAdsScreenState createState() => _PopularAdsScreenState();
 }
 
-class _AdScreenState extends State<AdScreen> {
+class _PopularAdsScreenState extends State<PopularAdsScreen> {
   static const int PAGE_SIZE = 8;
   Future<List<CarModel>> _fetchCash(pageIndex) async {
-    return BackendService.getCashList(pageIndex + 1, PAGE_SIZE);
+    return BackendService.getPopularList(pageIndex + 1, PAGE_SIZE);
   }
 
   final _pageLoadController = PagewiseLoadController(
       pageSize: PAGE_SIZE,
       pageFuture: (pageIndex) =>
-          BackendService.getCashList(pageIndex + 1, PAGE_SIZE));
+          BackendService.getPopularList(pageIndex + 1, PAGE_SIZE));
 
 
   @override
@@ -45,7 +46,7 @@ class _AdScreenState extends State<AdScreen> {
                 },
               ));
         }),
-        title: Text("Оруулсан зар",
+        title: Text("Эрэлттэй зарууд",
             style:
             TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
         elevation: 0.0,
@@ -61,6 +62,7 @@ class _AdScreenState extends State<AdScreen> {
                   await Future.value({});
                 },
                 child: PagewiseListView(
+                  padding: EdgeInsets.all(20),
                   itemBuilder: this._itemBuilder,
                   pageLoadController: this._pageLoadController,
                 ),
@@ -71,6 +73,6 @@ class _AdScreenState extends State<AdScreen> {
   }
 
   Widget _itemBuilder(context, CarModel entry, _) {
-    return VerticalOwnAdsItem(_,entry);
+    return VerticalFullWidthAdsItem(item: entry);
   }
 }

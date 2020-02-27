@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/screens/popular_ads_screen.dart';
+import 'package:hyrd/screens/special_ads_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 
-import '../models/car.dart';
-import '../widget/vertical_list_item.dart';
-import '../widget/horizontal_list_item.dart';
 
 class SearchCarScreen extends StatefulWidget {
   static const routeName = '/search-car';
@@ -46,7 +45,7 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
+              padding: EdgeInsets.only(top: 10, left: 20, right: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -59,8 +58,13 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                     ),
                   ),
                   FlatButton(
-                    child: Text('бүгдийг харах', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13), ),
-                    onPressed: () {},
+                    child: Text(
+                      'бүгдийг харах',
+                      style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, FadeRoute(builder: (context) => PopularAdsScreen()));
+                    },
                   ),
                 ],
               ),
@@ -74,6 +78,7 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                     if (snapshot.hasData) {
                       adsPopulars = snapshot.data;
                       return ListView.builder(
+                        padding: EdgeInsets.only(top: 0, bottom: 0),
                         scrollDirection: Axis.horizontal,
                         itemCount: adsPopulars.length,
                         itemBuilder: (ctx, i) => HorizontalCarItem(
@@ -87,7 +92,7 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                   },
                 )),
             Padding(
-              padding: EdgeInsets.only(top:10,left: 20,right: 5),
+              padding: EdgeInsets.only(left: 20, right: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -100,8 +105,13 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                     ),
                   ),
                   FlatButton(
-                    child: Text('бүгдийг харах', style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13), ),
-                    onPressed: () {},
+                    child: Text(
+                      'бүгдийг харах',
+                      style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, FadeRoute(builder: (context) => SpecialAdsScreen()));
+                    },
                   ),
                 ],
               ),
@@ -113,10 +123,11 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                 if (snapshot.hasData) {
                   lists = snapshot.data;
                   return Container(
-                    height: double.parse(lists.length.toString()) * 118,
+                    height: double.parse(lists.length.toString()) * 122,
                     padding: EdgeInsets.only(
                         bottom: 20, top: 0, left: 10, right: 10),
                     child: ListView.builder(
+                      padding: EdgeInsets.only(top: 0, bottom: 0),
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: lists.length,
                       itemBuilder: (ctx, i) => VerticalAdsItem(
