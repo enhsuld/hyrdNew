@@ -73,7 +73,8 @@ class _SpecialAdsScreenState extends State<SpecialAdsScreen> {
                   itemBuilder: this._itemBuilder,
                   pageLoadController: this._pageLoadController,
                 ),
-              )),
+              )
+          ),
         ],
       ),
     );

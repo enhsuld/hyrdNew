@@ -1,24 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hyrd/models/car.dart';
 import 'package:hyrd/models/car_model.dart';
-import 'package:hyrd/screens/dashboard_screen.dart';
 import 'package:hyrd/screens/main/tab_address_screen.dart';
 import 'package:hyrd/screens/main/tab_advertisement_screen.dart';
 import 'package:hyrd/screens/main/tab_home_screen.dart';
 import 'package:hyrd/screens/main/tab_news_screen.dart';
-import 'package:hyrd/screens/profile_screen.dart';
-import 'package:hyrd/screens/search_car_screen.dart';
-import 'package:hyrd/screens/total_ad_screen.dart';
-import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/widget/horizontal_list_item.dart';
-import 'package:hyrd/widget/vertical_ads_item.dart';
+import 'package:hyrd/utils/hyrd_icons.dart';
 
 class DealerScreen extends StatefulWidget {
   static const routeName = '/dealer-details';
+
+  final CarModel item;
+
+  DealerScreen({Key key, @required this.item}) : super(key: key);
 
   @override
   _DealerScreenState createState() => _DealerScreenState();
@@ -212,8 +208,7 @@ class _DealerScreenState extends State<DealerScreen>
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                             fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/auction-land.png')),
+                                            image: NetworkImage(widget.item.user.org.avatar)),
                                       ),
                                     ),
                                     Container(
@@ -225,7 +220,7 @@ class _DealerScreenState extends State<DealerScreen>
                                         MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Text(
-                                            "Tavan bogd",
+                                            widget.item.user.org.name,
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFF222455),
@@ -233,7 +228,7 @@ class _DealerScreenState extends State<DealerScreen>
                                             textAlign: TextAlign.center,
                                           ),
                                           Text(
-                                            "Car Dealer",
+                                            widget.item.user.org.service,
                                             style: TextStyle(
                                               fontSize: 10,
                                               color: Color(0xFF6E7FAA),
@@ -241,7 +236,7 @@ class _DealerScreenState extends State<DealerScreen>
                                             textAlign: TextAlign.center,
                                           ),
                                           Text(
-                                            "(+976) 89951555",
+                                            widget.item.user.org.phone,
                                             style: TextStyle(
                                               fontSize: 10,
                                               color: Color(0xFF6E7FAA),
@@ -254,49 +249,58 @@ class _DealerScreenState extends State<DealerScreen>
                                     Container(
                                       height: 70,
                                       child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        mainAxisAlignment:MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: <Widget>[
                                               Container(
+                                                margin:EdgeInsets.only(right: 10),
                                                   child: new Icon(
-                                                      Icons.supervised_user_circle,
+                                                      Hyrd.team,
                                                       color: Color(0xFF6E7FAA),
-                                                      size: 20.0)),
-                                              Text(
-                                                "330 follows",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(0xFF6E7FAA),
+                                                      size: 16.0)),
+                                              Container(
+                                                margin:EdgeInsets.only(right: 15),
+                                                child:Text(
+                                                  widget.item.user.org.count.followers.toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Color(0xFF6E7FAA),
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                textAlign: TextAlign.center,
-                                              ),
+                                              )
                                             ],
                                           ),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: <Widget>[
-                                              Container(
-                                                decoration: const BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      begin: Alignment.topCenter,
-                                                      end: Alignment.bottomCenter,
-                                                      colors: <Color>[
-                                                        Color(0xFFB755FF),
-                                                        Color(0xFF584BDD),
-                                                      ],
-                                                    ),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(8.0))),
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 5, horizontal: 10),
-                                                child: Text("Дагах",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15)),
+                                              InkWell(
+                                                onTap: (){
+                                                  print("sd");
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                                                  decoration: const BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                        begin: Alignment.topCenter,
+                                                        end: Alignment.bottomCenter,
+                                                        colors: <Color>[
+                                                          Color(0xFFB755FF),
+                                                          Color(0xFF584BDD),
+                                                        ],
+                                                      ),
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(8.0))),
+                                                  child: Text("Дагах",
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15)
+                                                  ),
+                                                ),
                                               ),
                                               Container(
                                                 margin:
@@ -369,10 +373,10 @@ class _DealerScreenState extends State<DealerScreen>
                             child: new TabBarView(
                               controller: _tabController,
                               children: <Widget>[
-                                TabHomeScreen(),
-                                TabAddressScreen(),
-                                TabAdvertisementScreen(),
-                                TabNewsScreen(),
+                                TabHomeScreen(item: widget.item),
+                                TabAddressScreen(item: widget.item),
+                                TabAdvertisementScreen(item: widget.item),
+                                TabNewsScreen(item: widget.item),
                               ],
                             ),
                           )
