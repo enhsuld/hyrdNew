@@ -100,8 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   context, _phoneController.text, _passwordController.text)
               .then((onValue) {
             if (onValue != null) {
-              Navigator.of(context).pushReplacement(
-                  FadeRoute(builder: (context) => HomeScreen()));
+              Navigator.pop(context);
+              //Navigator.of(context).pushReplacement(                  FadeRoute(builder: (context) => HomeScreen()));
             }
           });
         },

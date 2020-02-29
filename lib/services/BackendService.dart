@@ -201,6 +201,11 @@ class BackendService {
     await preferences.setInt('UserId', 0);
   }
 
+  static getToken() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString("Token") ?? "";
+  }
+
   static Future<List<CarModel>> getCashList(
     offset,
     limit,
@@ -363,8 +368,9 @@ class BackendService {
     Map<String, String> map = new HashMap();
     if (token.length > 0)
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
-    final responseBody = (await http
-        .get(api + '/orgs/$orgId/car-ads?page=$offset&limit=$limit', headers: map))
+    final responseBody = (await http.get(
+            api + '/orgs/$orgId/car-ads?page=$offset&limit=$limit',
+            headers: map))
         .body;
     print(api + '/orgs/$orgId/car-ads?page=$offset&limit=$limit');
     print(responseBody);
@@ -378,15 +384,15 @@ class BackendService {
     Map<String, String> map = new HashMap();
     if (token.length > 0)
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
-    final responseBody = (await http
-        .get(api + '/orgs/$orgId/posts?page=$offset&limit=$limit', headers: map)).body
-        ;
+    final responseBody = (await http.get(
+            api + '/orgs/$orgId/posts?page=$offset&limit=$limit',
+            headers: map))
+        .body;
     print(api + '/orgs/$orgId/posts?page=$offset&limit=$limit');
     print(responseBody);
 
     return PostModel.fromJsonList(json.decode(responseBody));
   }
-
 
 /*  static Future<List<dynamic>> getHighlight({page, pageSize: 10}) async {
     final response =

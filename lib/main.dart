@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
-import 'package:hyrd/screens/login/login_screen.dart';
+import 'package:hyrd/screens/home_screen.dart';
 import 'package:hyrd/screens/profile_screen.dart';
 import 'package:hyrd/screens/search_car_screen.dart';
 import 'package:hyrd/screens/total_ad_screen.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         TotalAdScreen.routeName: (ctx) => TotalAdScreen(),
         ProfileScreen.routeName: (ctx) => ProfileScreen(),
       },
-      home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }

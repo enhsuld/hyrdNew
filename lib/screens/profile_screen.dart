@@ -2,13 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
+import 'package:hyrd/screens/login/login_screen.dart';
 import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/follower_screen.dart';
 import 'package:hyrd/screens/profile/help_screen.dart';
 import 'package:hyrd/screens/profile/setting_screen.dart';
 import 'package:hyrd/screens/profile/user_information_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
@@ -20,8 +23,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final String _fullName = "Шүрэн-цэцэг Тэмүүжин";
   final String _logOut = "Системээс гарах";
+
+  bool isLogin = false;
 
   ProfileModel user;
 
@@ -62,9 +66,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Column(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top:100,bottom: 30),
+                  padding: EdgeInsets.only(top: 100, bottom: 30),
                   child: Text(
-                    (this.user?.data?.lastname ?? "").toUpperCase() + ' '+ (this.user?.data?.firstname ?? ""),
+                    (this.user?.data?.lastname ?? "").toUpperCase() +
+                        ' ' +
+                        (this.user?.data?.firstname ?? ""),
                     style: TextStyle(
                       fontFamily: 'Roboto',
                       color: Color(0xFF222455),
@@ -79,14 +85,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   thickness: 2,
                 ),
                 Container(
-                  padding: EdgeInsets.only(top:30),
+                  padding: EdgeInsets.only(top: 30),
                   child: Column(
                     children: <Widget>[
-                      _buildButton(Hyrd.profile,'Миний мэдээлэл',UserInformationScreen(user: this.user)),
-                      _buildButton(Hyrd.star,'Оруулсан зар',AdScreen()),
-                      _buildButton(Hyrd.settings,'Тохиргоо',SettingScreen()),
-                      _buildButton(Hyrd.report,'Тусламж',HelpScreen()),
-                      _buildButton(Hyrd.team,'Дагаж байгаа',FollowerScreen()),
+                      _buildButton(Hyrd.profile, 'Миний мэдээлэл',
+                          UserInformationScreen(user: this.user)),
+                      _buildButton(Hyrd.star, 'Оруулсан зар', AdScreen()),
+                      _buildButton(Hyrd.settings, 'Тохиргоо', SettingScreen()),
+                      _buildButton(Hyrd.report, 'Тусламж', HelpScreen()),
+                      _buildButton(Hyrd.team, 'Дагаж байгаа', FollowerScreen()),
                     ],
                   ),
                 ),
@@ -98,10 +105,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildButton(IconData icon,String name, Widget pageUrl) {
+  Widget _buildButton(IconData icon, String name, Widget pageUrl) {
     return new MaterialButton(
       onPressed: () {
-         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => pageUrl));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (BuildContext context) => pageUrl));
       },
       child: new Container(
         padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
@@ -114,7 +122,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   new Icon(icon, color: Color(0xFFB6BED4), size: 20),
                   Container(
                     padding: const EdgeInsets.only(left: 20, top: 0),
-                    child: new Text(name, textAlign: TextAlign.left, style:TextStyle(color: Color(0xFFB6BED4), fontSize: 16)),
+                    child: new Text(name,
+                        textAlign: TextAlign.left,
+                        style:
+                            TextStyle(color: Color(0xFFB6BED4), fontSize: 16)),
                   ),
                 ],
               ),
@@ -169,81 +180,101 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    BackendService.getToken().then((_token) {
+      if (mounted) {
+        setState(() {
+          if (_token != null && _token != "") {
+            isLogin = true;
+          } else
+            isLogin = false;
+        });
+      }
+    });
+
     return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Stack(
-        children: <Widget>[
-          Scaffold(
-            body: Stack(
-              children: <Widget>[
-                Positioned(
-                  right: 0,
-                  left: 0,
-                  child: _buildCoverImage(screenSize),
-                ),
-                Positioned(
-                  left: 10,
-                  top: 30,
-                  child:  Container(
-                    padding: EdgeInsets.only(top: 40, left: 20),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: Text(
-                      "Profile",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 10,
-                  right: 10,
-                  top: 180,
-                  child:  _buildProfileImage(),
-                ),
-                Positioned(
-                    right: 0,
-                    left: 0,
-                    top: 120,
-                    child: Center(
-                      child: Container(
-                        width: 140.0,
-                        height: 140.0,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            new BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 5.0,
-                            )
-                          ],
-                          image: DecorationImage(
-                            image: (this.user?.data?.avatar == null) ?   AssetImage('assets/images/pic.png') : NetworkImage(this.user?.data?.avatar),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(80.0),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 3.0,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: <Widget>[
+            Scaffold(
+              body: isLogin
+                  ? Stack(
+                      children: <Widget>[
+                        Positioned(
+                          right: 0,
+                          left: 0,
+                          child: _buildCoverImage(screenSize),
+                        ),
+                        Positioned(
+                          left: 10,
+                          top: 30,
+                          child: Container(
+                            padding: EdgeInsets.only(top: 40, left: 20),
+                            width: MediaQuery.of(context).size.width - 20,
+                            child: Text(
+                              "Profile",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Positioned(
+                          left: 10,
+                          right: 10,
+                          top: 180,
+                          child: _buildProfileImage(),
+                        ),
+                        Positioned(
+                            right: 0,
+                            left: 0,
+                            top: 120,
+                            child: Center(
+                              child: Container(
+                                width: 140.0,
+                                height: 140.0,
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    new BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 5.0,
+                                    )
+                                  ],
+                                  image: DecorationImage(
+                                    image: (this.user?.data?.avatar == null)
+                                        ? AssetImage('assets/images/pic.png')
+                                        : NetworkImage(this.user?.data?.avatar),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(80.0),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 3.0,
+                                  ),
+                                ),
+                              ),
+                            )),
+                        Positioned(
+                          left: 10,
+                          right: 10,
+                          bottom: 80,
+                          child: _buildButtons(),
+                        ),
+                      ],
                     )
-                ),
-                Positioned(
-                  left: 10,
-                  right: 10,
-                  bottom: 80,
-                  child:  _buildButtons(),
-                ),
-              ],
-            ),
-          )
-        ],
-      )
-    );
+                  : Center(
+                      child: FlatButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                FadeRoute(builder: (context) => LoginScreen()));
+                          },
+                          child: Text("Нэвтрэх")),
+                    ),
+            )
+          ],
+        ));
   }
 }
