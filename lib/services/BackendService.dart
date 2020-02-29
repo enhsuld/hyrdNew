@@ -394,6 +394,21 @@ class BackendService {
     return PostModel.fromJsonList(json.decode(responseBody));
   }
 
+  static Future<List<PostModel>> getPosts(offset, limit) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    final responseBody =
+        (await http.get(api + '/posts?page=$offset&limit=$limit', headers: map))
+            .body;
+    print(api + '/posts?page=$offset&limit=$limit');
+    print(responseBody);
+
+    return PostModel.fromJsonList(json.decode(responseBody));
+  }
+
 /*  static Future<List<dynamic>> getHighlight({page, pageSize: 10}) async {
     final response =
     (await http.get(apiAds + '/highlight?page=$page&limit=$pageSize'));
