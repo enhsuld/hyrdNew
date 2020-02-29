@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/screens/notification/notification_screen.dart';
 import 'package:hyrd/screens/popular_ads_screen.dart';
 import 'package:hyrd/screens/profile/setting_screen.dart';
@@ -12,6 +14,7 @@ import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
+import 'package:hyrd/widget/vertical_news_item.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../models/car.dart';
@@ -25,6 +28,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   CarouselSlider carouselSlider;
+
+  static const int PAGE_SIZE = 2;
 
   int _current = 1;
 
@@ -249,32 +254,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 }
               },
             ),
-
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Мэдээлэл',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: double.parse(recentCarList.length.toString()) * 110,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: recentCarList.length,
-                itemBuilder: (ctx, i) => RecentListItem(i),
-              ),
-            ),
             Padding(
               padding: EdgeInsets.only(left: 20, right: 5),
               child: Row(
@@ -307,9 +286,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 if (snapshot.hasData) {
                   lists = snapshot.data;
                   return Container(
-                    height: double.parse(lists.length.toString()) * 112,
+                    height: double.parse(lists.length.toString()) * 110,
                     padding: EdgeInsets.only(
-                        bottom: 20, top: 0, left: 10, right: 10),
+                        bottom: 10, top: 0, left: 10, right: 10),
                     child: ListView.builder(
                       padding: EdgeInsets.only(top: 0, bottom: 0),
                       physics: NeverScrollableScrollPhysics(),
@@ -327,12 +306,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 }
               },
             ),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Мэдээлэл',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFF222455),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 400,
+              padding: EdgeInsets.only(top:15,left:10,right:10),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  PagewiseLoadController(
+                      pageSize: PAGE_SIZE,
+                      pageFuture: (pageIndex) => BackendService.getPosts(
+                          pageIndex + 1,
+                          PAGE_SIZE)).reset();
+                  await Future.value({});
+                },
+                child: PagewiseListView(
+                  padding: EdgeInsets.all(0),
+                  itemBuilder: this._itemBuilder,
+                  pageLoadController: PagewiseLoadController(
+                      pageSize: PAGE_SIZE,
+                      pageFuture: (pageIndex) => BackendService.getPosts(
+                          pageIndex + 1,
+                          PAGE_SIZE)),
+                ),
+              ),
+            ),
             SizedBox(
-              height: 60,
+              height: 50,
             )
           ],
         ),
       ),
     );
+  }
+  Widget _itemBuilder(context, PostModel entry, _) {
+    return VerticalNewsItem(item: entry);
   }
 }

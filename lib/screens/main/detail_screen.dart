@@ -226,9 +226,6 @@ class _DetailScreenState extends State<DetailScreen> {
                         : GestureDetector(
                             onTap: () => {
                               Navigator.push(context, FadeRoute(builder: (context) => DealerScreen(item: widget.item)))
-                             /* Navigator.push(
-                                  context,
-                                  FadeRoute(builder: (context) => DealerScreen()))*/
                             },
                             child: new Card(
                               shape: RoundedRectangleBorder(
