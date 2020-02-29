@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -58,16 +59,27 @@ class _StepOneExtendScreenState extends State<StepOneExtendScreen> {
           if (currentText != null &&
               currentText.isNotEmpty &&
               currentText.length == 4) {
+            print(widget.map);
+            Map<String, String> params = new HashMap();
+            params.addAll(widget.map);
             widget.map["verification_code"] = currentText;
+            print(params);
             BackendService.getVerifyEqual(body: widget.map).then((onValue) {
               if (onValue.statusCode == 200) {
                 Navigator.pop(context);
-                Navigator.of(context)
-                    .push(FadeRoute(builder: (context) => StepTwoScreen()));
+                Navigator.of(context).push(FadeRoute(
+                    builder: (context) => StepTwoScreen(
+                          map: params,
+                        )));
               } else {
                 _scaffoldKey.currentState.showSnackBar(SnackBar(
                     content:
                         Text(json.decode(onValue.body)["error"]["message"])));
+                // Navigator.pop(context);
+                // Navigator.of(context).push(FadeRoute(
+                //     builder: (context) => StepTwoScreen(
+                //           map: params,
+                //         )));
               }
             });
           }

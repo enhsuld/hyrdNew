@@ -19,7 +19,10 @@ class BackendService {
 
   final BuildContext _context;
 
-  static Map<String, String> header = {"Content-Type": "application/json"};
+  static Map<String, String> header = {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  };
 
   BackendService(BuildContext context) : _context = context;
 
@@ -69,6 +72,17 @@ class BackendService {
     //   print(json.decode(response.body)["error"]["message"]);
     //   return null;
     // }
+  }
+
+  static Future<http.Response> postRegister({Map<String, String> body}) async {
+    // if (body["country_code"] != null &&
+    //     body["country_code"].toString().isNotEmpty)
+    //   body["country_code"] = body["country_code"].replaceAll("+", "");
+    print(body);
+    final response = (await http.post(api + '/register',
+        headers: {"Accept": "application/json"}, body: body));
+    print(response.statusCode);
+    return response;
   }
 
   static Future<String> postAdsView({id}) async {
@@ -313,8 +327,9 @@ class BackendService {
     Map<String, String> map = new HashMap();
     if (token.length > 0)
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
-    final responseBody = (await http
-            .get(api + '/car-ads/popular?page=$offset&limit=$limit', headers: map))
+    final responseBody = (await http.get(
+            api + '/car-ads/popular?page=$offset&limit=$limit',
+            headers: map))
         .body;
     print(api + '/car-ads/popular?page=$offset&limit=$limit');
     print(responseBody);
@@ -331,8 +346,9 @@ class BackendService {
     Map<String, String> map = new HashMap();
     if (token.length > 0)
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
-    final responseBody = (await http
-            .get(api + '/car-ads/highlight?page=$offset&limit=$limit', headers: map))
+    final responseBody = (await http.get(
+            api + '/car-ads/highlight?page=$offset&limit=$limit',
+            headers: map))
         .body;
     print(api + '/car-ads/highlight?page=$offset&limit=$limit');
     print(responseBody);

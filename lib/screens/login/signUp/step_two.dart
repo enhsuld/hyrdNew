@@ -6,6 +6,10 @@ import 'package:hyrd/utils/fade_route.dart';
 class StepTwoScreen extends StatefulWidget {
   static const routeName = '/sign-up/step-2';
 
+  Map<String, String> map;
+
+  StepTwoScreen({this.map});
+
   @override
   _StepTwoScreenScreenState createState() => _StepTwoScreenScreenState();
 }
@@ -121,6 +125,7 @@ class _StepTwoScreenScreenState extends State<StepTwoScreen> {
       child: FlatButton(
         onPressed: () {
           //  Navigator.pop(context);
+          print(widget.map);
           _validateInputs();
         },
         textColor: Colors.white,
@@ -211,10 +216,15 @@ class _StepTwoScreenScreenState extends State<StepTwoScreen> {
   void _validateInputs() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      print(widget.map);
+      widget.map["password"] = _ctlPassword.text;
       setState(() {
         _autoValidate = true;
-        Navigator.of(context)
-            .push(FadeRoute(builder: (context) => StepTwoExtendScreen()));
+        Navigator.pop(context);
+        Navigator.of(context).push(FadeRoute(
+            builder: (context) => StepTwoExtendScreen(
+                  map: widget.map,
+                )));
       });
     }
   }
