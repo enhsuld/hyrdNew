@@ -5,8 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:hyrd/models/car.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/main/dealer_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
+import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/horizontal_list_item.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -149,7 +151,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
             Container(
                 transform: Matrix4.translationValues(0.0, -40.0, 0.0),
-                width: MediaQuery.of(context).size.width - 30,
+                width: MediaQuery.of(context).size.width - 20,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -225,7 +227,11 @@ class _DetailScreenState extends State<DetailScreen> {
                           )
                         : GestureDetector(
                             onTap: () => {
-                              Navigator.push(context, FadeRoute(builder: (context) => DealerScreen(item: widget.item)))
+                              Navigator.push(
+                                  context,
+                                  FadeRoute(
+                                      builder: (context) =>
+                                          DealerScreen(item: widget.item)))
                             },
                             child: new Card(
                               shape: RoundedRectangleBorder(
@@ -570,17 +576,34 @@ class _DetailScreenState extends State<DetailScreen> {
                             TextStyle(fontSize: 16, color: Color(0xFF222455)),
                       ),
                     ),
+
                   ],
-                )),
-            Container(
-              transform: Matrix4.translationValues(0.0, -40.0, 0.0),
-              height: 270,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: topRatedCarList.length,
-                itemBuilder: (ctx, i) => HorizontalListItem(i),
-              ),
+                )
             ),
+            Container(
+                transform: Matrix4.translationValues(0.0, -40.0, 0.0),
+                height: 270,
+                child: FutureBuilder(
+                  future: BackendService.getSimilar(id:widget.item.id, page: 1, pageSize: 5),
+                  builder: (context, snapshot) {
+                    List<dynamic> adsPopulars;
+                    if (snapshot.hasData) {
+                      adsPopulars = snapshot.data;
+                      return ListView.builder(
+                        padding: EdgeInsets.only(top: 0, bottom: 0),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: adsPopulars.length,
+                        itemBuilder: (ctx, i) => HorizontalCarItem(
+                            index: i,
+                            item: CarModel.fromJson(adsPopulars[i])),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                )),
           ],
         ),
       ),
@@ -653,7 +676,7 @@ class _DetailScreenState extends State<DetailScreen> {
         isScrollControlled: true,
         builder: (BuildContext bc) {
           return Container(
-              height: MediaQuery.of(context).size.height*0.8,
+              height: MediaQuery.of(context).size.height * 0.8,
               decoration: new BoxDecoration(
                   color: Colors.white,
                   borderRadius: new BorderRadius.only(
@@ -664,7 +687,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      padding: EdgeInsets.only(left: 20,top:30, bottom: 10),
+                      padding: EdgeInsets.only(left: 20, top: 30, bottom: 10),
                       child: Text("Мэдээлэл",
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -673,7 +696,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ),
                   Container(
-                      height: MediaQuery.of(context).size.height*0.8-60,
+                      height: MediaQuery.of(context).size.height * 0.8 - 60,
                       child: ListView(
                         padding: EdgeInsets.all(0),
                         children: ListTile.divideTiles(

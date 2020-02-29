@@ -32,18 +32,15 @@ class VerticalNewsItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Hero(
-                  tag: item?.id ?? 0,
-                  child: Container(
-                    height: 80,
-                    width: 100,
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(item.coverImage)),
-                    ),
+                Container(
+                  height: 80,
+                  width: 100,
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(item.coverImage)),
                   ),
                 ),
                 Container(
@@ -71,6 +68,7 @@ class VerticalNewsItem extends StatelessWidget {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width - 180,
+                        height: 50,
                         child: Wrap(
                           alignment: WrapAlignment.spaceAround,
                           children: <Widget>[

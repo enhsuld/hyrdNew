@@ -135,6 +135,19 @@ class BackendService {
     }
   }
 
+  static Future<List<dynamic>> getSimilar({id,page, pageSize: 10}) async {
+    final response =
+    (await http.get(apiAds + '/$id/similar?page=$page&limit=$pageSize'
+      //headers: {"Content-Type": "application/json"}
+    ));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
+    } else {
+      return null;
+    }
+  }
+
   static Future<List<TaxonomyModel>> getTaxonomies({taxonomy = ''}) async {
     final responseBody = (await http.get(api + '/taxonomies$taxonomy'));
     print(responseBody);
@@ -408,6 +421,19 @@ class BackendService {
     print(responseBody);
 
     return PostModel.fromJsonList(json.decode(responseBody));
+  }
+
+  static Future<List<dynamic>> getPostsMain(offset, limit) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    final responseBody =
+        (await http.get(api + '/posts?page=$offset&limit=$limit', headers: map));
+
+    print(api + '/posts?page=$offset&limit=$limit');
+    return Future.value(jsonDecode(responseBody.body)['data']);
   }
 
 /*  static Future<List<dynamic>> getHighlight({page, pageSize: 10}) async {

@@ -26,12 +26,19 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     super.initState();
-    BackendService.getUserProfileData().then((data) {
-      setState(() {
-        this.user = data;
-        print(data);
-      });
+    BackendService.getToken().then((_token) {
+      if (mounted) {
+        if (_token != null && _token != "") {
+          BackendService.getUserProfileData().then((data) {
+            setState(() {
+              this.user = data;
+              print(data);
+            });
+          });
+        }
+      }
     });
+
   }
 
   @override

@@ -143,21 +143,6 @@ class _DealerScreenState extends State<DealerScreen>
                             Navigator.of(context).pop();
                           },
                         ),
-                        Text(
-                          "Ulaanbaatar mongolia",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        SizedBox(
-                            height: 18.0,
-                            width: 18.0,
-                            child: new IconButton(
-                              padding: new EdgeInsets.all(0.0),
-                              color: Colors.white,
-                              icon: new Icon(Icons.more_vert, size: 25.0),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            )),
                       ],
                     ),
                   ),
