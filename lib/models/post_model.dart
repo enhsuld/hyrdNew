@@ -51,6 +51,11 @@ class PostModel {
     data['updated_at'] = this.updatedAt;
     return data;
   }
+
+  static List<PostModel> fromJsonList(jsonList) {
+    var data = jsonList['data'];
+    return data.map<PostModel>((obj) => PostModel.fromJson(obj)).toList();
+  }
 }
 
 class Org {

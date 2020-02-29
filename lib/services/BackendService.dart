@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/json_data.dart';
+import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/models/taxonomy.dart';
 import 'package:hyrd/utils/debug_util.dart';
@@ -339,6 +340,47 @@ class BackendService {
 
     return CarModel.fromJsonList(json.decode(responseBody));
   }
+
+  static Future<List<CarModel>> getOrgAds(orgId, offset, limit) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    final responseBody = (await http
+        .get(api + '/orgs/$orgId/car-ads?page=$offset&limit=$limit', headers: map))
+        .body;
+    print(api + '/orgs/$orgId/car-ads?page=$offset&limit=$limit');
+    print(responseBody);
+
+    return CarModel.fromJsonList(json.decode(responseBody));
+  }
+
+  static Future<List<PostModel>> getOrgPosts(orgId, offset, limit) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+    final responseBody = (await http
+        .get(api + '/orgs/$orgId/posts?page=$offset&limit=$limit', headers: map)).body
+        ;
+    print(api + '/orgs/$orgId/posts?page=$offset&limit=$limit');
+    print(responseBody);
+
+    return PostModel.fromJsonList(json.decode(responseBody));
+  }
+
+
+/*  static Future<List<dynamic>> getHighlight({page, pageSize: 10}) async {
+    final response =
+    (await http.get(apiAds + '/highlight?page=$page&limit=$pageSize'));
+    if (response.statusCode == 200) {
+      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
+    } else {
+      return null;
+    }
+  }*/
 
 // static Future<List<ProjectModel>> getSearch(search, offset, limit) async {
 //   var params = 'page=$offset&size=$limit';

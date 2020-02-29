@@ -9,6 +9,7 @@ import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:hyrd/widget/horizontal_list_item.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailScreen extends StatefulWidget {
   static const routeName = '/item-details';
@@ -152,157 +153,161 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      elevation: 5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 50,
-                            width: 50,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color(0xFFB6BED4), width: 2),
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                      'assets/images/auction-land.png')),
+                    (widget.item?.user?.type ?? 0) == 0
+                        ? Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width - 200,
-                            height: 50,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            elevation: 5,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text(
-                                  (widget.item?.ownerLastname ?? "") +
-                                      ' ' +
-                                      (widget.item?.ownerFirstname ?? ""),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color(0xFF222455),
+                                Container(
+                                  height: 50,
+                                  width: 50,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Color(0xFFB6BED4), width: 2),
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                            'assets/images/auction-land.png')),
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
-                                Text(
-                                  widget.item?.ownerHandphone ?? "",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Color(0xFF6E7FAA),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width - 200,
+                                  height: 50,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Text(
+                                        (widget.item?.ownerLastname ?? "") +
+                                            ' ' +
+                                            (widget.item?.ownerFirstname ?? ""),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF222455),
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Text(
+                                        widget.item?.ownerHandphone ?? "",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Color(0xFF6E7FAA),
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
+                                Container(
+                                  height: 50,
+                                  width: 50,
+                                  margin: EdgeInsets.only(right: 10),
+                                  transform: Matrix4.translationValues(
+                                      0.0, -17.0, 0.0),
+                                  child: Icon(
+                                    Hyrd.bookmark,
+                                    color: Color(0xFFF5982E),
+                                    size: 60,
+                                  ),
+                                )
                               ],
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: new BorderRadius.only(
-                                  topLeft: const Radius.circular(5.0),
-                                  topRight: const Radius.circular(5.0)),
-                              image: DecorationImage(
-                                  fit: BoxFit.fitWidth,
-                                  image: AssetImage(
-                                      'assets/images/auction-land.png')),
-                            ),
                           )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    new GestureDetector(
-                      onTap: () => {
-                        Navigator.push(context,
-                            FadeRoute(builder: (context) => DealerScreen()))
-                      },
-                      child: new Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        elevation: 5,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              height: 50,
-                              width: 50,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color(0xFFB6BED4), width: 2),
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/images/auction-land.png')),
+                        : GestureDetector(
+                            onTap: () => {
+                              Navigator.push(context, FadeRoute(builder: (context) => DealerScreen(item: widget.item)))
+                             /* Navigator.push(
+                                  context,
+                                  FadeRoute(builder: (context) => DealerScreen()))*/
+                            },
+                            child: new Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
                               ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width - 250,
-                              height: 50,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              elevation: 5,
+                              child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text(
-                                    "Tavan bogd",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xFF222455),
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Color(0xFFB6BED4), width: 2),
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'assets/images/auction-land.png')),
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
-                                  Text(
-                                    "Car Dealer",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Color(0xFF6E7FAA),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width - 250,
+                                    height: 50,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        Text(
+                                          "Tavan bogd",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF222455),
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Text(
+                                          "Car Dealer",
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xFF6E7FAA),
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
+                                  Container(
+                                    width: 100,
+                                    margin: EdgeInsets.only(right: 20),
+                                    decoration: const BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: <Color>[
+                                            Color(0xFFFEEC7D),
+                                            Color(0xFFF5982E),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0))),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    child: Text("Онцгой",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16)),
+                                  )
                                 ],
                               ),
                             ),
-                            Container(
-                              width: 100,
-                              margin: EdgeInsets.only(right: 20),
-                              decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: <Color>[
-                                      Color(0xFFFEEC7D),
-                                      Color(0xFFF5982E),
-                                    ],
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0))),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              child: Text("Онцгой",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16)),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       padding:
@@ -605,7 +610,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ),
                   Text(
-                    (widget.item?.priceFormat??"") + "₮",
+                    (widget.item?.priceFormat ?? "") + "₮",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -616,6 +621,7 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
             ),
             Container(
+              padding: EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width / 2 - 30,
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -627,19 +633,21 @@ class _DetailScreenState extends State<DetailScreen> {
                     ],
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(8.0))),
-              padding: const EdgeInsets.all(15),
-              child: Text("ХОЛБОГДОХ".toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 16)),
-            )
+              child: new FlatButton(
+                padding: EdgeInsets.all(0),
+                child: Text("ХОЛБОГДОХ".toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 16)),
+                onPressed: () {
+                  launch("tel://" + widget.item.ownerHandphone);
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
-  TextEditingController _ctlPhoneNumber = new TextEditingController();
-  TextEditingController _ctlAmount = new TextEditingController();
 
   _settingModalBottomSheet(context, String id, String type) {
     showModalBottomSheet(
@@ -648,21 +656,18 @@ class _DetailScreenState extends State<DetailScreen> {
         isScrollControlled: true,
         builder: (BuildContext bc) {
           return Container(
-            decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius: new BorderRadius.only(
-                    topLeft: const Radius.circular(15.0),
-                    topRight: const Radius.circular(15.0))),
-            padding: EdgeInsets.all(20),
-            child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Wrap(
+              height: MediaQuery.of(context).size.height*0.8,
+              decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.only(
+                      topLeft: const Radius.circular(15.0),
+                      topRight: const Radius.circular(15.0))),
+              child: Column(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      padding: EdgeInsets.only(left:20,bottom: 30),
+                      padding: EdgeInsets.only(left: 20,top:30, bottom: 10),
                       child: Text("Мэдээлэл",
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -670,54 +675,27 @@ class _DetailScreenState extends State<DetailScreen> {
                               fontWeight: FontWeight.w600)),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      padding: EdgeInsets.only(left: 20, bottom: 10),
-                      child: Text("Шилжүүлсэн дүн",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Color(0xFF2D3853),
-                              fontWeight: FontWeight.w600)),
-                    ),
-                  ),
                   Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: TextField(
-                        keyboardType: TextInputType.number,
-                        controller: _ctlAmount,
-                        decoration: InputDecoration(
-                            contentPadding: new EdgeInsets.symmetric(
-                                vertical: 15.0, horizontal: 20.0),
-                            filled: true,
-                            hintStyle: new TextStyle(color: Colors.grey[400]),
-                            fillColor: Colors.white)),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      padding: EdgeInsets.only(left: 20, bottom: 10),
-                      child: Text("Утасны дугаар",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Color(0xFF2D3853),
-                              fontWeight: FontWeight.w600)),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: TextField(
-                        controller: _ctlPhoneNumber,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            filled: true,
-                            hintStyle: new TextStyle(color: Colors.grey[400]),
-                            fillColor: Colors.white)),
-                  ),
+                      height: MediaQuery.of(context).size.height*0.8-60,
+                      child: ListView(
+                        padding: EdgeInsets.all(0),
+                        children: ListTile.divideTiles(
+                          context: context,
+                          tiles: [
+                            ListTile(
+                              title: Text('Sun'),
+                            ),
+                            ListTile(
+                              title: Text('Moon'),
+                            ),
+                            ListTile(
+                              title: Text('Star'),
+                            ),
+                          ],
+                        ).toList(),
+                      ))
                 ],
-              ),
-            ),
-          );
+              ));
         });
   }
 }
