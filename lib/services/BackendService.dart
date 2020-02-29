@@ -196,6 +196,7 @@ class BackendService {
     await preferences.setString('userName', "");
     await preferences.setString('LastEmail', "");
     await preferences.setString('Token', "");
+    await preferences.setString('token', "");
     await preferences.setString('Email', "");
     await preferences.setString('avatar', "");
     await preferences.setInt('UserId', 0);
