@@ -14,9 +14,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController =
-      TextEditingController(text: "99017211");
+      TextEditingController(text: "99203119");
   final TextEditingController _passwordController =
-      TextEditingController(text: "sakesake");
+      TextEditingController(text: "123456");
 
   TextStyle style =
       TextStyle(fontFamily: 'Roboto', color: Colors.white, fontSize: 15.0);

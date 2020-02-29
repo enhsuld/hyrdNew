@@ -203,7 +203,7 @@ class BackendService {
 
   static getToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getString("Token") ?? "";
+    return sharedPreferences.getString("token") ?? "";
   }
 
   static Future<List<CarModel>> getCashList(
