@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +51,20 @@ class _DealerScreenState extends State<DealerScreen>
   List<Tab> tabList = List();
   TabController _tabController;
 
+  bool isFollowing = false;
+
   @override
   void initState() {
+    Map<String, dynamic> map = new HashMap();
+    map["organization_id"] = widget.item.user.org.id;
+
+    BackendService.getIsFollowing(body: map).then((data) {
+      setState(() {
+        this.isFollowing = data;
+        print(data);
+      });
+    });
+
     tabList.add(new Tab(
       text: 'Нүүр',
     ));
@@ -93,8 +107,8 @@ class _DealerScreenState extends State<DealerScreen>
                     right: 0,
                     left: 0,
                     top: 0,
-                    child: Container(
-                      height: 250,
+                    child:  Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
                       color: Colors.blueGrey,
                       child: CarouselSlider(
                         initialPage: 0,
@@ -114,12 +128,12 @@ class _DealerScreenState extends State<DealerScreen>
                             _current = index;
                           });
                         },
-                        items: imgList.map((imgUrl) {
+                        items: widget.item.user.org.medias.map((imgUrl) {
                           return Builder(
                             builder: (BuildContext context) {
                               return Container(
                                   margin: EdgeInsets.symmetric(horizontal: 0.0),
-                                  child: Image.asset(imgUrl,
+                                  child: Image.network(imgUrl.optimized,
                                       width: MediaQuery.of(context).size.width,
                                       fit: BoxFit.cover));
                             },
@@ -152,7 +166,7 @@ class _DealerScreenState extends State<DealerScreen>
                     left: 20,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: map<Widget>(imgList, (index, url) {
+                      children: map<Widget>(widget.item.user.org.medias, (index, url) {
                         return Container(
                           width: 10.0,
                           height: 3.0,
@@ -187,59 +201,70 @@ class _DealerScreenState extends State<DealerScreen>
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Container(
-                                      height: 50,
-                                      width: 50,
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: 20, horizontal: 20),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Color(0xFFB6BED4), width: 2),
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                widget.item.user.org.avatar)),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          260,
-                                      height: 70,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                      child: Row(
                                         children: <Widget>[
-                                          Text(
-                                            widget.item.user.org.name,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: Color(0xFF222455),
+                                          Container(
+                                            height: 50,
+                                            width: 50,
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 20, horizontal: 20),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Color(0xFFB6BED4),
+                                                  width: 2),
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(widget
+                                                      .item.user.org.avatar)),
                                             ),
-                                            textAlign: TextAlign.center,
                                           ),
-                                          Text(
-                                            widget.item.user.org.service,
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              color: Color(0xFF6E7FAA),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                260,
+                                            height: 70,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.item.user.org.name,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Color(0xFF222455),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                Text(
+                                                  widget.item.user.org.service,
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFF6E7FAA),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                Text(
+                                                  widget.item.user.org.phone,
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFF6E7FAA),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ],
                                             ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Text(
-                                            widget.item.user.org.phone,
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              color: Color(0xFF6E7FAA),
-                                            ),
-                                            textAlign: TextAlign.center,
                                           ),
                                         ],
                                       ),
                                     ),
                                     Container(
+                                      padding: EdgeInsets.only(right: 20),
                                       height: 70,
+                                      width: 120,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
@@ -247,6 +272,8 @@ class _DealerScreenState extends State<DealerScreen>
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
@@ -296,64 +323,106 @@ class _DealerScreenState extends State<DealerScreen>
                                                     }
                                                   });
                                                 },
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          gradient:
-                                                              LinearGradient(
-                                                            begin: Alignment
-                                                                .topCenter,
-                                                            end: Alignment
-                                                                .bottomCenter,
-                                                            colors: <Color>[
-                                                              Color(0xFFB755FF),
-                                                              Color(0xFF584BDD),
-                                                            ],
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          8.0))),
-                                                  child: Text("Дагах",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15)),
+                                                child: FlatButton(
+                                                  padding:
+                                                      const EdgeInsets.all(0.0),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              80.0)),
+                                                  textColor: Colors.white,
+                                                  disabledColor: Colors.grey,
+                                                  disabledTextColor:
+                                                      Colors.black,
+                                                  onPressed: () {
+                                                    Map<String, dynamic> map =
+                                                        new HashMap();
+                                                    map["organization_id"] =
+                                                        widget.item.user.org.id;
+
+                                                    print(map);
+                                                    if (this.isFollowing) {
+                                                      BackendService
+                                                              .putUnfollow(
+                                                                  body: map)
+                                                          .then((onValue) {
+                                                        print(onValue);
+                                                        if (onValue != null) {
+                                                          print(onValue);
+                                                          if (onValue == 200) {
+                                                            setState(() {
+                                                              this.isFollowing =
+                                                                  false;
+                                                            });
+                                                          }
+                                                        }
+                                                      });
+                                                    } else {
+                                                      BackendService.putFollow(
+                                                              body: map)
+                                                          .then((onValue) {
+                                                        print(onValue);
+                                                        if (onValue != null) {
+                                                          print(onValue);
+                                                          if (onValue == 200) {
+                                                            setState(() {
+                                                              this.isFollowing =
+                                                                  true;
+                                                            });
+                                                          }
+                                                        }
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                      padding:
+                                                          const EdgeInsets.fromLTRB(
+                                                              10, 5, 10, 5),
+                                                      decoration: (!this
+                                                              .isFollowing)
+                                                          ? BoxDecoration(
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                begin: Alignment
+                                                                    .topCenter,
+                                                                end: Alignment
+                                                                    .bottomCenter,
+                                                                colors: <Color>[
+                                                                  Color(
+                                                                      0xFFB755FF),
+                                                                  Color(
+                                                                      0xFF584BDD),
+                                                                ],
+                                                              ),
+                                                              borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius.circular(
+                                                                          80.0)))
+                                                          : BoxDecoration(
+                                                              border: new Border.all(
+                                                                  color: Color(0xFF6E7FAA),
+                                                                  width: 1.0),
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                begin: Alignment
+                                                                    .topCenter,
+                                                                end: Alignment
+                                                                    .bottomCenter,
+                                                                colors: <Color>[
+                                                                  Colors.white,
+                                                                  Colors.white,
+                                                                ],
+                                                              ),
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      80.0))),
+                                                      child: (this.isFollowing)
+                                                          ? Text("Following",
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(fontSize: 15, color: Color(0xFF6E7FAA)))
+                                                          : Text("Follow", textAlign: TextAlign.center, style: TextStyle(fontSize: 15))),
                                                 ),
                                               ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 5, right: 20),
-                                                decoration: const BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: <Color>[
-                                                        Color(0xFFB755FF),
-                                                        Color(0xFF584BDD),
-                                                      ],
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8.0))),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5,
-                                                        horizontal: 10),
-                                                child: new Icon(
-                                                    Icons
-                                                        .supervised_user_circle,
-                                                    color: Colors.white,
-                                                    size: 20.0),
-                                              )
                                             ],
                                           )
                                         ],

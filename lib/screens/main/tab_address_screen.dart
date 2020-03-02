@@ -91,7 +91,7 @@ class _TabAddressScreenState extends State<TabAddressScreen> {
                 ),
               ),
             ),
-            Container(
+        /*    Container(
               margin: EdgeInsets.only(bottom: 10),
               child:  Card(
                 shape: RoundedRectangleBorder(
@@ -104,7 +104,7 @@ class _TabAddressScreenState extends State<TabAddressScreen> {
                   child: _buildGoogleMap(context),
                 ),
               ),
-            )
+            )*/
           ],
         ),
       ),

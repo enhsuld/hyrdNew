@@ -253,8 +253,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              'assets/images/auction-land.png')),
+                                          image: NetworkImage(
+                                              widget.item.user.org.avatar)),
                                     ),
                                   ),
                                   Container(
@@ -268,7 +268,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         Text(
-                                          "Tavan bogd",
+                                          widget.item.user.org.name,
                                           style: TextStyle(
                                             fontSize: 16,
                                             color: Color(0xFF222455),
@@ -276,7 +276,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           textAlign: TextAlign.center,
                                         ),
                                         Text(
-                                          "Car Dealer",
+                                          widget.item.user.org.service,
                                           style: TextStyle(
                                             fontSize: 10,
                                             color: Color(0xFF6E7FAA),

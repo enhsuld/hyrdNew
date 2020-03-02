@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
+import 'package:hyrd/models/banner_model.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/screens/login/login_screen.dart';
@@ -49,6 +50,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
       result.add(handler(i, list[i]));
     }
     return result;
+  }
+
+  var banners = new List<BannerModel>();
+
+  @override
+  void initState() {
+    BackendService.getBanner().then((data) {
+      setState(() {
+        print("asd");
+        print(data);
+        this.banners = data;
+      });
+    });
+
+    super.initState();
   }
 
   @override
@@ -105,7 +121,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
+            (banners!=null && banners.length>0)?
             CarouselSlider(
+              height: 190.0,
+              initialPage: 1,
+              viewportFraction: 0.8,
+              aspectRatio: MediaQuery.of(context).size.aspectRatio,
+              enlargeCenterPage: true,
+              autoPlay: false,
+              reverse: false,
+              enableInfiniteScroll: true,
+              autoPlayInterval: Duration(seconds: 2),
+              autoPlayAnimationDuration: Duration(milliseconds: 2000),
+              pauseAutoPlayOnTouch: Duration(seconds: 10),
+              scrollDirection: Axis.horizontal,
+              onPageChanged: (index) {
+                setState(() {
+                  _current = index;
+                });
+              },
+              items: banners.map((imgUrl) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Stack(
+                          children: <Widget>[
+                            new ClipRRect(
+                                borderRadius: new BorderRadius.circular(8.0),
+                                child: Image.network(imgUrl.banner,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    fit: BoxFit.fill)),
+                          ],
+                        ));
+                  },
+                );
+              }).toList(),
+            )
+                :CarouselSlider(
               height: 190.0,
               initialPage: 1,
               viewportFraction: 0.8,

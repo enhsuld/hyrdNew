@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/models/help_model.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/widget/vertical_follower_item.dart';
+import 'package:hyrd/widget/vertical_help_item.dart';
 
 class HelpScreen extends StatefulWidget {
   static const routeName = '/help';
@@ -11,6 +13,19 @@ class HelpScreen extends StatefulWidget {
 }
 
 class _HelpScreenState extends State<HelpScreen> {
+
+  var helps=new List<HelpModel>();
+
+  @override
+  void initState() {
+    BackendService.getHelps().then((data) {
+      setState(() {
+        this.helps=data;
+      });
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +64,35 @@ class _HelpScreenState extends State<HelpScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+
+                FutureBuilder(
+                  future: BackendService.getHelps(),
+                  builder: (context, snapshot) {
+                    List<dynamic> lists;
+                    if (snapshot.hasData) {
+                      lists = snapshot.data;
+                      return Container(
+                        height: double.parse(lists.length.toString()) * 110,
+                        padding: EdgeInsets.only(
+                            bottom: 20, top: 0, left: 10, right: 10),
+                        child: ListView.builder(
+                          padding: EdgeInsets.only(top: 0, bottom: 0),
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: lists.length,
+                          itemBuilder: (ctx, i) => VerticalHelpItem(
+                            index: i,
+                            item: HelpModel.fromJson(lists[i]),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
+
                 Container(
                   margin: EdgeInsets.only(bottom: 10),
                   child:  Card(
@@ -132,4 +176,5 @@ class _HelpScreenState extends State<HelpScreen> {
         )
     );
   }
+
 }

@@ -222,6 +222,7 @@ class CarModel {
     }
     return data;
   }
+
   static List<CarModel> fromJsonList(jsonList) {
     var data = jsonList['data'];
     return data.map<CarModel>((obj) => CarModel.fromJson(obj)).toList();
@@ -383,6 +384,7 @@ class Org {
   String createdAt;
   String updatedAt;
   Count count;
+  List<Medias> medias;
 
   Org(
       {this.id,
@@ -399,7 +401,8 @@ class Org {
         this.longitude,
         this.createdAt,
         this.updatedAt,
-        this.count});
+        this.count,
+        this.medias});
 
   Org.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -417,6 +420,12 @@ class Org {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     count = json['count'] != null ? new Count.fromJson(json['count']) : null;
+    if (json['medias'] != null) {
+      medias = new List<Medias>();
+      json['medias'].forEach((v) {
+        medias.add(new Medias.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -437,6 +446,9 @@ class Org {
     data['updated_at'] = this.updatedAt;
     if (this.count != null) {
       data['count'] = this.count.toJson();
+    }
+    if (this.medias != null) {
+      data['medias'] = this.medias.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -460,6 +472,31 @@ class Count {
     data['car-ads'] = this.carAds;
     data['posts'] = this.posts;
     data['followers'] = this.followers;
+    return data;
+  }
+}
+
+class Medias {
+  String original;
+  String thumb;
+  String optimized;
+  List<String> responsiveImages;
+
+  Medias({this.original, this.thumb, this.optimized, this.responsiveImages});
+
+  Medias.fromJson(Map<String, dynamic> json) {
+    original = json['original'];
+    thumb = json['thumb'];
+    optimized = json['optimized'];
+    responsiveImages = json['responsive_images'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['original'] = this.original;
+    data['thumb'] = this.thumb;
+    data['optimized'] = this.optimized;
+    data['responsive_images'] = this.responsiveImages;
     return data;
   }
 }
@@ -497,31 +534,6 @@ class PublishTariff {
     data['discount'] = this.discount;
     data['description'] = this.description;
     data['publish_group'] = this.publishGroup;
-    return data;
-  }
-}
-
-class Medias {
-  String original;
-  String thumb;
-  String optimized;
-  List<String> responsiveImages;
-
-  Medias({this.original, this.thumb, this.optimized, this.responsiveImages});
-
-  Medias.fromJson(Map<String, dynamic> json) {
-    original = json['original'];
-    thumb = json['thumb'];
-    optimized = json['optimized'];
-    responsiveImages = json['responsive_images'].cast<String>();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['original'] = this.original;
-    data['thumb'] = this.thumb;
-    data['optimized'] = this.optimized;
-    data['responsive_images'] = this.responsiveImages;
     return data;
   }
 }

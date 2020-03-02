@@ -182,7 +182,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Үнэ :" + (widget.item?.priceFormat??"") + "₮",
+                            "Үнэ: " + (widget.item?.priceFormat??"") + " ₮",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
