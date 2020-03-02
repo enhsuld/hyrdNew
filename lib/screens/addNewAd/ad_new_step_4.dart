@@ -1,48 +1,31 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/screens/addNewAd/UploadImage.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_3.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_5.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:dio/dio.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class AdNewStep4Screen extends StatefulWidget {
   static const routeName = '/adNew';
+  final CarModel car;
+  AdNewStep4Screen({Key key, @required this.car}) : super(key: key);
 
   @override
   _AdNewStep4ScreenState createState() => _AdNewStep4ScreenState();
 }
 
 class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
-  static const textColor = Color(0xFF2D3853);
-  static const GradientRed = Color(0xFFDF2626);
-  String dropdownValue = 'Суудлын тэрэг';
-  String buildYear = '2015';
 
-  bool isSwitched = true;
-  bool isChecked = true;
-  var isSelected = [
-    true,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
-  List<String> countries = [
-    'INDIA',
-    'USA',
-    'JAPAN',
-  ];
-  final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> formData;
-
   List<Asset> images = List<Asset>();
-  String _error = 'No Error Dectected';
+  List<UploadFileInfo> imageFiles = new List<UploadFileInfo>();
 
   @override
   void initState() {
@@ -104,7 +87,7 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 300,
+        maxImages: 15,
         enableCamera: true,
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
@@ -117,10 +100,20 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
         ),
       );
 
-      /*for (var r in resultList) {
-        var t = await r.filePath;
-        print(t);
-      }*/
+
+      for (var asset in resultList) {
+        int maxWIDTH = 500; //keep ratio
+        int height = ((500 * asset.originalHeight) / asset.originalWidth).round();
+
+        ByteData byteData =
+        await asset.requestThumbnail(maxWIDTH, height, quality: 80);
+
+        if (byteData != null) {
+          List<int> imageData = byteData.buffer.asUint8List();
+          UploadFileInfo u = UploadFileInfo.fromBytes(imageData, asset.name);
+          imageFiles.add(u);
+        }
+      }
     } on Exception catch (e) {
       error = e.toString();
     }
@@ -129,15 +122,30 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
 
     setState(() {
       images = resultList;
-      _error = error;
     });
+  }
+
+  String uploadImage() {
+    print(imageFiles.length);
+
+    BackendService.uploadFiles(widget.car.toJson(),imageFiles).then((response) {
+      return response;
+    });
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF584BDD),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.topRight,
+                  colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+                )),
+          ),
           centerTitle: true,
           leading: Builder(builder: (BuildContext context) {
             return new SizedBox(
@@ -157,10 +165,7 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 20, left: 10),
@@ -227,8 +232,12 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
               width: MediaQuery.of(context).size.width,
               child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      FadeRoute(builder: (context) => AdNewStep5Screen()));
+                  BackendService.uploadFiles(widget.car.toJson(),imageFiles).then((response) {
+                  //  Map<String, dynamic> rVal =response;
+                  //  print(rVal['data']);
+                    widget.car.id=CarModel.fromJson(response['data']).id;
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep5Screen(car: widget.car)));
+                  });
                 },
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(

@@ -14,9 +14,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController =
-      TextEditingController(text: "99017211");
+      TextEditingController(text: "99203119");
   final TextEditingController _passwordController =
-      TextEditingController(text: "sakesake");
+      TextEditingController(text: "123456");
 
   TextStyle style =
       TextStyle(fontFamily: 'Roboto', color: Colors.white, fontSize: 15.0);
@@ -100,8 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   context, _phoneController.text, _passwordController.text)
               .then((onValue) {
             if (onValue != null) {
-              Navigator.of(context)
-                  .push(FadeRoute(builder: (context) => HomeScreen()));
+              Navigator.pop(context);
+              //Navigator.of(context).pushReplacement(                  FadeRoute(builder: (context) => HomeScreen()));
             }
           });
         },
@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("Та бүртгэлүй бол?",
+                            Text("Та бүртгэлгүй бол?",
                                 style: style.copyWith(
                                     color: Colors.grey, fontSize: 15)),
                             new InkWell(
@@ -178,8 +178,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: Colors.white, fontSize: 15)),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).push(FadeRoute(
-                                      builder: (context) => StepOneScreen()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              StepOneScreen()));
+                                  //Navigator.of(context).push(FadeRoute( builder: (context) => StepOneScreen()));
                                 }),
                           ],
                         ),

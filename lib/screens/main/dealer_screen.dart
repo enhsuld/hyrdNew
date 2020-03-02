@@ -1,24 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hyrd/models/car.dart';
 import 'package:hyrd/models/car_model.dart';
-import 'package:hyrd/screens/dashboard_screen.dart';
+import 'package:hyrd/screens/login/login_screen.dart';
 import 'package:hyrd/screens/main/tab_address_screen.dart';
 import 'package:hyrd/screens/main/tab_advertisement_screen.dart';
 import 'package:hyrd/screens/main/tab_home_screen.dart';
 import 'package:hyrd/screens/main/tab_news_screen.dart';
-import 'package:hyrd/screens/profile_screen.dart';
-import 'package:hyrd/screens/search_car_screen.dart';
-import 'package:hyrd/screens/total_ad_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/widget/horizontal_list_item.dart';
-import 'package:hyrd/widget/vertical_ads_item.dart';
+import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/utils/hyrd_icons.dart';
 
 class DealerScreen extends StatefulWidget {
   static const routeName = '/dealer-details';
+
+  final CarModel item;
+
+  DealerScreen({Key key, @required this.item}) : super(key: key);
 
   @override
   _DealerScreenState createState() => _DealerScreenState();
@@ -144,21 +143,6 @@ class _DealerScreenState extends State<DealerScreen>
                             Navigator.of(context).pop();
                           },
                         ),
-                        Text(
-                          "Ulaanbaatar mongolia",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        SizedBox(
-                            height: 18.0,
-                            width: 18.0,
-                            child: new IconButton(
-                              padding: new EdgeInsets.all(0.0),
-                              color: Colors.white,
-                              icon: new Icon(Icons.more_vert, size: 25.0),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            )),
                       ],
                     ),
                   ),
@@ -188,7 +172,7 @@ class _DealerScreenState extends State<DealerScreen>
                       right: 10,
                       left: 10,
                       top: 230,
-                      child:  Container(
+                      child: Container(
                           width: MediaQuery.of(context).size.width - 30,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -199,7 +183,8 @@ class _DealerScreenState extends State<DealerScreen>
                                 ),
                                 elevation: 5,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Container(
                                       height: 50,
@@ -212,20 +197,22 @@ class _DealerScreenState extends State<DealerScreen>
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                             fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/auction-land.png')),
+                                            image: NetworkImage(
+                                                widget.item.user.org.avatar)),
                                       ),
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context).size.width - 260,
+                                      width: MediaQuery.of(context).size.width -
+                                          260,
                                       height: 70,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Text(
-                                            "Tavan bogd",
+                                            widget.item.user.org.name,
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFF222455),
@@ -233,7 +220,7 @@ class _DealerScreenState extends State<DealerScreen>
                                             textAlign: TextAlign.center,
                                           ),
                                           Text(
-                                            "Car Dealer",
+                                            widget.item.user.org.service,
                                             style: TextStyle(
                                               fontSize: 10,
                                               color: Color(0xFF6E7FAA),
@@ -241,7 +228,7 @@ class _DealerScreenState extends State<DealerScreen>
                                             textAlign: TextAlign.center,
                                           ),
                                           Text(
-                                            "(+976) 89951555",
+                                            widget.item.user.org.phone,
                                             style: TextStyle(
                                               fontSize: 10,
                                               color: Color(0xFF6E7FAA),
@@ -254,68 +241,116 @@ class _DealerScreenState extends State<DealerScreen>
                                     Container(
                                       height: 70,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
                                             children: <Widget>[
                                               Container(
-                                                  child: new Icon(
-                                                      Icons.supervised_user_circle,
+                                                  margin: EdgeInsets.only(
+                                                      right: 10),
+                                                  child: new Icon(Hyrd.team,
                                                       color: Color(0xFF6E7FAA),
-                                                      size: 20.0)),
-                                              Text(
-                                                "330 follows",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(0xFF6E7FAA),
+                                                      size: 16.0)),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(right: 15),
+                                                child: Text(
+                                                  widget.item.user.org.count
+                                                      .followers
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Color(0xFF6E7FAA),
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                textAlign: TextAlign.center,
-                                              ),
+                                              )
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
                                             children: <Widget>[
-                                              Container(
-                                                decoration: const BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      begin: Alignment.topCenter,
-                                                      end: Alignment.bottomCenter,
-                                                      colors: <Color>[
-                                                        Color(0xFFB755FF),
-                                                        Color(0xFF584BDD),
-                                                      ],
-                                                    ),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(8.0))),
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 5, horizontal: 10),
-                                                child: Text("Дагах",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15)),
+                                              InkWell(
+                                                onTap: () {
+                                                  BackendService.getToken()
+                                                      .then((_token) {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        if (_token != null &&
+                                                            _token != "") {
+                                                        } else {
+                                                          Navigator.push(
+                                                              context,
+                                                              FadeRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          LoginScreen()));
+                                                        }
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          gradient:
+                                                              LinearGradient(
+                                                            begin: Alignment
+                                                                .topCenter,
+                                                            end: Alignment
+                                                                .bottomCenter,
+                                                            colors: <Color>[
+                                                              Color(0xFFB755FF),
+                                                              Color(0xFF584BDD),
+                                                            ],
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          8.0))),
+                                                  child: Text("Дагах",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15)),
+                                                ),
                                               ),
                                               Container(
-                                                margin:
-                                                EdgeInsets.only(left: 5, right: 20),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 20),
                                                 decoration: const BoxDecoration(
                                                     gradient: LinearGradient(
-                                                      begin: Alignment.topCenter,
-                                                      end: Alignment.bottomCenter,
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
                                                       colors: <Color>[
                                                         Color(0xFFB755FF),
                                                         Color(0xFF584BDD),
                                                       ],
                                                     ),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(8.0))),
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 5, horizontal: 10),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                8.0))),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
                                                 child: new Icon(
-                                                    Icons.supervised_user_circle,
+                                                    Icons
+                                                        .supervised_user_circle,
                                                     color: Colors.white,
                                                     size: 20.0),
                                               )
@@ -331,8 +366,7 @@ class _DealerScreenState extends State<DealerScreen>
                                 height: 10,
                               ),
                             ],
-                          ))
-                  ),
+                          ))),
                   new Positioned(
                     width: screenSize,
                     top: 325,
@@ -341,38 +375,38 @@ class _DealerScreenState extends State<DealerScreen>
                       child: new Column(
                         children: <Widget>[
                           new Container(
-                            padding:EdgeInsets.only(bottom: 10),
+                            padding: EdgeInsets.only(bottom: 10),
                             child: new Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 elevation: 5,
                                 child: Container(
-                                  padding: EdgeInsets.only(right: 10,left: 10),
+                                  padding: EdgeInsets.only(right: 10, left: 10),
                                   child: new TabBar(
                                       labelPadding: EdgeInsets.all(0),
                                       controller: _tabController,
                                       indicator: UnderlineTabIndicator(
-                                          borderSide: BorderSide(width: 2.0,color: Color(0xFF584BDD)),
-                                          insets: EdgeInsets.symmetric(horizontal:35.0)
-                                      ),
+                                          borderSide: BorderSide(
+                                              width: 2.0,
+                                              color: Color(0xFF584BDD)),
+                                          insets: EdgeInsets.symmetric(
+                                              horizontal: 35.0)),
                                       labelColor: Color(0xFF222455),
                                       unselectedLabelColor: Color(0xFFB6BED4),
                                       indicatorSize: TabBarIndicatorSize.tab,
-                                      tabs: tabList
-                                  ),
-                                )
-                            ),
+                                      tabs: tabList),
+                                )),
                           ),
                           new Container(
-                            height: screenSize ,
+                            height: screenSize,
                             child: new TabBarView(
                               controller: _tabController,
                               children: <Widget>[
-                                TabHomeScreen(),
-                                TabAddressScreen(),
-                                TabAdvertisementScreen(),
-                                TabNewsScreen(),
+                                TabHomeScreen(item: widget.item),
+                                TabAddressScreen(item: widget.item),
+                                TabAdvertisementScreen(item: widget.item),
+                                TabNewsScreen(item: widget.item),
                               ],
                             ),
                           )
@@ -386,5 +420,4 @@ class _DealerScreenState extends State<DealerScreen>
           ],
         ));
   }
-
 }

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/screens/car_details_screen.dart';
+import 'package:hyrd/screens/main/detail_screen.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:intl/intl.dart';
 
 class HorizontalCarItem extends StatefulWidget {
@@ -103,45 +107,34 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
     }
 
     return Container(
-      padding: const EdgeInsets.only(bottom: 10, left: 10),
+      padding: const EdgeInsets.only(left: 10),
       width: 206,
       child: GestureDetector(
         onTap: () {
-          _showDialog();
-          /*  Navigator.of(context).pushNamed(
-            MovieDetailsScreen.routeName,
-            arguments: {
-              'id': topRatedCarList[index].id,
-              'title': topRatedCarList[index].title,
-              'imageUrl': topRatedCarList[index].imageUrl,
-              'description': topRatedCarList[index].description,
-              'rating': topRatedCarList[index].title,
-              'year': topRatedCarList[index].title,
-              'duration': topRatedCarList[index].title,
-            },
-          );*/
+          Navigator.push(context, FadeRoute(builder: (context) => DetailScreen(item: widget.item)));
         },
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               elevation: 3,
               child: Column(
                 children: <Widget>[
                   Hero(
-                    tag: widget.item.id,
+                    tag: widget.item?.id ?? 0,
                     child: Container(
-                      height: 160,
+                      height: 170,
                       decoration: BoxDecoration(
                         borderRadius: new BorderRadius.only(
                             topLeft: const Radius.circular(5.0),
                             topRight: const Radius.circular(5.0)),
                         image: DecorationImage(
-                            fit: BoxFit.fitWidth,
-                            image: AssetImage("assets/images/auction-land.png")
-                            /*    image: NetworkImage(
-                          besttopRatedCarList[index].imageUrl,
-                        ),*/
-                            // image: NetworkImage(topRatedCarList[index].imageUrl),
+                            fit: BoxFit.cover,
+                            image: NetworkImage(widget.item?.medias[0]?.thumb)
                             ),
                       ),
                     ),
@@ -150,7 +143,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                     padding: EdgeInsets.all(10),
                     width: double.infinity,
                     child: Text(
-                      widget?.item?.name ?? 0,
+                      widget?.item?.name ?? "",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
@@ -189,7 +182,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Үнэ :" +  formatter.format(widget?.item?.price ?? "0") + "₮",
+                            "Үнэ :" + (widget.item?.priceFormat??"") + "₮",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,

@@ -1,19 +1,10 @@
-import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_4.dart';
 import 'package:hyrd/screens/addNewAd/customCalendar.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
 import 'package:hyrd/utils/fade_route.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
-import 'package:intl/intl.dart';
-
-import '../../models/car.dart';
-import '../../widget/vertical_list_item.dart';
-import '../../widget/horizontal_list_item.dart';
 
 class AdNewStep3Screen extends StatefulWidget {
   static const routeName = '/adNew';
@@ -25,8 +16,10 @@ class AdNewStep3Screen extends StatefulWidget {
   final DateTime initialEndDate;
   final Function(DateTime, DateTime) onApplyClick;
   final Function onCancelClick;
+  final CarModel car;
+  AdNewStep3Screen({Key key, @required this.car, this.minimumDate, this.maximumDate, this.barrierDismissible, this.initialStartDate, this.initialEndDate, this.onApplyClick, this.onCancelClick}) : super(key: key);
 
-  const AdNewStep3Screen({Key key, this.minimumDate, this.maximumDate, this.barrierDismissible, this.initialStartDate, this.initialEndDate, this.onApplyClick, this.onCancelClick}) : super(key: key);
+ // const AdNewStep3Screen({Key key, this.minimumDate, this.maximumDate, this.barrierDismissible, this.initialStartDate, this.initialEndDate, this.onApplyClick, this.onCancelClick}) : super(key: key);
 
   @override
   _AdNewStep3ScreenState createState() => _AdNewStep3ScreenState();
@@ -71,12 +64,22 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
     animationController.dispose();
     super.dispose();
   }
+  bool _autovalidate = false;
+  TextEditingController _priceController = new TextEditingController();
+  TextEditingController _descriptionController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF584BDD),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.topRight,
+                  colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+                )),
+          ),
           centerTitle: true,
           leading: Builder(builder: (BuildContext context) {
             return new SizedBox(
@@ -96,9 +99,7 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
               color: Colors.transparent,
               child: InkWell(
                 onTap: (){
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 20, left: 10),
@@ -156,7 +157,8 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                                   Padding(
                                     padding: EdgeInsets.only(
                                         bottom: 20, left: 20, right: 20),
-                                    child: new TextField(
+                                    child: new TextFormField(
+                                      validator: (value) => value.isEmpty ? 'Price is required' : null,
                                       decoration: new InputDecoration(
                                           suffixText: "Сая ₮",
                                           hintText: '0.00',
@@ -165,6 +167,7 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                                               fontSize: 16,
                                               fontFamily: "Sans",
                                               fontWeight: FontWeight.bold)),
+                                      controller: _priceController,
                                       keyboardType: TextInputType.number,
                                       style: TextStyle(
                                           fontFamily: "Sans",
@@ -195,11 +198,15 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                                 height: 200,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/images/sell-lexus.png"),
-                                    fit: BoxFit.contain,
+                                    image: AssetImage("assets/images/mainLogo.png"),
+                                    fit: BoxFit.scaleDown,
                                   ),
                                 ),
-                                child: Text("s")
+                                child: TextFormField(
+                                  maxLines: 8,
+                                  validator: (value) => value.isEmpty ? 'Description is required' : null,
+                                  decoration: InputDecoration.collapsed(hintText: "Enter your text here"),
+                                ),
                               )
                             ),
                           ),
@@ -241,7 +248,21 @@ class _AdNewStep3ScreenState extends State<AdNewStep3Screen> with TickerProvider
                 width: MediaQuery.of(context).size.width,
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).push(FadeRoute(builder: (context) => AdNewStep4Screen()));
+                    print(_priceController.text);
+
+                    if (_formKey.currentState.validate()) {
+                      if(_priceController.text.length>0){
+                        widget.car.price=int.parse(_priceController?.text ?? 0);
+                      }
+                      widget.car.description=_descriptionController?.text ?? "";
+                      _formKey.currentState.save();
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep4Screen(car: widget.car)));
+                    } else {
+                      setState(() {
+                        _autovalidate = true;
+                      });
+                    }
+
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

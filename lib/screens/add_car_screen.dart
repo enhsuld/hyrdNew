@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_1.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
+import 'package:hyrd/screens/notification/notification_screen.dart';
+import 'package:hyrd/screens/profile/setting_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
+import 'package:hyrd/utils/hyrd_icons.dart';
+import 'package:hyrd/widget/vertical_ads_item.dart';
 import '../models/car.dart';
 import '../widget/vertical_list_item.dart';
-import '../widget/horizontal_list_item.dart';
 
 class AddCarScreen extends StatefulWidget {
   static const routeName = '/add-car';
@@ -18,6 +20,9 @@ class AddCarScreen extends StatefulWidget {
 class _AddCarScreenState extends State<AddCarScreen> {
   @override
   Widget build(BuildContext context) {
+
+    final newCar = new CarModel();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -45,8 +50,10 @@ class _AddCarScreenState extends State<AddCarScreen> {
                         Container(
                           width: 30,
                           child: IconButton(
-                            icon: Icon(Icons.notifications),
-                            onPressed: () {},
+                            icon: Icon(Hyrd.notification_on),
+                            onPressed: () {
+                              Navigator.push(context, FadeRoute(builder: (context) => NotificationScreen()));
+                            },
                             color: Color(0xFF222455),
                             iconSize: 20.0,
                           ),
@@ -54,12 +61,14 @@ class _AddCarScreenState extends State<AddCarScreen> {
                         Container(
                           width: 30,
                           child: IconButton(
-                            icon: Icon(Icons.format_line_spacing),
-                            onPressed: () {},
+                            icon: Icon(Hyrd.settings),
+                            onPressed: () {
+                              Navigator.push(context, FadeRoute(builder: (context) => SettingScreen()));
+                            },
                             color: Color(0xFF222455),
                             iconSize: 20.0,
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -69,11 +78,9 @@ class _AddCarScreenState extends State<AddCarScreen> {
             Container(
               padding: EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
               width: MediaQuery.of(context).size.width,
-              // height: 95,
               child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .push(FadeRoute(builder: (context) => AdNewScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AdNewScreen(car: newCar)));
                 },
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -98,7 +105,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 10, left: 20, right: 5),
+              padding: EdgeInsets.only(bottom: 10, left: 20, right: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -113,14 +120,32 @@ class _AddCarScreenState extends State<AddCarScreen> {
                 ],
               ),
             ),
-            Container(
-              height: 460,
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: highlighted.length,
-                itemBuilder: (ctx, i) => VerticalListItem(i),
-              ),
+            FutureBuilder(
+              future: BackendService.getHighlight(page: 1, pageSize: 4),
+              builder: (context, snapshot) {
+                List<dynamic> lists;
+                if (snapshot.hasData) {
+                  lists = snapshot.data;
+                  return Container(
+                    height: double.parse(lists.length.toString()) * 112,
+                    padding: EdgeInsets.only(
+                        bottom: 20, top: 0, left: 10, right: 10),
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: 0, bottom: 0),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: lists.length,
+                      itemBuilder: (ctx, i) => VerticalAdsItem(
+                        index: i,
+                        item: CarModel.fromJson(lists[i]["car_ad"]),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
           ],
         ),

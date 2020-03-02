@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
+import 'package:hyrd/screens/main/detail_screen.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:intl/intl.dart';
 
 class VerticalFullWidthAdsItem extends StatelessWidget {
@@ -12,7 +14,7 @@ class VerticalFullWidthAdsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final formatterDate = new DateFormat.yMMMMd('en_US');
     final formatter = new NumberFormat("#,###");
 
 
@@ -21,18 +23,7 @@ class VerticalFullWidthAdsItem extends StatelessWidget {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(
-              CarDetailsScreen.routeName,
-              arguments: {
-                'id': item.id.toString(),
-                'title': item.name,
-                'imageUrl': "assets/images/auction-land.png",
-                'description': item.description,
-                'rating': item.name,
-                'year': item.name,
-                'duration': item.name,
-              },
-            );
+            Navigator.push(context, FadeRoute(builder: (context) => DetailScreen(item: item)));
           },
           child: Card(
             shape: RoundedRectangleBorder(
@@ -102,7 +93,7 @@ class VerticalFullWidthAdsItem extends StatelessWidget {
                                     color: bigTextColor),
                               ),
                               Text(
-                                item?.createdAt?.substring(0,4) ?? "",
+                                formatterDate.format(DateTime.parse(item.createdAt)),
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,

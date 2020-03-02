@@ -1,12 +1,16 @@
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
+import 'package:hyrd/screens/home_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 
 class AdNewStep5Screen extends StatefulWidget {
   static const routeName = '/adNew';
-
+  final CarModel car;
+  AdNewStep5Screen({Key key, @required this.car}) : super(key: key);
   @override
   _AdNewStep5ScreenState createState() => _AdNewStep5ScreenState();
 }
@@ -61,7 +65,14 @@ class _AdNewStep5ScreenState extends State<AdNewStep5Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF584BDD),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.topRight,
+                  colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+                )),
+          ),
           centerTitle: true,
           leading: Builder(builder: (BuildContext context) {
             return new SizedBox(
@@ -81,11 +92,7 @@ class _AdNewStep5ScreenState extends State<AdNewStep5Screen> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: (){
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 20, left: 10),
@@ -215,53 +222,6 @@ class _AdNewStep5ScreenState extends State<AdNewStep5Screen> {
                           ],
                         ),
                       ),
-                      Divider(thickness: 1, color: Color(0xFF584BDD)),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                new Radio(
-                                  activeColor: Color(0xFF584BDD),
-                                  value: "free",
-                                  groupValue: _radioPublish,
-                                  onChanged: _handleRadioPriceChange,
-                                ),
-                                Text(
-                                  "Эрхтэй зар",
-                                  style: TextStyle(
-                                      color:  (_radioPublish == "free") ? Color(0xff222455) : Color(0xff6E7FAA),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            (_radioPublish == "free")
-                                ? Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              height: 250,
-                              child: Column(children: <Widget>[
-                                new Container(
-                                  alignment: Alignment.centerLeft,
-                                  margin: new EdgeInsets.only(top: 20.0, left: 10.0),
-                                  child: new Text(
-                                    "2 хоног",
-                                    style: new TextStyle(
-                                      color: Color(0xff6E7FAA),
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.1,
-                                    ),
-                                  ),
-                                ),
-                                Divider(),
-                                Text("Эрхтэй зар нь багц төлбөр төлсөн хэрэглэгч сард 3 удаа онцгой зар дээр байршуулах эрхтэй зар юм."),
-                              ]),
-                            )
-                                : SizedBox(height: 0)
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 )),
@@ -272,8 +232,16 @@ class _AdNewStep5ScreenState extends State<AdNewStep5Screen> {
                 width: MediaQuery.of(context).size.width,
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                        FadeRoute(builder: (context) => DashboardScreen()));
+                    print(widget.car.markName);
+                    print(widget.car.id);
+                    print(viewId);
+                   // widget.car.publishTariff=viewId;
+
+
+                    BackendService.updateCarAds(taxonomy:widget.car.toJson(),id:widget.car.id).then((response) {
+                      print(response);
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    });
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/widget/vertical_full_width_ads_item.dart';
 import 'package:hyrd/widget/vertical_own_ads_item.dart';
 
-class AdScreen extends StatefulWidget {
-  static const routeName = '/ad';
+class SpecialAdsScreen extends StatefulWidget {
+  static const routeName = '/ad-special';
 
   @override
-  _AdScreenState createState() => _AdScreenState();
+  _SpecialAdsScreenState createState() => _SpecialAdsScreenState();
 }
 
-class _AdScreenState extends State<AdScreen> {
+class _SpecialAdsScreenState extends State<SpecialAdsScreen> {
   static const int PAGE_SIZE = 8;
   Future<List<CarModel>> _fetchCash(pageIndex) async {
-    return BackendService.getCashList(pageIndex + 1, PAGE_SIZE);
+    return BackendService.getPopularList(pageIndex + 1, PAGE_SIZE);
   }
 
   final _pageLoadController = PagewiseLoadController(
       pageSize: PAGE_SIZE,
       pageFuture: (pageIndex) =>
-          BackendService.getCashList(pageIndex + 1, PAGE_SIZE));
+          BackendService.getPopularList(pageIndex + 1, PAGE_SIZE));
 
 
   @override
@@ -52,7 +53,7 @@ class _AdScreenState extends State<AdScreen> {
                 },
               ));
         }),
-        title: Text("Оруулсан зар",
+        title: Text("Онцлох зарууд",
             style:
             TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
         elevation: 0.0,
@@ -68,16 +69,18 @@ class _AdScreenState extends State<AdScreen> {
                   await Future.value({});
                 },
                 child: PagewiseListView(
+                  padding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
                   itemBuilder: this._itemBuilder,
                   pageLoadController: this._pageLoadController,
                 ),
-              )),
+              )
+          ),
         ],
       ),
     );
   }
 
   Widget _itemBuilder(context, CarModel entry, _) {
-    return VerticalOwnAdsItem(_,entry);
+    return VerticalFullWidthAdsItem(item: entry);
   }
 }

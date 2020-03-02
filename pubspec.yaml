@@ -25,9 +25,14 @@ dependencies:
   pin_entry_text_field: ^0.1.4
   flutter_form_builder: ^3.7.2
   expandable: 4.1.2
-
+  flutter_pagewise: ^1.2.3
   shared_preferences: ^0.5.6+2
   http: ^0.12.0+4
+  toast: ^0.1.5
+  country_code_picker: ^1.2.4
+  pin_code_fields: ^2.3.0+3
+  url_launcher: ^5.2.5
+  google_maps_flutter: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -36,25 +41,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: Gilroy
+    - family: Hyrd
       fonts:
-        - asset: assets/fonts/Gilroy-Regular.ttf
-        - asset: assets/fonts/Gilroy-RegularItalic.ttf
-          style: italic
-        - asset: assets/fonts/Gilroy-Black.ttf
-          weight: 800
-        - asset: assets/fonts/Gilroy-BlackItalic.ttf
-          weight: 800
-          style: italic
-        - asset: assets/fonts/Gilroy-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Gilroy-Thin.ttf
-          weight: 400
-        - asset: assets/fonts/Gilroy-Light.ttf
-          weight: 200
-        - asset: assets/fonts/Gilroy-LightItalic.ttf
-          weight: 400
-          style: italic
+        - asset: assets/fonts/Hyrd.ttf
 
   assets:
     - assets/images/

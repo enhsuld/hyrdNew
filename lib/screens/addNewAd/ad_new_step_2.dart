@@ -1,19 +1,17 @@
-import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/models/taxonomy.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_3.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/bottom_bar.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
-
-import '../../models/car.dart';
-import '../../widget/vertical_list_item.dart';
-import '../../widget/horizontal_list_item.dart';
 
 class AdNewStep2Screen extends StatefulWidget {
   static const routeName = '/adNew';
+  final CarModel car;
+
+  AdNewStep2Screen({Key key, @required this.car}) : super(key: key);
 
   @override
   _AdNewStep2ScreenState createState() => _AdNewStep2ScreenState();
@@ -53,11 +51,69 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
     };
   }
 
+  var carMarks = new List<TaxonomyModel>();
+  var carModels = new List<TaxonomyModel>();
+  var carFuelTypes = new List<TaxonomyModel>();
+  var carTransmissions = new List<TaxonomyModel>();
+  var carClasses = new List<TaxonomyModel>();
+  var carWheelPositions = new List<TaxonomyModel>();
+  var carManCounts = new List<TaxonomyModel>();
+  var carDriveTrains = new List<TaxonomyModel>();
+
+  TaxonomyModel carMark,
+      carModel,
+      carFuelType,
+      carTransmission,
+      carClass,
+      carWheelPosition,
+      carManCount,
+      carDriveTrain;
+
+  @override
+  void initState() {
+    BackendService.getTaxonomies(taxonomy: '/mark').then((taxonomy) {
+      setState(() {
+        this.carMarks = taxonomy;
+      });
+    });
+    BackendService.getTaxonomies(taxonomy: '/toyota').then((taxonomy) {
+      setState(() {
+        this.carModels = taxonomy;
+      });
+    });
+    BackendService.getTaxonomies(taxonomy: '/drivetrain').then((taxonomy) {
+      setState(() {
+        this.carDriveTrains = taxonomy;
+      });
+    });
+    super.initState();
+  }
+
+  List<DropdownMenuItem<TaxonomyModel>> buildAndGetDropDownMenuItems(
+      List carTypes) {
+    List<DropdownMenuItem<TaxonomyModel>> items = List();
+    for (TaxonomyModel item in carTypes) {
+      items.add(DropdownMenuItem(value: item, child: Text(item.name)));
+    }
+    return items;
+  }
+
+  bool _autovalidate = false;
+  TextEditingController _addressController = new TextEditingController();
+  TextEditingController _phoneController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF584BDD),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.topRight,
+                  colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+                )),
+          ),
           centerTitle: true,
           leading: Builder(builder: (BuildContext context) {
             return new SizedBox(
@@ -76,9 +132,8 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: (){
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                onTap: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 20, left: 10),
@@ -123,26 +178,23 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton(
-                                  value: buildYear,
-                                  isDense: true,
-                                  style: TextStyle(
-                                    color: Color(0xFF6E7FAA),
-                                  ),
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      buildYear = newValue;
-                                    });
-                                  },
-                                  items: <String>['2015', '2016', '2017']
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
+                                child: DropdownButtonFormField<TaxonomyModel>(
+                                    value: carMark,
+                                    hint: Text("Сонгох"),
+                                    isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
+                                    style: TextStyle(
+                                      color: Color(0xFF6E7FAA),
+                                    ),
+                                    onChanged: (TaxonomyModel item) {
+                                      setState(() {
+                                        carMark = item;
+                                        widget.car.markName = item.name;
+                                      });
+                                    },
+                                    items:
+                                        buildAndGetDropDownMenuItems(carMarks)),
                               ),
                             ),
                           ),
@@ -164,102 +216,29 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton(
-                                  value: buildYear,
-                                  isDense: true,
-                                  style: TextStyle(
-                                    color: Color(0xFF6E7FAA),
-                                  ),
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      buildYear = newValue;
-                                    });
-                                  },
-                                  items: <String>['2015', '2016', '2017']
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
+                                child: DropdownButtonFormField<TaxonomyModel>(
+                                    value: carModel,
+                                    hint: Text("Сонгох"),
+                                    isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
+                                    style: TextStyle(
+                                      color: Color(0xFF6E7FAA),
+                                    ),
+                                    onChanged: (TaxonomyModel item) {
+                                      setState(() {
+                                        carModel = item;
+                                        widget.car.modelName = item.name;
+                                      });
+                                    },
+                                    items: buildAndGetDropDownMenuItems(
+                                        carModels)),
                               ),
                             ),
                           ),
                           Divider(
                             height: 1,
                           ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(top: 20),
-                            width: MediaQuery.of(context).size.width,
-                            child: Text("Гадна өнгө"),
-                          ),
-                          /* Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    padding: EdgeInsets.only(top: 10),
-                                    child: ToggleButtons(
-                                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                      selectedColor: Colors.white,
-                                      color: Color(0xff6E7FAA),
-                                      fillColor: Color(0xff584BDD),
-                                      children: <Widget>[
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.grey,
-                                        ),
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.black,
-                                        ),
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.red,
-                                        ),
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.cyan,
-                                        ),
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.blue,
-                                        ),
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.brown,
-                                        ),
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.purple,
-                                        ),
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.indigo,
-                                        ),
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 36)/9,
-                                          color: Colors.amber,
-                                        ),
-                                      ],
-                                      onPressed: (int index) {
-                                        setState(() {
-                                          for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                                            if (buttonIndex == index) {
-                                              isSelected[buttonIndex] = true;
-                                            } else {
-                                              isSelected[buttonIndex] = false;
-                                            }
-                                          }
-                                        });
-                                      },
-                                      isSelected: isSelected,
-                                    ),
-                                  ),*/
                         ],
                       ),
                       Column(
@@ -275,26 +254,24 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             width: (MediaQuery.of(context).size.width * 2) / 5,
                             child: DropdownButtonHideUnderline(
                               child: ButtonTheme(
-                                child: DropdownButton(
-                                  value: buildYear,
-                                  isDense: true,
-                                  style: TextStyle(
-                                    color: Color(0xFF6E7FAA),
-                                  ),
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      buildYear = newValue;
-                                    });
-                                  },
-                                  items: <String>['2015', '2016', '2017']
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
+                                child: DropdownButtonFormField<TaxonomyModel>(
+                                    value: carDriveTrain,
+                                    hint: Text("Сонгох"),
+                                    isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
+                                    style: TextStyle(
+                                      color: Color(0xFF6E7FAA),
+                                    ),
+                                    onChanged: (TaxonomyModel item) {
+                                      setState(() {
+                                        carDriveTrain = item;
+                                        widget.car.description =
+                                            item.id.toString();
+                                      });
+                                    },
+                                    items: buildAndGetDropDownMenuItems(
+                                        carDriveTrains)),
                               ),
                             ),
                           ),
@@ -313,8 +290,10 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width,
-                              child: TextField(
+                              child: TextFormField(
                                 obscureText: false,
+                                validator: (value) => value.isEmpty ? 'Mileage is required' : null,
+                                controller: _addressController,
                                 style: TextStyle(
                                     fontFamily: 'Roboto',
                                     color: Color(0xFF6E7FAA),
@@ -340,7 +319,6 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             width: MediaQuery.of(context).size.width,
                             child: Text("Утас"),
                           ),
-
                         ],
                       ),
                       Container(
@@ -352,9 +330,11 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                                   (MediaQuery.of(context).size.width * 2) / 5,
                               child: DropdownButtonHideUnderline(
                                 child: ButtonTheme(
-                                  child: DropdownButton(
+                                  child: DropdownButtonFormField(
                                     value: buildYear,
                                     isDense: true,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
                                     style: TextStyle(
                                       color: Color(0xFF6E7FAA),
                                     ),
@@ -363,9 +343,13 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                                         buildYear = newValue;
                                       });
                                     },
-                                    items: <String>['2015', '2016', '2017']
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
+                                    items: <String>[
+                                      'Mongolia (+976)',
+                                      '2015',
+                                      '2016',
+                                      '2017'
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
                                         child: Text(value),
@@ -378,8 +362,10 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                             Container(
                                 width:
                                     (MediaQuery.of(context).size.width * 2) / 5,
-                                child: TextField(
+                                child: TextFormField(
+                                  validator: (value) => value.isEmpty ? 'Phone is required' : null,
                                   obscureText: false,
+                                  controller: _phoneController,
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: Color(0xFF6E7FAA),
@@ -400,47 +386,6 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                           ],
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(top: 20),
-                            width: MediaQuery.of(context).size.width,
-                            child: Text("Нөхцөл"),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
-                            width: (MediaQuery.of(context).size.width * 2) / 5,
-                            child: DropdownButtonHideUnderline(
-                              child: ButtonTheme(
-                                child: DropdownButton(
-                                  value: buildYear,
-                                  isDense: true,
-                                  style: TextStyle(
-                                    color: Color(0xFF6E7FAA),
-                                  ),
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      buildYear = newValue;
-                                    });
-                                  },
-                                  items: <String>['2015', '2016', '2017']
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Divider(
-                            height: 1,
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 )),
@@ -451,8 +396,21 @@ class _AdNewStep2ScreenState extends State<AdNewStep2Screen> {
                 width: MediaQuery.of(context).size.width,
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                        FadeRoute(builder: (context) => AdNewStep3Screen()));
+                    widget.car.ownerAddress = _addressController.text;
+                    widget.car.ownerHandphone = _phoneController.text;
+
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AdNewStep3Screen(car: widget.car)));
+                    } else {
+                      setState(() {
+                        _autovalidate = true;
+                      });
+                    }
                   },
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

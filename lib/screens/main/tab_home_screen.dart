@@ -7,6 +7,10 @@ import 'package:hyrd/widget/vertical_ads_item.dart';
 class TabHomeScreen extends StatefulWidget {
   static const routeName = '/tab-home-screen';
 
+  final CarModel item;
+
+  TabHomeScreen({Key key, @required this.item}) : super(key: key);
+
   @override
   _TabHomeScreenState createState() => _TabHomeScreenState();
 }
@@ -40,14 +44,13 @@ class _TabHomeScreenState extends State<TabHomeScreen> {
                       child: Text("Бидний тухай", style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
                     ),
                     ExpandablePanel(
-                      header: Text( "Таван Богд ХХК-ийн үйл ажиллагааны үндсэн чиглэлүүд:",
-                        maxLines: 2,
+                      header: Text(widget.item.user.org.about,maxLines: 2,
                         style: Theme.of(context).textTheme.body2,
                       ),
                       expanded: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Toyota автомашины худалдаа Toyota, Lexus автомашины засвар, үйлчилгээ Bridgestone дугуйны худалдаа...",
+                            widget.item.user.org.about,
                             softWrap: true,
                           )),
                       tapHeaderToExpand: true,
