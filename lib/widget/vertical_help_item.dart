@@ -39,11 +39,11 @@ class VerticalHelpItem extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
-                    child: Text("Холбогдох утас:", style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
+                    child: Text(item.title, style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
-                    child: Text("(+976) 89951555", style: TextStyle(fontSize: 12,color: Color(0xFF6E7FAA)),textAlign: TextAlign.left),
+                    child: Text(item.body, style: TextStyle(fontSize: 12,color: Color(0xFF6E7FAA)),textAlign: TextAlign.left),
                   ),
                 ],
               ),

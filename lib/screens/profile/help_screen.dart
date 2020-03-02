@@ -58,121 +58,39 @@ class _HelpScreenState extends State<HelpScreen> {
               TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
           elevation: 0.0,
         ),
-        body: Container(
-            padding: EdgeInsets.all(15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
 
-                FutureBuilder(
-                  future: BackendService.getHelps(),
-                  builder: (context, snapshot) {
-                    List<dynamic> lists;
-                    if (snapshot.hasData) {
-                      lists = snapshot.data;
-                      return Container(
-                        height: double.parse(lists.length.toString()) * 110,
-                        padding: EdgeInsets.only(
-                            bottom: 20, top: 0, left: 10, right: 10),
-                        child: ListView.builder(
-                          padding: EdgeInsets.only(top: 0, bottom: 0),
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: lists.length,
-                          itemBuilder: (ctx, i) => VerticalHelpItem(
-                            index: i,
-                            item: HelpModel.fromJson(lists[i]),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-
-                Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child:  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    elevation: 5,
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Text("Холбогдох утас:", style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Text("(+976) 89951555", style: TextStyle(fontSize: 12,color: Color(0xFF6E7FAA)),textAlign: TextAlign.left),
-                          ),
-                        ],
+            FutureBuilder(
+              future: BackendService.getHelps(),
+              builder: (context, snapshot) {
+                List<dynamic> lists;
+                if (snapshot.hasData) {
+                  lists = snapshot.data;
+                  return Container(
+                    height: double.parse(lists.length.toString()) * 150,
+                    padding: EdgeInsets.only(
+                        bottom: 20, top: 20, left: 10, right: 10),
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: 0, bottom: 0),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: lists.length,
+                      itemBuilder: (ctx, i) => VerticalHelpItem(
+                        index: i,
+                        item: HelpModel.fromJson(lists[i]),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child:  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    elevation: 5,
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Text("Хаяг:", style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Text("'Таван Богд' ХХК-н Toyota төв, 1-р Олимпийн гудамж, Сүхбаатаатар дүүрэг, Улаанбаатар хот, Монгол улс (0.73 mi) Ulaanbaatar, Mongolia", style: TextStyle(fontSize: 12,color: Color(0xFF6E7FAA)),textAlign: TextAlign.left),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child:  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    elevation: 5,
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Text("Цахим шуудан:", style: TextStyle(fontSize: 16,color: Color(0xFF222455)),textAlign: TextAlign.left),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Text("info@jmtech.mn", style: TextStyle(fontSize: 12,color: Color(0xFF6E7FAA)),textAlign: TextAlign.left),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ],
         )
     );
   }
