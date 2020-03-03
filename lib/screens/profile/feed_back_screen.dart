@@ -125,7 +125,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image:
-                                      AssetImage("assets/images/mainLogo.png"),
+                                      AssetImage("assets/images/screen-logo.png"),
                                   fit: BoxFit.scaleDown,
                                 ),
                               ),
@@ -164,7 +164,8 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                             _priceController.text='';
                             _descriptionController.text='';
                             showToast("Амжилттай", gravity: Toast.BOTTOM);
-                            Navigator.of(context).pop();
+                            _showViewDialog();
+                            //Navigator.of(context).pop();
                           }
                       });
 
@@ -219,15 +220,18 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.all(18),
-                  child: Icon(
-                    Hyrd.broom,
-                    size: 80,
-                    color: Color(0xFF584BDD),
+                  padding: EdgeInsets.all(20),
+                  height: 100,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image:
+                      AssetImage("assets/images/screen-logo.png"),
+                      fit: BoxFit.scaleDown,
+                    ),
                   ),
                 ),
                 Container(
-                  child: Text("Үзэлтийн түүх цэвэрлэх",
+                  child: Text("Хүлээн авлаа !",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Color(0xff584BDD),
@@ -240,7 +244,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                 Container(
                   padding: EdgeInsets.only(left: 50,bottom: 20, right: 50),
                   child: Text(
-                      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu.",
+                      "Санал хүсэлт илээсэн танд баярлалаа.",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Color(0xff8D8D8D), fontSize: 13)),
                 ),
@@ -268,10 +272,9 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                         child: FlatButton(
                           child: const Text('Тийм'),
                           onPressed: () {
-                            BackendService.crud('delete','/user/views',new HashMap()).then((onValue) {
-                              showToast("Амжилттай", gravity: Toast.BOTTOM);
-                              Navigator.of(context).pop();
-                            });
+                            showToast("Амжилттай", gravity: Toast.BOTTOM);
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
                           },
                         ),
                       ),

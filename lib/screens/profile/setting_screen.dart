@@ -91,7 +91,24 @@ class _SettingScreenState extends State<SettingScreen> {
                   children: <Widget>[
                     new GestureDetector(
                       onTap: () => {
-                        //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                        setState(() {
+                          if(this.user.data.setting.autoLogin){
+                            this.user.data.setting.autoLogin =false;
+                            var map = new Map<String, dynamic>();
+                            map["autoLogin"] = false;
+                            BackendService.updateUser(map).then((onValue) {
+                              showToast("Амжилттай",gravity: Toast.BOTTOM);
+                            });
+                          }
+                          else{
+                            this.user.data.setting.autoLogin =true;
+                            var map = new Map<String, dynamic>();
+                            map["autoLogin"] = true;
+                            BackendService.updateUser(map).then((onValue) {
+                              showToast("Амжилттай",gravity: Toast.BOTTOM);
+                            });
+                          }
+                        })
                       },
                       child: new Card(
                         shape: RoundedRectangleBorder(
@@ -166,7 +183,24 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     new GestureDetector(
                       onTap: () => {
-                        //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                        setState(() {
+                          if(this.user.data.setting.mobileData){
+                            this.user.data.setting.mobileData =false;
+                            var map = new Map<String, dynamic>();
+                            map["mobileData"] = false;
+                            BackendService.updateUser(map).then((onValue) {
+                              showToast("Амжилттай",gravity: Toast.BOTTOM);
+                            });
+                          }
+                          else{
+                            this.user.data.setting.mobileData =true;
+                            var map = new Map<String, dynamic>();
+                            map["mobileData"] = true;
+                            BackendService.updateUser(map).then((onValue) {
+                              showToast("Амжилттай",gravity: Toast.BOTTOM);
+                            });
+                          }
+                        })
                       },
                       child: new Card(
                         shape: RoundedRectangleBorder(

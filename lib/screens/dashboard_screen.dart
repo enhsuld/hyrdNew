@@ -58,8 +58,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     BackendService.getBanner().then((data) {
       setState(() {
-        print("asd");
-        print(data);
         this.banners = data;
       });
     });
@@ -98,7 +96,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: IconButton(
                             icon: Icon(Hyrd.notification_on),
                             onPressed: () {
-                              Navigator.push(context, FadeRoute(builder: (context) => NotificationScreen()));
+                              Navigator.push(
+                                  context,
+                                  FadeRoute(
+                                      builder: (context) =>
+                                          NotificationScreen()));
                             },
                             color: Color(0xFF222455),
                             iconSize: 20.0,
@@ -109,7 +111,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: IconButton(
                             icon: Icon(Hyrd.settings),
                             onPressed: () {
-                              Navigator.push(context, FadeRoute(builder: (context) => SettingScreen()));
+                              Navigator.push(
+                                  context,
+                                  FadeRoute(
+                                      builder: (context) => SettingScreen()));
                             },
                             color: Color(0xFF222455),
                             iconSize: 20.0,
@@ -121,83 +126,91 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
-            (banners!=null && banners.length>0)?
-            CarouselSlider(
-              height: 190.0,
-              initialPage: 1,
-              viewportFraction: 0.8,
-              aspectRatio: MediaQuery.of(context).size.aspectRatio,
-              enlargeCenterPage: true,
-              autoPlay: false,
-              reverse: false,
-              enableInfiniteScroll: true,
-              autoPlayInterval: Duration(seconds: 2),
-              autoPlayAnimationDuration: Duration(milliseconds: 2000),
-              pauseAutoPlayOnTouch: Duration(seconds: 10),
-              scrollDirection: Axis.horizontal,
-              onPageChanged: (index) {
-                setState(() {
-                  _current = index;
-                });
-              },
-              items: banners.map((imgUrl) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Stack(
-                          children: <Widget>[
-                            new ClipRRect(
-                                borderRadius: new BorderRadius.circular(8.0),
-                                child: Image.network(imgUrl.banner,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height,
-                                    fit: BoxFit.fill)),
-                          ],
-                        ));
-                  },
-                );
-              }).toList(),
-            )
-                :CarouselSlider(
-              height: 190.0,
-              initialPage: 1,
-              viewportFraction: 0.8,
-              aspectRatio: MediaQuery.of(context).size.aspectRatio,
-              enlargeCenterPage: true,
-              autoPlay: false,
-              reverse: false,
-              enableInfiniteScroll: true,
-              autoPlayInterval: Duration(seconds: 2),
-              autoPlayAnimationDuration: Duration(milliseconds: 2000),
-              pauseAutoPlayOnTouch: Duration(seconds: 10),
-              scrollDirection: Axis.horizontal,
-              onPageChanged: (index) {
-                setState(() {
-                  _current = index;
-                });
-              },
-              items: imgList.map((imgUrl) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Stack(
-                          children: <Widget>[
-                            new ClipRRect(
-                                borderRadius: new BorderRadius.circular(8.0),
-                                child: Image.asset(imgUrl,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height,
-                                    fit: BoxFit.fill)),
-                          ],
-                        ));
-                  },
-                );
-              }).toList(),
-            ),
+            (banners != null && banners.length > 0)
+                ? CarouselSlider(
+                    height: 190.0,
+                    initialPage: 1,
+                    viewportFraction: 0.8,
+                    aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                    enlargeCenterPage: true,
+                    autoPlay: false,
+                    reverse: false,
+                    enableInfiniteScroll: true,
+                    autoPlayInterval: Duration(seconds: 2),
+                    autoPlayAnimationDuration: Duration(milliseconds: 2000),
+                    pauseAutoPlayOnTouch: Duration(seconds: 10),
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _current = index;
+                      });
+                    },
+                    items: banners.map((imgUrl) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Stack(
+                                children: <Widget>[
+                                  new ClipRRect(
+                                      borderRadius:
+                                          new BorderRadius.circular(8.0),
+                                      child: Image.network(imgUrl.banner,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          fit: BoxFit.fill)),
+                                ],
+                              ));
+                        },
+                      );
+                    }).toList(),
+                  )
+                : CarouselSlider(
+                    height: 190.0,
+                    initialPage: 1,
+                    viewportFraction: 0.8,
+                    aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                    enlargeCenterPage: true,
+                    autoPlay: false,
+                    reverse: false,
+                    enableInfiniteScroll: true,
+                    autoPlayInterval: Duration(seconds: 2),
+                    autoPlayAnimationDuration: Duration(milliseconds: 2000),
+                    pauseAutoPlayOnTouch: Duration(seconds: 10),
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _current = index;
+                      });
+                    },
+                    items: imgList.map((imgUrl) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Stack(
+                                children: <Widget>[
+                                  new ClipRRect(
+                                      borderRadius:
+                                          new BorderRadius.circular(8.0),
+                                      child: Image.asset(imgUrl,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          fit: BoxFit.fill)),
+                                ],
+                              ));
+                        },
+                      );
+                    }).toList(),
+                  ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: map<Widget>(imgList, (index, url) {
@@ -231,7 +244,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
-                      Navigator.push(context, FadeRoute(builder: (context) => PopularAdsScreen()));
+                      Navigator.push(context,
+                          FadeRoute(builder: (context) => PopularAdsScreen()));
                     },
                   ),
                 ],
@@ -278,7 +292,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
-                      Navigator.push(context, FadeRoute(builder: (context) => SpecialAdsScreen()));
+                      Navigator.push(context,
+                          FadeRoute(builder: (context) => SpecialAdsScreen()));
                     },
                   ),
                 ],
@@ -291,9 +306,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 if (snapshot.hasData) {
                   lists = snapshot.data;
                   return Container(
-                    height: double.parse(lists.length.toString()) * 110,
-                    padding: EdgeInsets.only(
-                        bottom: 20, top: 0, left: 10, right: 10),
+                    height: double.parse(lists.length.toString()) * 105,
+                    padding: EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
                     child: ListView.builder(
                       padding: EdgeInsets.only(top: 0, bottom: 0),
                       physics: NeverScrollableScrollPhysics(),
@@ -330,7 +344,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
-                      Navigator.push(context, FadeRoute(builder: (context) => SpecialAdsScreen()));
+                      Navigator.push(context,
+                          FadeRoute(builder: (context) => SpecialAdsScreen()));
                     },
                   ),
                 ],
@@ -343,9 +358,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 if (snapshot.hasData) {
                   lists = snapshot.data;
                   return Container(
-                    height: double.parse(lists.length.toString()) * 108,
+                    height: double.parse(lists.length.toString()) * 105,
                     padding: EdgeInsets.only(
-                        bottom: 10, top: 0, left: 10, right: 10),
+                        bottom: 0, top: 0, left: 10, right: 10),
                     child: ListView.builder(
                       padding: EdgeInsets.only(top: 0, bottom: 0),
                       physics: NeverScrollableScrollPhysics(),
@@ -364,7 +379,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
             Padding(
-              padding: EdgeInsets.only(left: 20,bottom: 0, right: 5),
+              padding: EdgeInsets.only(left: 20, bottom: 0, right: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -382,14 +397,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
-                       Navigator.push(context, FadeRoute(builder: (context) => TotalPostsScreen()));
+                      Navigator.push(context,
+                          FadeRoute(builder: (context) => TotalPostsScreen()));
                     },
                   ),
                 ],
               ),
             ),
             FutureBuilder(
-              future: BackendService.getPostsMain(1,4),
+              future: BackendService.getPostsMain(1, 4),
               builder: (context, snapshot) {
                 List<dynamic> lists;
                 if (snapshot.hasData) {

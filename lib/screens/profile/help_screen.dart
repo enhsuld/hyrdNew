@@ -14,19 +14,6 @@ class HelpScreen extends StatefulWidget {
 
 class _HelpScreenState extends State<HelpScreen> {
 
-  var helps=new List<HelpModel>();
-
-  @override
-  void initState() {
-    BackendService.getHelps().then((data) {
-      setState(() {
-        this.helps=data;
-      });
-    });
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +49,6 @@ class _HelpScreenState extends State<HelpScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-
             FutureBuilder(
               future: BackendService.getHelps(),
               builder: (context, snapshot) {

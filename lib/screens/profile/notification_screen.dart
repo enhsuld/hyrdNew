@@ -1,22 +1,13 @@
 import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:hyrd/models/profile_model.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/main/dealer_screen.dart';
-import 'package:hyrd/screens/profile/feed_back_screen.dart';
-import 'package:hyrd/screens/profile/term_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:toast/toast.dart';
+import 'package:vibrate/vibrate.dart';
 
-import '../../models/car.dart';
-import '../../widget/vertical_list_item.dart';
-import '../../widget/horizontal_list_item.dart';
 
 class NotificationSettingsScreen extends StatefulWidget {
   static const routeName = '/notification-settings';
@@ -30,6 +21,30 @@ class NotificationSettingsScreen extends StatefulWidget {
 
 class _NotificationSettingsScreenState extends State<NotificationSettingsScreen> {
   bool isSwitched = true;
+
+  bool _canVibrate = true;
+  final Iterable<Duration> pauses = [
+    const Duration(milliseconds: 500),
+    const Duration(milliseconds: 1000),
+    const Duration(milliseconds: 500),
+  ];
+
+  @override
+  initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    bool canVibrate = await Vibrate.canVibrate;
+    setState(() {
+      _canVibrate = canVibrate;
+      _canVibrate
+          ? print("This device can vibrate")
+          : print("This device cannot vibrate");
+    });
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +85,24 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
             children: <Widget>[
               new GestureDetector(
                 onTap: () => {
-                  //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                    setState(() {
+                      if(widget.user.data.setting.notifPosts){
+                        widget.user.data.setting.notifPosts =false;
+                        var map = new Map<String, dynamic>();
+                        map["notifPosts"] = false;
+                        BackendService.updateUser(map).then((onValue) {
+                          showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        });
+                      }
+                      else{
+                        widget.user.data.setting.notifPosts =true;
+                        var map = new Map<String, dynamic>();
+                        map["notifPosts"] = true;
+                        BackendService.updateUser(map).then((onValue) {
+                          showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        });
+                      }
+                    })
                 },
                 child: new Card(
                   shape: RoundedRectangleBorder(
@@ -115,6 +147,12 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
+                                  widget.user.data.setting.notifPosts =value;
+                                  var map = new Map<String, dynamic>();
+                                  map["notifPosts"] = value;
+                                  BackendService.updateUser(map).then((onValue) {
+                                    showToast("Амжилттай",gravity: Toast.BOTTOM);
+                                  });
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
@@ -132,7 +170,24 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               ),
               new GestureDetector(
                 onTap: () => {
-                  //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                  setState(() {
+                    if(widget.user.data.setting.notifAds){
+                      widget.user.data.setting.notifAds =false;
+                      var map = new Map<String, dynamic>();
+                      map["notifAds"] = false;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                    else{
+                      widget.user.data.setting.notifAds =true;
+                      var map = new Map<String, dynamic>();
+                      map["notifAds"] = true;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                  })
                 },
                 child: new Card(
                   shape: RoundedRectangleBorder(
@@ -177,6 +232,12 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
+                                  widget.user.data.setting.notifAds =value;
+                                  var map = new Map<String, dynamic>();
+                                  map["notifAds"] = value;
+                                  BackendService.updateUser(map).then((onValue) {
+                                    showToast("Амжилттай",gravity: Toast.BOTTOM);
+                                  });
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
@@ -193,7 +254,27 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                 height: 10,
               ),
               new GestureDetector(
-                onTap: () => {_showViewDialog()},
+                onTap: () => {
+                  setState(() {
+                    if(widget.user.data.setting.notifVibration){
+                      widget.user.data.setting.notifVibration =false;
+                      var map = new Map<String, dynamic>();
+                      map["notifVibration"] = false;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                    else{
+                      Vibrate.feedback(FeedbackType.heavy);
+                      widget.user.data.setting.notifVibration =true;
+                      var map = new Map<String, dynamic>();
+                      map["notifVibration"] = true;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                  })
+                },
                 child: new Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -237,6 +318,15 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
+                                  widget.user.data.setting.notifVibration =value;
+                                  var map = new Map<String, dynamic>();
+                                  map["notifVibration"] = value;
+                                  BackendService.updateUser(map).then((onValue) {
+                                    showToast("Амжилттай",gravity: Toast.BOTTOM);
+                                  });
+                                  if(value){
+                                    Vibrate.feedback(FeedbackType.heavy);
+                                  }
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
@@ -253,7 +343,27 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                 height: 10,
               ),
               new GestureDetector(
-                onTap: () => {_showSearchDialog()},
+                onTap: () => {
+                  setState(() {
+                    if(widget.user.data.setting.notifSound){
+                      widget.user.data.setting.notifSound =false;
+                      var map = new Map<String, dynamic>();
+                      map["notifSound"] = false;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                    else{
+                      widget.user.data.setting.notifSound =true;
+                      var map = new Map<String, dynamic>();
+                      FlutterRingtonePlayer.playNotification();
+                      map["notifSound"] = true;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                  })
+                },
                 child: new Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -313,7 +423,26 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                 height: 10,
               ),
               new GestureDetector(
-                onTap: () => {_showSearchDialog()},
+                onTap: () => {
+                  setState(() {
+                    if(widget.user.data.setting.sendSearchToOrg){
+                      widget.user.data.setting.sendSearchToOrg =false;
+                      var map = new Map<String, dynamic>();
+                      map["sendSearchToOrg"] = false;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                    else{
+                      widget.user.data.setting.sendSearchToOrg =true;
+                      var map = new Map<String, dynamic>();
+                      map["sendSearchToOrg"] = true;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                  })
+                },
                 child: new Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -357,6 +486,12 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
+                                  widget.user.data.setting.sendSearchToOrg =value;
+                                  var map = new Map<String, dynamic>();
+                                  map["sendSearchToOrg"] = value;
+                                  BackendService.updateUser(map).then((onValue) {
+                                    showToast("Амжилттай",gravity: Toast.BOTTOM);
+                                  });
                                 });
                               },
                               activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
