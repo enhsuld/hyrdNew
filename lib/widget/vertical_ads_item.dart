@@ -4,7 +4,9 @@ import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:hyrd/screens/main/detail_screen.dart';
 import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:share/share.dart';
 
 class VerticalAdsItem extends StatelessWidget {
   final int index;
@@ -13,11 +15,10 @@ class VerticalAdsItem extends StatelessWidget {
   static const miniTextColor = Color(0xFF6E7FAA);
   static const bigTextColor = Color(0xFF222455);
 
+
+
   @override
   Widget build(BuildContext context) {
-
-    final formatter = new NumberFormat("#,###");
-
 
     return  Container(
       padding: EdgeInsets.only(bottom: 10),
@@ -69,7 +70,9 @@ class VerticalAdsItem extends StatelessWidget {
                                 padding: new EdgeInsets.all(0.0),
                                 color: Color(0xFF222455),
                                 icon: new Icon(Icons.more_horiz, size: 25.0),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _settingModalBottomSheet(context,item.id.toString(),"");
+                                },
                               ))
                         ],
                       ),
@@ -130,5 +133,259 @@ class VerticalAdsItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _settingModalBottomSheet(context, String id, String type) {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext bc) {
+          return Container(
+              height: 360,
+              padding: EdgeInsets.all(15),
+              decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.only(
+                      topLeft: const Radius.circular(15.0),
+                      topRight: const Radius.circular(15.0))),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(left: 5,right: 10,bottom: 10),
+                    width: MediaQuery.of(context).size.width,
+                    child: Text("Зарын гарчиг",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Color(0xFF222455),fontSize: 15,fontWeight: FontWeight.bold)),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 5,right: 5),
+                    width: MediaQuery.of(context).size.width,
+                    child: Divider(height: 2,color: Color(0xFF222455)),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  new GestureDetector(
+                    onTap: () => {
+                      Share.share('check out my website https://example.com', subject: 'Look what I made!')
+                    },
+                    child: new Card(
+                      elevation: 3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: Icon(
+                                      Hyrd.share,
+                                      color: Color(0xFF6E7FAA),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Хуваалцах",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  new GestureDetector(
+                    onTap: () => {
+
+                    },
+                    child: new Card(
+                      elevation: 3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: Icon(
+                                      Hyrd.report,
+                                      color: Color(0xFF6E7FAA),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Мэдэгдэх",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  new GestureDetector(
+                    onTap: () => {
+
+                    },
+                    child: new Card(
+                      elevation: 3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: Icon(
+                                      Hyrd.edit,
+                                      color: Color(0xFF6E7FAA),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Засах",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  new GestureDetector(
+                    onTap: () => {
+
+                    },
+                    child: new Card(
+                      elevation: 3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: Icon(
+                                      Hyrd.remove,
+                                      color: Color(0xFF6E7FAA),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Устгах",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  new GestureDetector(
+                    onTap: () => {
+
+                    },
+                    child: new Card(
+                      elevation: 3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: Icon(
+                                      Hyrd.page,
+                                      color: Color(0xFF6E7FAA),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Хуудасруу орох",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xFF6E7FAA),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ));
+        });
   }
 }
