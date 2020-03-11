@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hyrd/screens/login/login_screen.dart';
 import 'package:hyrd/screens/notification/notification_settings_screen.dart';
 import 'package:hyrd/screens/notification/read_list_item.dart';
 import 'package:hyrd/screens/notification/today_list_item.dart';
 import 'package:hyrd/screens/notification/unread_list_item.dart';
 import 'package:hyrd/screens/profile/notification_screen.dart';
+import 'package:hyrd/services/BackendService.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../models/car.dart';
@@ -16,10 +19,30 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _AdScreenState extends State<NotificationScreen> {
+  bool isLogin = false;
+
+  @override
+  void initState() {
+   /* BackendService.getNotification(url: '/mark').then((value) {
+      setState(() {
+
+      });
+    });*/
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    BackendService.getToken().then((_token) {
+      if (mounted) {
+        setState(() {
+          if (_token != null && _token != "") {
+            isLogin = true;
+          } else
+            isLogin = false;
+        });
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -48,7 +71,7 @@ class _AdScreenState extends State<NotificationScreen> {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
         elevation: 0.0,
       ),
-      body: SingleChildScrollView(
+      body:  isLogin ? SingleChildScrollView(
           child: Column(
         children: <Widget>[
           Padding(
@@ -141,7 +164,14 @@ class _AdScreenState extends State<NotificationScreen> {
             ),
           ),
         ],
-      )),
+      )) : Center(
+        child: FlatButton(
+            onPressed: () {
+              Navigator.push(context,
+                  FadeRoute(builder: (context) => LoginScreen()));
+            },
+            child: Text("Нэвтрэх")),
+      ),
     );
   }
 }

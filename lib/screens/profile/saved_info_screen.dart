@@ -59,7 +59,24 @@ class _SavedInfoScreenState extends State<SavedInfoScreen> {
             children: <Widget>[
               new GestureDetector(
                 onTap: () => {
-                  //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                  setState(() {
+                    if(widget.user.data.setting.saveSearch){
+                      widget.user.data.setting.saveSearch =false;
+                      var map = new Map<String, dynamic>();
+                      map["saveSearch"] = false;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                    else{
+                      widget.user.data.setting.saveSearch =true;
+                      var map = new Map<String, dynamic>();
+                      map["saveSearch"] = true;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                  })
                 },
                 child: new Card(
                   shape: RoundedRectangleBorder(
@@ -126,7 +143,24 @@ class _SavedInfoScreenState extends State<SavedInfoScreen> {
               ),
               new GestureDetector(
                 onTap: () => {
-                  //Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                  setState(() {
+                    if(widget.user.data.setting.saveViews){
+                      widget.user.data.setting.saveViews =false;
+                      var map = new Map<String, dynamic>();
+                      map["saveViews"] = false;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                    else{
+                      widget.user.data.setting.saveViews =true;
+                      var map = new Map<String, dynamic>();
+                      map["saveViews"] = true;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                      });
+                    }
+                  })
                 },
                 child: new Card(
                   shape: RoundedRectangleBorder(

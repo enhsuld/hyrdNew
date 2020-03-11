@@ -1,24 +1,25 @@
+import 'dart:collection';
+
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hyrd/models/car.dart';
 import 'package:hyrd/models/car_model.dart';
-import 'package:hyrd/screens/dashboard_screen.dart';
+import 'package:hyrd/screens/login/login_screen.dart';
 import 'package:hyrd/screens/main/tab_address_screen.dart';
 import 'package:hyrd/screens/main/tab_advertisement_screen.dart';
 import 'package:hyrd/screens/main/tab_home_screen.dart';
 import 'package:hyrd/screens/main/tab_news_screen.dart';
-import 'package:hyrd/screens/profile_screen.dart';
-import 'package:hyrd/screens/search_car_screen.dart';
-import 'package:hyrd/screens/total_ad_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/widget/horizontal_list_item.dart';
-import 'package:hyrd/widget/vertical_ads_item.dart';
+import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/utils/hyrd_icons.dart';
 
 class DealerScreen extends StatefulWidget {
   static const routeName = '/dealer-details';
+
+  final CarModel item;
+
+  DealerScreen({Key key, @required this.item}) : super(key: key);
 
   @override
   _DealerScreenState createState() => _DealerScreenState();
@@ -50,8 +51,20 @@ class _DealerScreenState extends State<DealerScreen>
   List<Tab> tabList = List();
   TabController _tabController;
 
+  bool isFollowing = false;
+
   @override
   void initState() {
+    Map<String, dynamic> map = new HashMap();
+    map["organization_id"] = widget.item.user.org.id;
+
+    BackendService.getIsFollowing(body: map).then((data) {
+      setState(() {
+        this.isFollowing = data;
+        print(data);
+      });
+    });
+
     tabList.add(new Tab(
       text: 'Нүүр',
     ));
@@ -94,8 +107,8 @@ class _DealerScreenState extends State<DealerScreen>
                     right: 0,
                     left: 0,
                     top: 0,
-                    child: Container(
-                      height: 250,
+                    child:  Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
                       color: Colors.blueGrey,
                       child: CarouselSlider(
                         initialPage: 0,
@@ -115,12 +128,12 @@ class _DealerScreenState extends State<DealerScreen>
                             _current = index;
                           });
                         },
-                        items: imgList.map((imgUrl) {
+                        items: widget.item.user.org.medias.map((imgUrl) {
                           return Builder(
                             builder: (BuildContext context) {
                               return Container(
                                   margin: EdgeInsets.symmetric(horizontal: 0.0),
-                                  child: Image.asset(imgUrl,
+                                  child: Image.network(imgUrl.optimized,
                                       width: MediaQuery.of(context).size.width,
                                       fit: BoxFit.cover));
                             },
@@ -144,21 +157,6 @@ class _DealerScreenState extends State<DealerScreen>
                             Navigator.of(context).pop();
                           },
                         ),
-                        Text(
-                          "Ulaanbaatar mongolia",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        SizedBox(
-                            height: 18.0,
-                            width: 18.0,
-                            child: new IconButton(
-                              padding: new EdgeInsets.all(0.0),
-                              color: Colors.white,
-                              icon: new Icon(Icons.more_vert, size: 25.0),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            )),
                       ],
                     ),
                   ),
@@ -168,7 +166,7 @@ class _DealerScreenState extends State<DealerScreen>
                     left: 20,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: map<Widget>(imgList, (index, url) {
+                      children: map<Widget>(widget.item.user.org.medias, (index, url) {
                         return Container(
                           width: 10.0,
                           height: 3.0,
@@ -203,6 +201,7 @@ class _DealerScreenState extends State<DealerScreen>
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Container(
+<<<<<<< HEAD
                                       height: 50,
                                       width: 50,
                                       margin: EdgeInsets.symmetric(
@@ -226,64 +225,120 @@ class _DealerScreenState extends State<DealerScreen>
                                             CrossAxisAlignment.start,
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
+=======
+                                      child: Row(
+>>>>>>> 4a7eadead3d0f39f3e1da7f484dbcc1bc4ef0b67
                                         children: <Widget>[
-                                          Text(
-                                            "Tavan bogd",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: Color(0xFF222455),
+                                          Container(
+                                            height: 50,
+                                            width: 50,
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 20, horizontal: 20),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Color(0xFFB6BED4),
+                                                  width: 2),
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(widget
+                                                      .item.user.org.avatar)),
                                             ),
-                                            textAlign: TextAlign.center,
                                           ),
-                                          Text(
-                                            "Car Dealer",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              color: Color(0xFF6E7FAA),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                260,
+                                            height: 70,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: <Widget>[
+                                                Text(
+                                                  widget.item.user.org.name,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Color(0xFF222455),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                Text(
+                                                  widget.item.user.org.service,
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFF6E7FAA),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                Text(
+                                                  widget.item.user.org.phone,
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFF6E7FAA),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ],
                                             ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Text(
-                                            "(+976) 89951555",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              color: Color(0xFF6E7FAA),
-                                            ),
-                                            textAlign: TextAlign.center,
                                           ),
                                         ],
                                       ),
                                     ),
                                     Container(
+                                      padding: EdgeInsets.only(right: 20),
                                       height: 70,
+                                      width: 120,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Row(
+<<<<<<< HEAD
+=======
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+>>>>>>> 4a7eadead3d0f39f3e1da7f484dbcc1bc4ef0b67
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
                                               Container(
+<<<<<<< HEAD
                                                   child: new Icon(
                                                       Icons
                                                           .supervised_user_circle,
+=======
+                                                  margin: EdgeInsets.only(
+                                                      right: 10),
+                                                  child: new Icon(Hyrd.team,
+>>>>>>> 4a7eadead3d0f39f3e1da7f484dbcc1bc4ef0b67
                                                       color: Color(0xFF6E7FAA),
-                                                      size: 20.0)),
-                                              Text(
-                                                "330 follows",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(0xFF6E7FAA),
+                                                      size: 16.0)),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(right: 15),
+                                                child: Text(
+                                                  widget.item.user.org.count
+                                                      .followers
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Color(0xFF6E7FAA),
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                textAlign: TextAlign.center,
-                                              ),
+                                              )
                                             ],
                                           ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
+<<<<<<< HEAD
                                               Container(
                                                 decoration: const BoxDecoration(
                                                     gradient: LinearGradient(
@@ -338,6 +393,128 @@ class _DealerScreenState extends State<DealerScreen>
                                                     color: Colors.white,
                                                     size: 20.0),
                                               )
+=======
+                                              InkWell(
+                                                onTap: () {
+                                                  BackendService.getToken()
+                                                      .then((_token) {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        if (_token != null &&
+                                                            _token != "") {
+                                                        } else {
+                                                          Navigator.push(
+                                                              context,
+                                                              FadeRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          LoginScreen()));
+                                                        }
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child: FlatButton(
+                                                  padding:
+                                                      const EdgeInsets.all(0.0),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              80.0)),
+                                                  textColor: Colors.white,
+                                                  disabledColor: Colors.grey,
+                                                  disabledTextColor:
+                                                      Colors.black,
+                                                  onPressed: () {
+                                                    Map<String, dynamic> map =
+                                                        new HashMap();
+                                                    map["organization_id"] =
+                                                        widget.item.user.org.id;
+
+                                                    print(map);
+                                                    if (this.isFollowing) {
+                                                      BackendService
+                                                              .putUnfollow(
+                                                                  body: map)
+                                                          .then((onValue) {
+                                                        print(onValue);
+                                                        if (onValue != null) {
+                                                          print(onValue);
+                                                          if (onValue == 200) {
+                                                            setState(() {
+                                                              this.isFollowing =
+                                                                  false;
+                                                            });
+                                                          }
+                                                        }
+                                                      });
+                                                    } else {
+                                                      BackendService.putFollow(
+                                                              body: map)
+                                                          .then((onValue) {
+                                                        print(onValue);
+                                                        if (onValue != null) {
+                                                          print(onValue);
+                                                          if (onValue == 200) {
+                                                            setState(() {
+                                                              this.isFollowing =
+                                                                  true;
+                                                            });
+                                                          }
+                                                        }
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                      padding:
+                                                          const EdgeInsets.fromLTRB(
+                                                              10, 5, 10, 5),
+                                                      decoration: (!this
+                                                              .isFollowing)
+                                                          ? BoxDecoration(
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                begin: Alignment
+                                                                    .topCenter,
+                                                                end: Alignment
+                                                                    .bottomCenter,
+                                                                colors: <Color>[
+                                                                  Color(
+                                                                      0xFFB755FF),
+                                                                  Color(
+                                                                      0xFF584BDD),
+                                                                ],
+                                                              ),
+                                                              borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius.circular(
+                                                                          80.0)))
+                                                          : BoxDecoration(
+                                                              border: new Border.all(
+                                                                  color: Color(0xFF6E7FAA),
+                                                                  width: 1.0),
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                begin: Alignment
+                                                                    .topCenter,
+                                                                end: Alignment
+                                                                    .bottomCenter,
+                                                                colors: <Color>[
+                                                                  Colors.white,
+                                                                  Colors.white,
+                                                                ],
+                                                              ),
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      80.0))),
+                                                      child: (this.isFollowing)
+                                                          ? Text("Following",
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(fontSize: 15, color: Color(0xFF6E7FAA)))
+                                                          : Text("Follow", textAlign: TextAlign.center, style: TextStyle(fontSize: 15))),
+                                                ),
+                                              ),
+>>>>>>> 4a7eadead3d0f39f3e1da7f484dbcc1bc4ef0b67
                                             ],
                                           )
                                         ],
@@ -387,10 +564,10 @@ class _DealerScreenState extends State<DealerScreen>
                             child: new TabBarView(
                               controller: _tabController,
                               children: <Widget>[
-                                TabHomeScreen(),
-                                TabAddressScreen(),
-                                TabAdvertisementScreen(),
-                                TabNewsScreen(),
+                                TabHomeScreen(item: widget.item),
+                                TabAddressScreen(item: widget.item),
+                                TabAdvertisementScreen(item: widget.item),
+                                TabNewsScreen(item: widget.item),
                               ],
                             ),
                           )

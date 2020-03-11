@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
+import 'package:hyrd/screens/main/detail_screen.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:intl/intl.dart';
 
 class VerticalFullWidthAdsItem extends StatelessWidget {
@@ -21,18 +23,7 @@ class VerticalFullWidthAdsItem extends StatelessWidget {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(
-              CarDetailsScreen.routeName,
-              arguments: {
-                'id': item.id.toString(),
-                'title': item.name,
-                'imageUrl': "assets/images/auction-land.png",
-                'description': item.description,
-                'rating': item.name,
-                'year': item.name,
-                'duration': item.name,
-              },
-            );
+            Navigator.push(context, FadeRoute(builder: (context) => DetailScreen(item: item)));
           },
           child: Card(
             shape: RoundedRectangleBorder(

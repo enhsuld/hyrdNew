@@ -23,6 +23,7 @@ Future<dynamic> requestLoginAPI(
   );
 
   if (response.statusCode == 200) {
+    print(data);
     final responseJson = json.decode(response.body);
     print("logged user " + responseJson.toString());
     saveCurrentLogin(responseJson);

@@ -1,6 +1,8 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 import 'package:hyrd/widget/vertical_news_item.dart';
@@ -8,11 +10,21 @@ import 'package:hyrd/widget/vertical_news_item.dart';
 class TabNewsScreen extends StatefulWidget {
   static const routeName = '/tab-news-screen';
 
+  final CarModel item;
+  TabNewsScreen({Key key, @required this.item}) : super(key: key);
+
   @override
   _TabNewsScreenState createState() => _TabNewsScreenState();
 }
 
 class _TabNewsScreenState extends State<TabNewsScreen> {
+
+  static const int PAGE_SIZE = 2;
+
+  Future<List<CarModel>> _fetchCash(pageIndex) async {
+    return BackendService.getOrgAds(
+        widget.item.user.org.id, pageIndex + 1, PAGE_SIZE);
+  }
 
   double screenSize;
 
@@ -36,7 +48,32 @@ class _TabNewsScreenState extends State<TabNewsScreen> {
                     color: Color(0xFF222455)),
               ),
             ),
-            FutureBuilder(
+            Container(
+              height: 400,
+              padding: EdgeInsets.only(bottom: 20),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  PagewiseLoadController(
+                      pageSize: PAGE_SIZE,
+                      pageFuture: (pageIndex) => BackendService.getOrgPosts(
+                          widget.item.user.org.id,
+                          pageIndex + 1,
+                          PAGE_SIZE)).reset();
+                  await Future.value({});
+                },
+                child: PagewiseListView(
+                  padding: EdgeInsets.all(0),
+                  itemBuilder: this._itemBuilder,
+                  pageLoadController: PagewiseLoadController(
+                      pageSize: PAGE_SIZE,
+                      pageFuture: (pageIndex) => BackendService.getOrgPosts(
+                          widget.item.user.org.id,
+                          pageIndex + 1,
+                          PAGE_SIZE)),
+                ),
+              ),
+            ),
+           /* FutureBuilder(
               future: BackendService.getHighlight(page: 1, pageSize: 5),
               builder: (context, snapshot) {
                 List<dynamic> lists;
@@ -61,11 +98,14 @@ class _TabNewsScreenState extends State<TabNewsScreen> {
                   );
                 }
               },
-            ),
+            ),*/
           ],
         ),
       ),
     );
   }
 
+  Widget _itemBuilder(context, PostModel entry, _) {
+    return VerticalNewsItem(item: entry);
+  }
 }

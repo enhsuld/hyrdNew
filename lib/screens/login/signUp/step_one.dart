@@ -156,13 +156,15 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
             map["phone"] = _fbKey.currentState.value["phone"];
             if (countryCode != null && countryCode.isNotEmpty)
               map["country_code"] = countryCode;
-            Navigator.pop(context);
             BackendService.getVerifyCode(body: map).then((onValue) {
-              if (onValue != null) print(map);
-              Navigator.of(context).push(FadeRoute(
-                  builder: (context) => StepOneExtendScreen(
-                        map: map,
-                      )));
+              if (onValue != null) {
+                print(onValue);
+                Navigator.pop(context);
+                Navigator.of(context).push(FadeRoute(
+                    builder: (context) => StepOneExtendScreen(
+                          map: map,
+                        )));
+              }
             });
           }
         },
