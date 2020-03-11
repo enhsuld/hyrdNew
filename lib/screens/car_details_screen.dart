@@ -217,8 +217,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                       height: 20,
                     ),
                     new GestureDetector(
-                      onTap: ()=> {
-                        Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                      onTap: () => {
+                        Navigator.push(context,
+                            FadeRoute(builder: (context) => DealerScreen()))
                       },
                       child: new Card(
                         shape: RoundedRectangleBorder(
@@ -248,7 +249,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                               height: 50,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Text(
                                     "Tavan bogd",
@@ -282,7 +284,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                                     ],
                                   ),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
+                                      BorderRadius.all(Radius.circular(8.0))),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               child: Text("Онцгой",
