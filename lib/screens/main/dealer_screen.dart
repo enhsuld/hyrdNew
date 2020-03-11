@@ -107,7 +107,7 @@ class _DealerScreenState extends State<DealerScreen>
                     right: 0,
                     left: 0,
                     top: 0,
-                    child:  Container(
+                    child: Container(
                       height: MediaQuery.of(context).size.height * 0.4,
                       color: Colors.blueGrey,
                       child: CarouselSlider(
@@ -166,7 +166,8 @@ class _DealerScreenState extends State<DealerScreen>
                     left: 20,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: map<Widget>(widget.item.user.org.medias, (index, url) {
+                      children: map<Widget>(widget.item.user.org.medias,
+                          (index, url) {
                         return Container(
                           width: 10.0,
                           height: 3.0,
@@ -201,33 +202,7 @@ class _DealerScreenState extends State<DealerScreen>
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Container(
-<<<<<<< HEAD
-                                      height: 50,
-                                      width: 50,
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: 20, horizontal: 20),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Color(0xFFB6BED4), width: 2),
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/auction-land.png')),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          260,
-                                      height: 70,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-=======
                                       child: Row(
->>>>>>> 4a7eadead3d0f39f3e1da7f484dbcc1bc4ef0b67
                                         children: <Widget>[
                                           Container(
                                             height: 50,
@@ -298,24 +273,15 @@ class _DealerScreenState extends State<DealerScreen>
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Row(
-<<<<<<< HEAD
-=======
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
->>>>>>> 4a7eadead3d0f39f3e1da7f484dbcc1bc4ef0b67
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
                                               Container(
-<<<<<<< HEAD
-                                                  child: new Icon(
-                                                      Icons
-                                                          .supervised_user_circle,
-=======
                                                   margin: EdgeInsets.only(
                                                       right: 10),
                                                   child: new Icon(Hyrd.team,
->>>>>>> 4a7eadead3d0f39f3e1da7f484dbcc1bc4ef0b67
                                                       color: Color(0xFF6E7FAA),
                                                       size: 16.0)),
                                               Container(
@@ -338,62 +304,6 @@ class _DealerScreenState extends State<DealerScreen>
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
-<<<<<<< HEAD
-                                              Container(
-                                                decoration: const BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: <Color>[
-                                                        Color(0xFFB755FF),
-                                                        Color(0xFF584BDD),
-                                                      ],
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8.0))),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5,
-                                                        horizontal: 10),
-                                                child: Text("Дагах",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15)),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 5, right: 20),
-                                                decoration: const BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: <Color>[
-                                                        Color(0xFFB755FF),
-                                                        Color(0xFF584BDD),
-                                                      ],
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8.0))),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5,
-                                                        horizontal: 10),
-                                                child: new Icon(
-                                                    Icons
-                                                        .supervised_user_circle,
-                                                    color: Colors.white,
-                                                    size: 20.0),
-                                              )
-=======
                                               InkWell(
                                                 onTap: () {
                                                   BackendService.getToken()
@@ -491,7 +401,8 @@ class _DealerScreenState extends State<DealerScreen>
                                                                           80.0)))
                                                           : BoxDecoration(
                                                               border: new Border.all(
-                                                                  color: Color(0xFF6E7FAA),
+                                                                  color: Color(
+                                                                      0xFF6E7FAA),
                                                                   width: 1.0),
                                                               gradient:
                                                                   LinearGradient(
@@ -514,7 +425,6 @@ class _DealerScreenState extends State<DealerScreen>
                                                           : Text("Follow", textAlign: TextAlign.center, style: TextStyle(fontSize: 15))),
                                                 ),
                                               ),
->>>>>>> 4a7eadead3d0f39f3e1da7f484dbcc1bc4ef0b67
                                             ],
                                           )
                                         ],
