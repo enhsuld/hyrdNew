@@ -40,8 +40,10 @@ class VerticalAdsItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(item?.medias[0]?.thumb)
+                      fit: BoxFit.fitHeight,
+                      image: (item.medias.length==0)
+                          ? AssetImage('assets/images/defualt-car.png')
+                          : NetworkImage(item?.medias[0]?.thumb),
                   ),
                 ),
               ),

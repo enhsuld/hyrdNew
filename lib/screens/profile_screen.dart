@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Column(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 100, bottom: 30),
+                  padding: EdgeInsets.only(top: 90, bottom: 20),
                   child: Text(
                     (this.user?.data?.lastname ?? "").toUpperCase() +
                         ' ' +
@@ -81,11 +81,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 new Divider(
                   color: Color(0xFF6E7FAA),
-                  height: 2,
                   thickness: 2,
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 30),
+                  //padding: EdgeInsets.only(top: 30),
                   child: Column(
                     children: <Widget>[
                       _buildButton(Hyrd.profile, 'Миний мэдээлэл',
@@ -139,10 +138,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildButtons() {
-    return Container(
-      padding: EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
-      width: MediaQuery.of(context).size.width,
-      // height: 95,
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 15),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 5,
       child: FlatButton(
         onPressed: () {
           BackendService.logOut().then((onValue) {
@@ -154,23 +156,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Container(
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[
-                    Color(0xFFB755FF),
-                    Color(0xFF584BDD),
-                  ],
-                ),
                 borderRadius: BorderRadius.all(Radius.circular(8.0))),
-            padding: const EdgeInsets.fromLTRB(30, 15, 15, 15),
+            padding: const EdgeInsets.fromLTRB(10, 15, 15, 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(_logOut.toUpperCase(),
                     textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.white, fontSize: 16)),
-                Icon(Icons.exit_to_app, color: Colors.white, size: 22.0)
+                    style: TextStyle(color: Color(0xff584BDD), fontSize: 16)),
+                Icon(Icons.exit_to_app, color: Color(0xff584BDD), size: 22.0)
               ],
             )),
       ),
@@ -245,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                   image: DecorationImage(
                                     image: (this.user?.data?.avatar == null)
-                                        ? AssetImage('assets/images/pic.png')
+                                        ? AssetImage('assets/images/defualt-user.png')
                                         : NetworkImage(this.user?.data?.avatar),
                                     fit: BoxFit.cover,
                                   ),
@@ -260,7 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Positioned(
                           left: 10,
                           right: 10,
-                          bottom: 80,
+                          top: 640,
                           child: _buildButtons(),
                         ),
                       ],

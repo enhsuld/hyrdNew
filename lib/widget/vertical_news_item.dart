@@ -44,7 +44,9 @@ class VerticalNewsItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(item.coverImage)),
+                        image: (item.coverImage == null)
+                            ? AssetImage('assets/images/defualt-post.png')
+                            : NetworkImage(item.coverImage),),
                   ),
                 ),
                 Container(

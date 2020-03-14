@@ -215,9 +215,12 @@ class _DealerScreenState extends State<DealerScreen>
                                                   width: 2),
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(widget
-                                                      .item.user.org.avatar)),
+                                                image: (widget.item?.user?.org?.avatar == null)
+                                                    ? AssetImage('assets/images/defualt-org.png')
+                                                    : NetworkImage(widget.item.user.org.avatar),
+                                                fit: BoxFit.cover,
+                                              ),
+                                              /*image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(widget.item.user.org.avatar)),*/
                                             ),
                                           ),
                                           Container(

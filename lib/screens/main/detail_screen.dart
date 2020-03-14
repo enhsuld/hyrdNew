@@ -60,37 +60,87 @@ class _DetailScreenState extends State<DetailScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.4,
                   color: Colors.blueGrey,
-                  child: CarouselSlider(
-                    //height: MediaQuery.of(context).size.height*0.4,
-                    initialPage: 0,
-                    height: 400,
-                    aspectRatio: MediaQuery.of(context).size.aspectRatio,
-                    enlargeCenterPage: false,
-                    autoPlay: false,
-                    viewportFraction: 1.0,
-                    reverse: false,
-                    enableInfiniteScroll: true,
-                    autoPlayInterval: Duration(seconds: 2),
-                    autoPlayAnimationDuration: Duration(milliseconds: 2000),
-                    pauseAutoPlayOnTouch: Duration(seconds: 1),
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _current = index;
-                      });
-                    },
-                    items: widget.item.medias.map((imgUrl) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 0.0),
-                              child: Image.network(imgUrl.optimized,
-                                  width: MediaQuery.of(context).size.width,
-                                  fit: BoxFit.cover));
-                        },
-                      );
-                    }).toList(),
-                  ),
+                  child: (widget.item.medias.isEmpty)
+                      ? CarouselSlider(
+                          //height: MediaQuery.of(context).size.height*0.4,
+                          initialPage: 0,
+                          height: 400,
+                          aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                          enlargeCenterPage: false,
+                          autoPlay: false,
+                          viewportFraction: 1.0,
+                          reverse: false,
+                          enableInfiniteScroll: true,
+                          autoPlayInterval: Duration(seconds: 2),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 2000),
+                          pauseAutoPlayOnTouch: Duration(seconds: 1),
+                          scrollDirection: Axis.horizontal,
+                          onPageChanged: (index) {
+                            setState(() {
+                              _current = index;
+                            });
+                          },
+                          items: imgList.map((imgUrl) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 0.0),
+                                    child: Stack(
+                                      children: <Widget>[
+                                        new ClipRRect(
+                                            borderRadius:
+                                                new BorderRadius.circular(8.0),
+                                            child: Image.asset(imgUrl,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height,
+                                                fit: BoxFit.fill)),
+                                      ],
+                                    ));
+                              },
+                            );
+                          }).toList(),
+                        )
+                      : CarouselSlider(
+                          //height: MediaQuery.of(context).size.height*0.4,
+                          initialPage: 0,
+                          height: 400,
+                          aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                          enlargeCenterPage: false,
+                          autoPlay: false,
+                          viewportFraction: 1.0,
+                          reverse: false,
+                          enableInfiniteScroll: true,
+                          autoPlayInterval: Duration(seconds: 2),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 2000),
+                          pauseAutoPlayOnTouch: Duration(seconds: 1),
+                          scrollDirection: Axis.horizontal,
+                          onPageChanged: (index) {
+                            setState(() {
+                              _current = index;
+                            });
+                          },
+                          items: widget.item.medias.map((imgUrl) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 0.0),
+                                    child: Image.network(imgUrl.optimized,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover));
+                              },
+                            );
+                          }).toList(),
+                        ),
                 ),
                 Positioned(
                   top: 40,
@@ -174,9 +224,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                         color: Color(0xFFB6BED4), width: 2),
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/auction-land.png')),
+                                      fit: BoxFit.cover,
+                                      image: (widget.item?.user?.avatar == null)
+                                          ? AssetImage(
+                                              'assets/images/defualt-user.png')
+                                          : NetworkImage(
+                                              widget.item?.user?.avatar),
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -576,15 +630,14 @@ class _DetailScreenState extends State<DetailScreen> {
                             TextStyle(fontSize: 16, color: Color(0xFF222455)),
                       ),
                     ),
-
                   ],
-                )
-            ),
+                )),
             Container(
                 transform: Matrix4.translationValues(0.0, -40.0, 0.0),
                 height: 270,
                 child: FutureBuilder(
-                  future: BackendService.getSimilar(id:widget.item.id, page: 1, pageSize: 5),
+                  future: BackendService.getSimilar(
+                      id: widget.item.id, page: 1, pageSize: 5),
                   builder: (context, snapshot) {
                     List<dynamic> adsPopulars;
                     if (snapshot.hasData) {
@@ -594,8 +647,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         scrollDirection: Axis.horizontal,
                         itemCount: adsPopulars.length,
                         itemBuilder: (ctx, i) => HorizontalCarItem(
-                            index: i,
-                            item: CarModel.fromJson(adsPopulars[i])),
+                            index: i, item: CarModel.fromJson(adsPopulars[i])),
                       );
                     } else {
                       return Center(

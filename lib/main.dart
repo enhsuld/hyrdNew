@@ -27,10 +27,10 @@ class MyApp extends StatelessWidget {
         ProfileScreen.routeName: (ctx) => ProfileScreen(),
       },
       home: SplashScreen(
-        seconds: 5,
+        seconds: 2,
         navigateAfterSeconds: HomeScreen(),
         imageBackground:
-        ExactAssetImage('assets/images/Default-896h@2x_iphone.png'),
+        ExactAssetImage('assets/images/splash.png'),
         gradientBackground: new LinearGradient(
             colors: [Colors.cyan, Colors.blue],
             begin: Alignment.topLeft,
