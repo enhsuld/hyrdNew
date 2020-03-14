@@ -301,6 +301,18 @@ class BackendService {
       else
         return null;
     }
+
+    if (method == "put" && url == "pass") {
+      map[HttpHeaders.CONTENT_TYPE] = "application/json";
+      map[HttpHeaders.ACCEPT] = "application/json";
+      final responseBody =
+      await http.put(api + '/user/password', headers: map, body: json.encode(data));
+      print(responseBody.body);
+      if (responseBody.statusCode == 200)
+        return json.decode(responseBody.body);
+      else
+        return null;
+    }
   }
 
   static Future<ProfileModel> getUserProfileData() async {

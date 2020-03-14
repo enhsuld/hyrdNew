@@ -50,6 +50,9 @@ flutter:
     - family: Hyrd
       fonts:
         - asset: assets/fonts/Hyrd.ttf
+    - family: HyrdNewIcons
+      fonts:
+        - asset: assets/fonts/HyrdNewIcons.ttf
 
   assets:
     - assets/images/
