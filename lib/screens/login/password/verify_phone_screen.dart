@@ -3,10 +3,12 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hyrd/screens/login/password/change_password.dart';
 import 'package:hyrd/screens/login/signUp/step_two.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/color_hyrd.dart';
 import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/utils/lang.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyPhoneScreen extends StatefulWidget {
@@ -68,7 +70,7 @@ class VerifyPhoneScreenState extends State<VerifyPhoneScreen> {
               if (onValue.statusCode == 200) {
                 Navigator.pop(context);
                 Navigator.of(context).push(FadeRoute(
-                    builder: (context) => StepTwoScreen(
+                    builder: (context) => ChangePasswordScreen(
                           map: params,
                         )));
               } else {
@@ -141,44 +143,42 @@ class VerifyPhoneScreenState extends State<VerifyPhoneScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
         key: _scaffoldKey,
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.topRight,
+              colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+            )),
+          ),
+          centerTitle: true,
+          leading: Builder(builder: (BuildContext context) {
+            return new SizedBox(
+                height: 18.0,
+                width: 18.0,
+                child: new IconButton(
+                  padding: new EdgeInsets.all(0.0),
+                  color: Colors.white,
+                  icon: new Icon(Icons.arrow_back_ios, size: 20.0),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ));
+          }),
+          title: Text(lang.VERIFICATION,
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+          elevation: 0.0,
+        ),
         body: Stack(
           children: <Widget>[
-            _buildCoverImage(screenSize),
             SafeArea(
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Row(
-                        children: <Widget>[
-                          IconButton(
-                            padding: new EdgeInsets.all(20),
-                            icon: new Icon(Icons.arrow_back_ios,
-                                color: Colors.white, size: 18.0),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width - 120,
-                            child: Text(
-                              "Бүртгэл 1/3",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Roboto',
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     Column(
                       children: <Widget>[
                         SizedBox(height: 50),
