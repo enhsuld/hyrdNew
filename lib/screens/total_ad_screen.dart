@@ -27,8 +27,15 @@ class _TotalAdScreenState extends State<TotalAdScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding:
-                  EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 10),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                colors: [Color(0xff584BDD), Color(0xffB755FF)],
+              )),
+              width: double.infinity,
+              height: MediaQuery.of(context).padding.top,
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -49,7 +56,11 @@ class _TotalAdScreenState extends State<TotalAdScreen> {
                           child: IconButton(
                             icon: Icon(Hyrd.notification_on),
                             onPressed: () {
-                              Navigator.push(context, FadeRoute(builder: (context) => NotificationScreen()));
+                              Navigator.push(
+                                  context,
+                                  FadeRoute(
+                                      builder: (context) =>
+                                          NotificationScreen()));
                             },
                             color: Color(0xFF222455),
                             iconSize: 20.0,
@@ -60,7 +71,10 @@ class _TotalAdScreenState extends State<TotalAdScreen> {
                           child: IconButton(
                             icon: Icon(Hyrd.settings),
                             onPressed: () {
-                              Navigator.push(context, FadeRoute(builder: (context) => SettingScreen()));
+                              Navigator.push(
+                                  context,
+                                  FadeRoute(
+                                      builder: (context) => SettingScreen()));
                             },
                             color: Color(0xFF222455),
                             iconSize: 20.0,
@@ -91,7 +105,8 @@ class _TotalAdScreenState extends State<TotalAdScreen> {
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
-                      Navigator.push(context, FadeRoute(builder: (context) => PopularAdsScreen()));
+                      Navigator.push(context,
+                          FadeRoute(builder: (context) => PopularAdsScreen()));
                     },
                   ),
                 ],
@@ -138,7 +153,8 @@ class _TotalAdScreenState extends State<TotalAdScreen> {
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
-                      Navigator.push(context, FadeRoute(builder: (context) => SpecialAdsScreen()));
+                      Navigator.push(context,
+                          FadeRoute(builder: (context) => SpecialAdsScreen()));
                     },
                   ),
                 ],

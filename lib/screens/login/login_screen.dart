@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyrd/common/apifunctions/requestLoginAPI.dart';
 import 'package:hyrd/screens/home_screen.dart';
+import 'package:hyrd/screens/login/password/phone_screen.dart';
 import 'package:hyrd/screens/login/signUp/step_one.dart';
 import 'package:hyrd/utils/fade_route.dart';
 
@@ -205,7 +206,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           onTap: () {
                             // Navigator.pop(context);
-                            // Navigator.of(context).push(FadeRoute(builder: (context) => SignUpPage()));
+                            Navigator.of(context).push(
+                                FadeRoute(builder: (context) => PhoneScreen()));
                           }),
                     ],
                   ),

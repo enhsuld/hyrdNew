@@ -74,8 +74,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding:
-                  EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 10),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                colors: [Color(0xff584BDD), Color(0xffB755FF)],
+              )),
+              width: double.infinity,
+              height: MediaQuery.of(context).padding.top,
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -307,7 +314,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   lists = snapshot.data;
                   return Container(
                     height: double.parse(lists.length.toString()) * 105,
-                    padding: EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
+                    padding:
+                        EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
                     child: ListView.builder(
                       padding: EdgeInsets.only(top: 0, bottom: 0),
                       physics: NeverScrollableScrollPhysics(),
@@ -359,8 +367,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   lists = snapshot.data;
                   return Container(
                     height: double.parse(lists.length.toString()) * 105,
-                    padding: EdgeInsets.only(
-                        bottom: 0, top: 0, left: 10, right: 10),
+                    padding:
+                        EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
                     child: ListView.builder(
                       padding: EdgeInsets.only(top: 0, bottom: 0),
                       physics: NeverScrollableScrollPhysics(),

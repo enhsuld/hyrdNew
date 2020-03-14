@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
-  List<Widget> _children=[];
+  List<Widget> _children = [];
 
   ProfileModel user;
   bool isLogin = false;
@@ -37,22 +37,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       DashboardScreen(),
       SearchCarScreen(),
       TotalAdScreen(),
-      ProfileScreen(onLogOut: (){ _selectedTab(0);})
+      ProfileScreen(onLogOut: () {
+        _selectedTab(0);
+      }),
+      AddCarScreen()
     ];
     _tabController = TabController(vsync: this, length: _children.length);
   }
 
   int currentIndex = 0;
 
-
-
   void _selectedTab(int index) {
     setState(() {
-
-      if(index==3){
+      if (index == 3) {
         print(isLogin);
-        if(!isLogin) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+        if (!isLogin) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => LoginScreen()));
         }
       }
       currentIndex = index;
@@ -97,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     return Scaffold(
         key: _scaffoldkey,
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Colors.black,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
           height: 60,
@@ -109,8 +110,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               size: 26,
             ),
             onPressed: () {
-              Navigator.push(
-                  context, FadeRoute(builder: (context) => AddCarScreen()));
+              // Navigator.push(                  context, FadeRoute(builder: (context) => AddCarScreen()));
+              _selectedTab(4);
             },
           ),
         ),

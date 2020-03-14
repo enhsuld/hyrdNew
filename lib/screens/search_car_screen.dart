@@ -7,7 +7,6 @@ import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 
-
 class SearchCarScreen extends StatefulWidget {
   static const routeName = '/search-car';
 
@@ -16,32 +15,41 @@ class SearchCarScreen extends StatefulWidget {
 }
 
 class _SearchCarScreenState extends State<SearchCarScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                colors: [Color(0xff584BDD), Color(0xffB755FF)],
+              )),
+              width: double.infinity,
+              height: MediaQuery.of(context).padding.top,
+            ),
             Padding(
-              padding: EdgeInsets.only(top:40,left: 15.0, right: 15.0),
+              padding: EdgeInsets.only(top: 12, left: 15.0, right: 15.0),
               child: Material(
                 elevation: 8.0,
                 borderRadius: BorderRadius.circular(8.0),
                 child: TextFormField(
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        prefixIcon: Icon(Icons.search, color: Colors.grey,size: 30.0),
-                        suffixIcon: IconButton(icon: new Icon(Icons.format_line_spacing, color: Color(0xFF676E79)),  onPressed:(){},),
-                        contentPadding:
-                        EdgeInsets.only(left: 15.0, top: 15.0),
+                        prefixIcon:
+                            Icon(Icons.search, color: Colors.grey, size: 30.0),
+                        suffixIcon: IconButton(
+                          icon: new Icon(Icons.format_line_spacing,
+                              color: Color(0xFF676E79)),
+                          onPressed: () {},
+                        ),
+                        contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
                         hintText: 'Хайлт хийх',
                         hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontFamily: 'Quicksand'))),
+                            color: Colors.grey, fontFamily: 'Quicksand'))),
               ),
             ),
             Padding(
@@ -63,7 +71,8 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
-                      Navigator.push(context, FadeRoute(builder: (context) => PopularAdsScreen()));
+                      Navigator.push(context,
+                          FadeRoute(builder: (context) => PopularAdsScreen()));
                     },
                   ),
                 ],
@@ -110,7 +119,8 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
-                      Navigator.push(context, FadeRoute(builder: (context) => SpecialAdsScreen()));
+                      Navigator.push(context,
+                          FadeRoute(builder: (context) => SpecialAdsScreen()));
                     },
                   ),
                 ],
