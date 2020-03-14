@@ -121,6 +121,7 @@ class _VerticalFollowingItemState extends State<VerticalFollowingItem> {
                   },
                   child: Container(
                       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      width: 100,
                       decoration: (widget.item.pivot.followedAt == null) ? BoxDecoration(
                           gradient:
                           LinearGradient(
@@ -133,9 +134,9 @@ class _VerticalFollowingItemState extends State<VerticalFollowingItem> {
                               Color(0xFF584BDD),
                             ],
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(80.0))
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))
                       ) : BoxDecoration(
-                          border: new Border.all(color: Colors.black, width: 1.0),
+                          border: new Border.all(color: Color(0xff6E7FAA), width: 1.0),
                           gradient:
                           LinearGradient(
                             begin: Alignment
@@ -147,12 +148,12 @@ class _VerticalFollowingItemState extends State<VerticalFollowingItem> {
                               Colors.white,
                             ],
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(80.0))
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))
                       ),
                     child: (widget.item.pivot.followedAt != null)
                         ? Text("Following",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 15,color: Colors.black))
+                        style: TextStyle(fontSize: 15,color: Color(0xff6E7FAA)))
                         : Text("Follow",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 15))),

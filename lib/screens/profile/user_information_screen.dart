@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyrd/models/profile_model.dart';
+import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/notification_screen.dart';
+import 'package:hyrd/screens/profile/reset_password_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
@@ -19,7 +21,6 @@ class UserInformationScreen extends StatefulWidget {
 
   UserInformationScreen({Key key, @required this.user}) : super(key: key);
 
-  
   @override
   _UserInformationScreenState createState() => _UserInformationScreenState();
 }
@@ -31,8 +32,6 @@ TextEditingController _regNumController = new TextEditingController();
 bool _autovalidate = false;
 
 class _UserInformationScreenState extends State<UserInformationScreen> {
-  
-
   List<Asset> images = List<Asset>();
   List<UploadFileInfo> files = new List<UploadFileInfo>();
 
@@ -94,9 +93,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
       setState(() {
         widget.user.data.avatar = response['avatar'];
       });
-      return null;
     });
-
     return null;
   }
 
@@ -107,10 +104,10 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.topRight,
-                colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
-              )),
+            begin: Alignment.centerLeft,
+            end: Alignment.topRight,
+            colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+          )),
         ),
         centerTitle: true,
         leading: Builder(builder: (BuildContext context) {
@@ -169,7 +166,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                                 ],
                                                 image: DecorationImage(
                                                   image: AssetImage(
-                                                      'assets/images/pic.png'),
+                                                      'assets/images/defualt-user.png'),
                                                   fit: BoxFit.cover,
                                                 ),
                                                 borderRadius:
@@ -180,35 +177,35 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                                 ),
                                               ),
                                             )
-                                          :  Container(
-                                        width: 140.0,
-                                        height: 140.0,
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            new BoxShadow(
-                                              color: Colors.grey,
-                                              blurRadius: 5.0,
-                                            )
-                                          ],
-                                          image: DecorationImage(
-                                            image: NetworkImage(widget.user.data.avatar),
-                                            fit: BoxFit.cover,
-                                          ),
-                                          borderRadius:
-                                          BorderRadius.circular(80.0),
-                                          border: Border.all(
-                                            color: Colors.white,
-                                            width: 3.0,
-                                          ),
-                                        ),
-                                      )),
+                                          : Container(
+                                              width: 140.0,
+                                              height: 140.0,
+                                              decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  new BoxShadow(
+                                                    color: Colors.grey,
+                                                    blurRadius: 5.0,
+                                                  )
+                                                ],
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      widget.user.data.avatar),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(80.0),
+                                                border: Border.all(
+                                                  color: Colors.white,
+                                                  width: 3.0,
+                                                ),
+                                              ),
+                                            )),
                                   Positioned(
                                     right: 10,
                                     top: 60,
                                     child: Container(
                                         decoration: BoxDecoration(
-                                          color:
-                                              Colors.white,
+                                          color: Colors.white,
                                           borderRadius:
                                               new BorderRadius.circular(25.0),
                                         ),
@@ -230,30 +227,40 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                               ),
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width-200 ,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(bottom: 10),
-                                    child:  Text(widget.user?.data?.lastname ?? "",textAlign: TextAlign.left,style: TextStyle(color: Color(0xff222455),fontSize: 20, fontWeight: FontWeight.bold)),
-                                  ),
-                                  Text(widget.user?.data?.firstname ?? "",textAlign: TextAlign.left,style: TextStyle(color: Color(0xff222455),fontSize: 20, fontWeight: FontWeight.bold))
-                                ],
-                              )
-                            )
+                                width: MediaQuery.of(context).size.width - 200,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      child: Text(
+                                          widget.user?.data?.lastname ?? "",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: Color(0xff222455),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                    Text(widget.user?.data?.firstname ?? "",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(0xff222455),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold))
+                                  ],
+                                ))
                           ],
                         ),
                       ),
                       new Card(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         elevation: 5,
                         child: Container(
-                          padding: EdgeInsets.only(
-                              left: 20, top: 20, bottom: 20, right: 10),
+                          padding: EdgeInsets.only(left: 20, top: 20, bottom: 20, right: 10),
                           child: Column(
                             children: <Widget>[
                               Column(
@@ -265,12 +272,8 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                   ),
                                   Container(
                                       width: MediaQuery.of(context).size.width,
-                                      child: TextFormField(
-                                        validator: (value) => value.isEmpty
-                                            ? 'Capacity is required'
-                                            : null,
-                                        obscureText: false,
-                                        controller: _lastNameController,
+                                      child: TextField(
+                                        enabled: false,
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: Color(0xFF6E7FAA),
@@ -278,7 +281,8 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                         textAlign: TextAlign.left,
                                         decoration: InputDecoration(
                                             hintText:
-                                                widget.user?.data?.lastname ?? "",
+                                                widget.user?.data?.lastname ??
+                                                    "",
                                             hintStyle: TextStyle(
                                                 fontSize: 15.0,
                                                 color: Color(0xFF6E7FAA)),
@@ -300,12 +304,8 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                   ),
                                   Container(
                                       width: MediaQuery.of(context).size.width,
-                                      child: TextFormField(
-                                        validator: (value) => value.isEmpty
-                                            ? 'Capacity is required'
-                                            : null,
-                                        obscureText: false,
-                                        controller: _firstNameController,
+                                      child: TextField(
+                                        enabled: false,
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: Color(0xFF6E7FAA),
@@ -336,12 +336,8 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                   ),
                                   Container(
                                       width: MediaQuery.of(context).size.width,
-                                      child: TextFormField(
-                                        validator: (value) => value.isEmpty
-                                            ? 'RegNum is required'
-                                            : null,
-                                        obscureText: false,
-                                        controller: _regNumController,
+                                      child: TextField(
+                                        enabled: false,
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: Color(0xFF6E7FAA),
@@ -365,11 +361,44 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                           ),
                         ),
                       ),
+                      new Card(
+                        margin: EdgeInsets.only(top:20,left: 5,right: 5),
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        elevation: 5,
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ResetPasswordScreen(user:widget.user)));
+                          },
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                              padding: const EdgeInsets.fromLTRB(10, 15, 15, 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("Нууц үг шинэчлэх",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          color: Color(0xff584BDD), fontSize: 16)),
+                                  Icon(Icons.exit_to_app,
+                                      color: Color(0xff584BDD), size: 22.0)
+                                ],
+                              )),
+                        ),
+                      ),
                     ],
                   ),
                 )),
               ),
-              Container(
+
+             /* Container(
                 padding:
                     EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
                 width: MediaQuery.of(context).size.width,
@@ -417,7 +446,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 16)),
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),

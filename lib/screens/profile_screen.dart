@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/screens/dashboard_screen.dart';
 import 'package:hyrd/screens/login/login_screen.dart';
+import 'package:hyrd/screens/login/signUp/step_one.dart';
 import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/follower_screen.dart';
 import 'package:hyrd/screens/profile/help_screen.dart';
@@ -11,11 +12,13 @@ import 'package:hyrd/screens/profile/user_information_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
+import 'package:hyrd/utils/hyrd_new_icons_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
   final Function onLogOut;
+
   ProfileScreen({this.onLogOut});
 
   @override
@@ -32,11 +35,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    BackendService.getUserProfileData().then((data) {
-      setState(() {
-        this.user = data;
-        print(data);
-      });
+
+    BackendService.getToken().then((_token) {
+      if (mounted) {
+        setState(() {
+          if (_token != null && _token != "") {
+            BackendService.getUserProfileData().then((data) {
+              setState(() {
+                this.user = data;
+                print(data);
+              });
+            });
+          }
+        });
+      }
     });
   }
 
@@ -84,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   thickness: 2,
                 ),
                 Container(
-                  //padding: EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.symmetric(vertical: 10),
                   child: Column(
                     children: <Widget>[
                       _buildButton(Hyrd.profile, 'Миний мэдээлэл',
@@ -239,7 +251,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                   image: DecorationImage(
                                     image: (this.user?.data?.avatar == null)
-                                        ? AssetImage('assets/images/defualt-user.png')
+                                        ? AssetImage(
+                                            'assets/images/defualt-user.png')
                                         : NetworkImage(this.user?.data?.avatar),
                                     fit: BoxFit.cover,
                                   ),
@@ -254,18 +267,126 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Positioned(
                           left: 10,
                           right: 10,
-                          top: 640,
+                          top: 625,
                           child: _buildButtons(),
                         ),
                       ],
                     )
-                  : Center(
-                      child: FlatButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                FadeRoute(builder: (context) => LoginScreen()));
-                          },
-                          child: Text("Нэвтрэх")),
+                  : Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.topRight,
+                        colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+                      )),
+                      child:Container(
+                        margin: EdgeInsets.only(top:25),
+                        color: Colors.white,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.only(top: 40),
+                              padding: EdgeInsets.symmetric(vertical: 40),
+                              child: Text(
+                                "Та системд нэвтрэнэ үү.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color(0xff222455), fontSize: 18),
+                              ),
+                            ),
+                            new Card(
+                              margin: EdgeInsets.only(
+                                  top: 10, left: 20, right: 20, bottom: 10),
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 5,
+                              child: MaterialButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      FadeRoute(
+                                          builder: (context) => LoginScreen()));
+                                },
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0)),
+                                child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: const BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: <Color>[
+                                            Color(0xFFB755FF),
+                                            Color(0xFF584BDD),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0))),
+                                    padding:
+                                    const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Нэвтрэх",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16)),
+                                        Icon(HyrdNewIcons.car_login,
+                                            color: Colors.white, size: 22.0)
+                                      ],
+                                    )),
+                              ),
+                            ),
+                            new Card(
+                              margin:
+                              EdgeInsets.only(top: 10, left: 20, right: 20),
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 5,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => StepOneScreen()));
+                                },
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0)),
+                                child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0))),
+                                    padding:
+                                    const EdgeInsets.fromLTRB(10, 15, 10, 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Бүртгүүлэх",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                color: Color(0xff584BDD),
+                                                fontSize: 16)),
+                                        Icon(HyrdNewIcons.car_register,
+                                            color: Color(0xff584BDD), size: 22.0)
+                                      ],
+                                    )),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                     ),
             )
           ],
