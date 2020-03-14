@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hyrd/models/car.dart';
 import 'package:hyrd/models/car_model.dart';
@@ -8,6 +9,7 @@ import 'package:hyrd/screens/main/dealer_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
+import 'package:hyrd/utils/hyrd_new_icons_icons.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/horizontal_list_item.dart';
 import 'package:intl/intl.dart';
@@ -108,7 +110,6 @@ class _DetailScreenState extends State<DetailScreen> {
                           }).toList(),
                         )
                       : CarouselSlider(
-                          //height: MediaQuery.of(context).size.height*0.4,
                           initialPage: 0,
                           height: 400,
                           aspectRatio: MediaQuery.of(context).size.aspectRatio,
@@ -721,7 +722,14 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+
   _settingModalBottomSheet(context, String id, String type) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = 65;
+    final double itemWidth = size.width / 2;
+
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
@@ -748,24 +756,209 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ),
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.8 - 60,
-                      child: ListView(
-                        padding: EdgeInsets.all(0),
-                        children: ListTile.divideTiles(
-                          context: context,
-                          tiles: [
-                            ListTile(
-                              title: Text('Sun'),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child:  Divider(
+                      height: 1,
+                      color: Color(0xFF6E7FAA),
+                      thickness: 1,
+                    ),
+                  ),
+                  Container(
+                     /* decoration: BoxDecoration(
+                        gradient: RadialGradient(colors: [
+                          Colors.grey[800],
+                          Colors.black,
+                        ], radius: 0.85, focal: Alignment.center),
+                      ),*/
+                      height: MediaQuery.of(context).size.height * 0.8 - 59,
+                      child: GridView.count(
+                        primary: false,
+                        padding: const EdgeInsets.all(20),
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        childAspectRatio: (itemWidth / itemHeight),
+                        children: <Widget>[
+                          Container(
+                            height:70,
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
+                                Container(
+                                  height:50,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Үйлдвэрлэсэн улс",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
+                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
-                            ListTile(
-                              title: Text('Moon'),
+                          ),
+                          Container(
+                            height:70,
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
+                                Container(
+                                  height:50,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Үйлдвэрлэгч",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
+                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
-                            ListTile(
-                              title: Text('Star'),
+                          ),
+                          Container(
+                            height:70,
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
+                                Container(
+                                  height:50,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Загвар",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
+                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
-                          ],
-                        ).toList(),
-                      ))
+                          ),
+                          Container(
+                            height:70,
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
+                                Container(
+                                  height:50,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Үйлдвэрлэсэн он",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
+                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height:70,
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
+                                Container(
+                                  height:50,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Үйлдвэрлэсэн улс",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
+                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height:70,
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
+                                Container(
+                                  height:50,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Үйлдвэрлэгч",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
+                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height:70,
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
+                                Container(
+                                  height:50,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Загвар",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
+                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height:70,
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
+                                Container(
+                                  height:50,
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Үйлдвэрлэсэн он",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
+                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                  )
                 ],
               ));
         });

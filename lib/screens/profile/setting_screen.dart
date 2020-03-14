@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/screens/login/login_screen.dart';
+import 'package:hyrd/screens/login/signUp/step_one.dart';
 import 'package:hyrd/screens/profile/feed_back_screen.dart';
 import 'package:hyrd/screens/profile/notification_screen.dart';
 import 'package:hyrd/screens/profile/saved_info_screen.dart';
@@ -8,6 +9,7 @@ import 'package:hyrd/screens/profile/term_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
+import 'package:hyrd/utils/hyrd_new_icons_icons.dart';
 import 'package:toast/toast.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -553,14 +555,116 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
               ),
             )
-          : Center(
-              child: FlatButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        FadeRoute(builder: (context) => LoginScreen()));
-                  },
-                  child: Text("Нэвтрэх")),
+          : Container(
+          child:Container(
+            margin: EdgeInsets.only(top:25),
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.symmetric(vertical: 40),
+                  child: Text(
+                    "Та системд нэвтрэнэ үү.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color(0xff222455), fontSize: 18),
+                  ),
+                ),
+                new Card(
+                  margin: EdgeInsets.only(
+                      top: 10, left: 20, right: 20, bottom: 10),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
+                  child: MaterialButton(
+                    padding: EdgeInsets.all(0),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          FadeRoute(
+                              builder: (context) => LoginScreen()));
+                    },
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                Color(0xFFB755FF),
+                                Color(0xFF584BDD),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(8.0))),
+                        padding:
+                        const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Нэвтрэх",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16)),
+                            Icon(HyrdNewIcons.car_login,
+                                color: Colors.white, size: 22.0)
+                          ],
+                        )),
+                  ),
+                ),
+                new Card(
+                  margin:
+                  EdgeInsets.only(top: 10, left: 20, right: 20),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StepOneScreen()));
+                    },
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(8.0))),
+                        padding:
+                        const EdgeInsets.fromLTRB(10, 15, 10, 15),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Бүртгүүлэх",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Color(0xff584BDD),
+                                    fontSize: 16)),
+                            Icon(HyrdNewIcons.car_register,
+                                color: Color(0xff584BDD), size: 22.0)
+                          ],
+                        )),
+                  ),
+                )
+              ],
             ),
+          )
+      )
     );
   }
 
