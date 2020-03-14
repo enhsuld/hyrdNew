@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyrd/common/apifunctions/requestLoginAPI.dart';
-import 'package:hyrd/screens/home_screen.dart';
 import 'package:hyrd/screens/login/password/phone_screen.dart';
 import 'package:hyrd/screens/login/signUp/step_one.dart';
 import 'package:hyrd/utils/fade_route.dart';
@@ -17,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController =
       TextEditingController(text: "99017211");
   final TextEditingController _passwordController =
-      TextEditingController(text: "sakesake");
+      TextEditingController(text: "123123");
 
   TextStyle style =
       TextStyle(fontFamily: 'Roboto', color: Colors.white, fontSize: 15.0);

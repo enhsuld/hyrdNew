@@ -20,6 +20,7 @@ class BackendService {
   static String api = "https://hyrd.mn/api";
 
   static String apiAds = api + "/car-ads";
+  static String apiUser = api + "/user";
 
   final BuildContext _context;
 
@@ -59,6 +60,37 @@ class BackendService {
     } else {
       return null;
     }
+  }
+
+  static Future<List<dynamic>> getUserSearches({page: 1, pageSize: 3}) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+
+    final response = (await http
+        .get(apiUser + '/searches?page=$page&limit=$pageSize', headers: map));
+    if (response.statusCode == 200)
+      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
+    else
+      return null;
+  }
+
+  static Future<String> getSearch({Map<String, String> body}) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString("token") ?? "";
+
+    Map<String, String> map = new HashMap();
+    if (token.length > 0)
+      map[HttpHeaders.authorizationHeader] = "Bearer $token";
+
+    final responseBody =
+        (await http.post(api + '/search', headers: map, body: body)).body;
+    print(token + "  " + body.toString());
+    print(responseBody);
+    return responseBody;
   }
 
   static Future<http.Response> getVerifyEqual(

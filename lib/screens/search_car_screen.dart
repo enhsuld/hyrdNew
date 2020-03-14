@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/popular_ads_screen.dart';
+import 'package:hyrd/screens/search_screen.dart';
 import 'package:hyrd/screens/special_ads_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/utils/lang.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 
@@ -36,20 +39,52 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
               child: Material(
                 elevation: 8.0,
                 borderRadius: BorderRadius.circular(8.0),
-                child: TextFormField(
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon:
-                            Icon(Icons.search, color: Colors.grey, size: 30.0),
-                        suffixIcon: IconButton(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        FadeRoute(builder: (context) => SearchScreen()));
+                  },
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(9),
+                              child: Icon(Icons.search,
+                                  color: Colors.grey, size: 30.0),
+                            ),
+                            Text("Хайлт хийх",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                    fontFamily: 'Quicksand')),
+                          ],
+                        ),
+                        IconButton(
                           icon: new Icon(Icons.format_line_spacing,
                               color: Color(0xFF676E79)),
                           onPressed: () {},
-                        ),
-                        contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                        hintText: 'Хайлт хийх',
-                        hintStyle: TextStyle(
-                            color: Colors.grey, fontFamily: 'Quicksand'))),
+                        )
+                      ],
+                    ),
+                  ),
+
+                  // decoration: InputDecoration(
+                  //     border: InputBorder.none,
+                  //     prefixIcon:
+                  //         Icon(Icons.search, color: Colors.grey, size: 30.0),
+                  //     suffixIcon: IconButton(
+                  //       icon: new Icon(Icons.format_line_spacing,
+                  //           color: Color(0xFF676E79)),
+                  //       onPressed: () {},
+                  //     ),
+                  //     contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                  //     hintText: 'Хайлт хийх',
+                  //     hintStyle: TextStyle(
+                  //         color: Colors.grey, fontFamily: 'Quicksand')),
+                ),
               ),
             ),
             Padding(
@@ -58,7 +93,7 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Эрэлттэй зарууд',
+                    lang.POPULAR_ADS,
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF222455),
