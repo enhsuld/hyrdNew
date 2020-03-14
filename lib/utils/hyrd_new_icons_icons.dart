@@ -59,6 +59,7 @@ class HyrdNewIcons {
   static const IconData car_capacity = IconData(0xe824, fontFamily: _kFontFam);
   static const IconData car_class = IconData(0xe825, fontFamily: _kFontFam);
   static const IconData car_color = IconData(0xe826, fontFamily: _kFontFam);
+  static const IconData car_country = IconData(0xe827, fontFamily: _kFontFam);
   static const IconData car_drivetrain = IconData(0xe828, fontFamily: _kFontFam);
   static const IconData car_fueltype = IconData(0xe829, fontFamily: _kFontFam);
   static const IconData car_height = IconData(0xe82a, fontFamily: _kFontFam);
