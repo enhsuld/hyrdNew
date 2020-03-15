@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hyrd/screens/login/signUp/step_two_extend.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
+import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:hyrd/utils/lang.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -221,6 +222,7 @@ class ChangePasswordScreenScreenState extends State<ChangePasswordScreen> {
       BackendService.postNewPassword(body: widget.map).then((onValue) {
         if (onValue.statusCode == 200) {
           Navigator.pop(context);
+          _showViewDialog();
         } else {
           _scaffoldKey.currentState.showSnackBar(SnackBar(
               content: Text(json.decode(onValue.body)["error"]["message"])));
@@ -236,5 +238,52 @@ class ChangePasswordScreenScreenState extends State<ChangePasswordScreen> {
       //   Navigator.pop(context);
       // });
     }
+  }
+
+  void _showViewDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(0.0),
+          backgroundColor: Color(0xffF4F4F4),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          content: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(18),
+                  child: Image.asset(
+                    "assets/images/screen-logo.png",
+                    height: 150,
+                  ),
+                ),
+                Container(
+                  child: Text("Амжилттай !",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xff584BDD),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600)),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 50, bottom: 20, right: 50),
+                  child: Text("Нууц үг амжилттай шинэчлэгдлээ",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Color(0xff8D8D8D), fontSize: 13)),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
