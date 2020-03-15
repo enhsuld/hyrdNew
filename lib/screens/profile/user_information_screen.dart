@@ -1,23 +1,26 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyrd/models/profile_model.dart';
+import 'package:hyrd/models/taxonomy.dart';
 import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/notification_screen.dart';
 import 'package:hyrd/screens/profile/reset_password_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
+import 'package:hyrd/utils/hyrd_new_icons_icons.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:toast/toast.dart';
 
 class UserInformationScreen extends StatefulWidget {
   static const routeName = '/user_information';
 
-  final ProfileModel user;
+  ProfileModel user;
 
   UserInformationScreen({Key key, @required this.user}) : super(key: key);
 
@@ -25,15 +28,46 @@ class UserInformationScreen extends StatefulWidget {
   _UserInformationScreenState createState() => _UserInformationScreenState();
 }
 
-final _formKey = GlobalKey<FormState>();
-TextEditingController _lastNameController = new TextEditingController();
-TextEditingController _firstNameController = new TextEditingController();
-TextEditingController _regNumController = new TextEditingController();
 bool _autovalidate = false;
 
 class _UserInformationScreenState extends State<UserInformationScreen> {
   List<Asset> images = List<Asset>();
   List<UploadFileInfo> files = new List<UploadFileInfo>();
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _lastNameController = new TextEditingController();
+  TextEditingController _firstNameController = new TextEditingController();
+  TextEditingController _regNumController = new TextEditingController();
+
+  TextEditingController _plateNumberController = new TextEditingController();
+  TextEditingController _cabinNumberController = new TextEditingController();
+
+  var carMarks = new List<TaxonomyModel>();
+  var carModels = new List<TaxonomyModel>();
+
+  TaxonomyModel carMark, carModel;
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    _lastNameController.value =
+        TextEditingValue(text: widget.user?.data?.lastname ?? "");
+    _firstNameController.value =
+        TextEditingValue(text: widget.user?.data?.firstname ?? "");
+    _regNumController.value =
+        TextEditingValue(text: widget.user?.data?.regnum ?? "");
+
+    _plateNumberController.value =
+        TextEditingValue(text: widget.user?.data?.plateNumber ?? "");
+    _cabinNumberController.value =
+        TextEditingValue(text: widget.user?.data?.cabinNumber ?? "");
+    BackendService.getTaxonomies(taxonomy: '/mark').then((taxonomy) {
+      setState(() {
+        this.carMarks = taxonomy;
+      });
+    });
+  }
 
   Future<void> loadAssets() async {
     files.clear();
@@ -97,6 +131,17 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
     return null;
   }
 
+  List<DropdownMenuItem<TaxonomyModel>> buildAndGetDropDownMenuItems(
+      List carTypes) {
+    List<DropdownMenuItem<TaxonomyModel>> items = List();
+    for (TaxonomyModel item in carTypes) {
+      items.add(DropdownMenuItem(value: item, child: Text(item.name)));
+    }
+    return items;
+  }
+
+  bool isChange = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,6 +170,54 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
         }),
         title: Text("Миний мэдээлэл",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+        actions: <Widget>[
+          new Container(
+              height: 18.0,
+              width: 18.0,
+              margin: EdgeInsets.only(right: 20),
+              child: new IconButton(
+                padding: new EdgeInsets.all(0.0),
+                color: Colors.white,
+                icon: new Icon(HyrdNewIcons.floppy_disk, size: 20.0),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+
+                    Map<String, dynamic> adMap = new HashMap();
+                    adMap['firstname'] = _firstNameController.text;
+                    adMap['lastname'] = _lastNameController.text;
+                    adMap['regnum'] = _regNumController.text;
+                    adMap['plateNumber'] = _plateNumberController.text;
+                    adMap['cabinNumber'] = _cabinNumberController.text;
+                    adMap['markName'] = carMark.name;
+                    adMap['modelName'] = carModel.name;
+
+                    BackendService.crud('put', 'user', adMap).then((onValue) {
+                      setState(() {
+                        widget.user.data.regnum = onValue["data"]["regnum"];
+                        widget.user.data.firstname =
+                            onValue["data"]["firstname"];
+                        widget.user.data.lastname = onValue["data"]["lastname"];
+                        widget.user.data.plateNumber =
+                            onValue["data"]["plateNumber"];
+                        widget.user.data.cabinNumber =
+                            onValue["data"]["cabinNumber"];
+                        widget.user.data.markName = onValue["data"]["markName"];
+                        widget.user.data.modelName =
+                            onValue["data"]["modelName"];
+                      });
+                      if (onValue != null) {
+                        showToast("Амжилттай", gravity: Toast.CENTER);
+                      }
+                    });
+                  } else {
+                    setState(() {
+                      _autovalidate = true;
+                    });
+                  }
+                },
+              ))
+        ],
         elevation: 0.0,
       ),
       body: Container(
@@ -260,7 +353,8 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                         ),
                         elevation: 5,
                         child: Container(
-                          padding: EdgeInsets.only(left: 20, top: 20, bottom: 20, right: 10),
+                          padding: EdgeInsets.only(
+                              left: 20, top: 20, bottom: 20, right: 10),
                           child: Column(
                             children: <Widget>[
                               Column(
@@ -272,17 +366,20 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                   ),
                                   Container(
                                       width: MediaQuery.of(context).size.width,
-                                      child: TextField(
-                                        enabled: false,
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },
+                                        controller: _lastNameController,
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: Color(0xFF6E7FAA),
                                             fontSize: 15.0),
                                         textAlign: TextAlign.left,
                                         decoration: InputDecoration(
-                                            hintText:
-                                                widget.user?.data?.lastname ??
-                                                    "",
                                             hintStyle: TextStyle(
                                                 fontSize: 15.0,
                                                 color: Color(0xFF6E7FAA)),
@@ -304,17 +401,20 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                   ),
                                   Container(
                                       width: MediaQuery.of(context).size.width,
-                                      child: TextField(
-                                        enabled: false,
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },
+                                        controller: _firstNameController,
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: Color(0xFF6E7FAA),
                                             fontSize: 15.0),
                                         textAlign: TextAlign.left,
                                         decoration: InputDecoration(
-                                            hintText:
-                                                widget.user?.data?.firstname ??
-                                                    "",
                                             hintStyle: TextStyle(
                                                 fontSize: 15.0,
                                                 color: Color(0xFF6E7FAA)),
@@ -336,16 +436,20 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                                   ),
                                   Container(
                                       width: MediaQuery.of(context).size.width,
-                                      child: TextField(
-                                        enabled: false,
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },
+                                        controller: _regNumController,
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: Color(0xFF6E7FAA),
                                             fontSize: 15.0),
                                         textAlign: TextAlign.left,
                                         decoration: InputDecoration(
-                                            hintText:
-                                                widget.user?.data?.regnum ?? "",
                                             hintStyle: TextStyle(
                                                 fontSize: 15.0,
                                                 color: Color(0xFF6E7FAA)),
@@ -362,7 +466,168 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                         ),
                       ),
                       new Card(
-                        margin: EdgeInsets.only(top:20,left: 5,right: 5),
+                        margin: EdgeInsets.only(top: 20, left: 5, right: 5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        elevation: 5,
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              left: 20, top: 20, bottom: 20, right: 10),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Улсын дугаар"),
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: TextFormField(
+                                    /*  validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Please enter some text';
+                                      }
+                                      return null;
+                                    },*/
+                                    controller: _plateNumberController,
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: Color(0xFF6E7FAA),
+                                        fontSize: 15.0),
+                                    textAlign: TextAlign.left,
+                                    decoration: InputDecoration(
+                                        hintStyle: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Color(0xFF6E7FAA)),
+                                        contentPadding: EdgeInsets.fromLTRB(
+                                            0.0, 15.0, 0.0, 15.0),
+                                        border: new UnderlineInputBorder(
+                                            borderSide: new BorderSide(
+                                                color: Colors.red))),
+                                  )),
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("Арлын дугаар"),
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: TextFormField(
+                                    /*   validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Please enter some text';
+                                      }
+                                      return null;
+                                    },*/
+                                    controller: _cabinNumberController,
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: Color(0xFF6E7FAA),
+                                        fontSize: 15.0),
+                                    textAlign: TextAlign.left,
+                                    decoration: InputDecoration(
+                                        hintStyle: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Color(0xFF6E7FAA)),
+                                        contentPadding: EdgeInsets.fromLTRB(
+                                            0.0, 15.0, 0.0, 15.0),
+                                        border: new UnderlineInputBorder(
+                                            borderSide: new BorderSide(
+                                                color: Colors.red))),
+                                  )),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.only(top: 20),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Text("Үйлдвэр"),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    width: (MediaQuery.of(context).size.width *
+                                            2) /
+                                        5,
+                                    child: DropdownButtonHideUnderline(
+                                      child: ButtonTheme(
+                                        child: DropdownButtonFormField<
+                                                TaxonomyModel>(
+                                            value: carMark,
+                                            hint: Text("Сонгох"),
+                                            isDense: true,
+                                            validator: (value) => value == null
+                                                ? 'field required'
+                                                : null,
+                                            style: TextStyle(
+                                              color: Color(0xFF6E7FAA),
+                                            ),
+                                            onChanged: (TaxonomyModel item) {
+                                              setState(() {
+                                                isChange = true;
+                                              });
+                                              BackendService.getTaxonomies(
+                                                      taxonomy: '/' + item.name)
+                                                  .then((taxonomy) {
+                                                setState(() {
+                                                  carMark = item;
+                                                  this.carModels = taxonomy;
+                                                });
+                                              });
+                                            },
+                                            items: buildAndGetDropDownMenuItems(
+                                                carMarks)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.only(top: 20),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Text("Загвар"),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    width: (MediaQuery.of(context).size.width *
+                                            2) /
+                                        5,
+                                    child: DropdownButtonHideUnderline(
+                                      child: ButtonTheme(
+                                        child: DropdownButtonFormField<
+                                                TaxonomyModel>(
+                                            value: isChange ? null : carModel,
+                                            hint: Text("Сонгох"),
+                                            isDense: true,
+                                            validator: (value) => value == null
+                                                ? 'field required'
+                                                : null,
+                                            style: TextStyle(
+                                              color: Color(0xFF6E7FAA),
+                                            ),
+                                            onChanged: (TaxonomyModel item) {
+                                              setState(() {
+                                                isChange = false;
+                                                carModel = item;
+                                              });
+                                            },
+                                            items: buildAndGetDropDownMenuItems(
+                                                carModels)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      new Card(
+                        margin: EdgeInsets.only(top: 20, left: 5, right: 5),
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -370,7 +635,9 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                         elevation: 5,
                         child: FlatButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ResetPasswordScreen(user:widget.user)));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ResetPasswordScreen(user: widget.user)));
                           },
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(
@@ -378,15 +645,19 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                           child: Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                              padding: const EdgeInsets.fromLTRB(10, 15, 15, 15),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              padding:
+                                  const EdgeInsets.fromLTRB(10, 15, 15, 15),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text("Нууц үг шинэчлэх",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
-                                          color: Color(0xff584BDD), fontSize: 16)),
+                                          color: Color(0xff584BDD),
+                                          fontSize: 16)),
                                   Icon(Icons.exit_to_app,
                                       color: Color(0xff584BDD), size: 22.0)
                                 ],
@@ -398,7 +669,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                 )),
               ),
 
-             /* Container(
+              /* Container(
                 padding:
                     EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
                 width: MediaQuery.of(context).size.width,

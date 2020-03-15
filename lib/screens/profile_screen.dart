@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   padding: EdgeInsets.only(top: 90, bottom: 20),
                   child: Text(
-                    (this.user?.data?.lastname ?? "").toUpperCase() +
+                    (this.user?.data?.lastname ?? "") +
                         ' ' +
                         (this.user?.data?.firstname ?? ""),
                     style: TextStyle(
