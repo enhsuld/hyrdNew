@@ -240,10 +240,10 @@ class User {
   String regnum;
   String address;
   String countryCode;
-  Null markName;
-  Null modelName;
-  Null plateNumber;
-  Null cabinNumber;
+  String markName;
+  String modelName;
+  String plateNumber;
+  String cabinNumber;
   String createdAt;
   String updatedAt;
   Setting setting;

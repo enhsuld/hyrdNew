@@ -27,10 +27,10 @@ class Data {
   String regnum;
   Null address;
   String countryCode;
-  Null markName;
-  Null modelName;
-  Null plateNumber;
-  Null cabinNumber;
+  String markName;
+  String modelName;
+  String plateNumber;
+  String cabinNumber;
   String createdAt;
   String updatedAt;
   Setting setting;

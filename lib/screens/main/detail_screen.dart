@@ -370,15 +370,28 @@ class _DetailScreenState extends State<DetailScreen> {
                       width: MediaQuery.of(context).size.width,
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      child: Text(
-                        "Огноо: " +
-                            formatterDate
-                                .format(DateTime.parse(widget.item.createdAt)),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF222455),
-                        ),
-                        textAlign: TextAlign.left,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Зарын дугаар: " + widget.item.id.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF222455),
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          Text(
+                            "Огноо: " +
+                                formatterDate.format(
+                                    DateTime.parse(widget.item.createdAt)),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF222455),
+                            ),
+                            textAlign: TextAlign.left,
+                          )
+                        ],
                       ),
                     ),
                     Card(
@@ -390,6 +403,80 @@ class _DetailScreenState extends State<DetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            40,
+                                    height: 60,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'Улсын дугаар',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 8,
+                                              color: Color(0xFF6E7FAA)),
+                                        ),
+                                        Text(
+                                          widget.item?.plateNumber ?? "0000",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xFF222455)),
+                                        ),
+                                      ],
+                                    )),
+                                Container(
+                                    height: 60,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'Арлын дугаар',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 8,
+                                              color: Color(0xFF6E7FAA)),
+                                        ),
+                                        Text(
+                                          widget.item?.cabinNumber ?? "",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xFF222455)),
+                                        ),
+                                      ],
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
                             child: Row(
@@ -419,7 +506,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: EdgeInsets.only(bottom: 10,left: 10),
                                   width: MediaQuery.of(context).size.width / 2 -
                                       20,
                                   child: Row(
@@ -433,7 +520,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                               size: 25.0)),
                                       Container(
                                           height: 50,
-                                          width: 80,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -465,7 +556,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: EdgeInsets.only(bottom: 10,left: 10),
                                   width: MediaQuery.of(context).size.width / 2 -
                                       20,
                                   child: Row(
@@ -479,7 +570,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                               size: 25.0)),
                                       Container(
                                           height: 50,
-                                          width: 80,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -513,7 +608,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: EdgeInsets.only(bottom: 10,left: 10),
                                   width: MediaQuery.of(context).size.width / 2 -
                                       20,
                                   child: Row(
@@ -527,7 +622,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                               size: 25.0)),
                                       Container(
                                           height: 50,
-                                          width: 80,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -554,7 +653,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: EdgeInsets.only(bottom: 10,left: 10),
                                   width: MediaQuery.of(context).size.width / 2 -
                                       20,
                                   child: Row(
@@ -568,7 +667,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                               size: 25.0)),
                                       Container(
                                           height: 50,
-                                          width: 80,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -722,7 +825,6 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-
   _settingModalBottomSheet(context, String id, String type) {
     var size = MediaQuery.of(context).size;
 
@@ -757,207 +859,1319 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
-                    child:  Divider(
+                    child: Divider(
                       height: 1,
-                      color: Color(0xFF6E7FAA),
-                      thickness: 1,
+                      color: Color(0xFFB6BED4),
+                      thickness: 2,
                     ),
                   ),
                   Container(
-                     /* decoration: BoxDecoration(
-                        gradient: RadialGradient(colors: [
-                          Colors.grey[800],
-                          Colors.black,
-                        ], radius: 0.85, focal: Alignment.center),
-                      ),*/
-                      height: MediaQuery.of(context).size.height * 0.8 - 59,
-                      child: GridView.count(
-                        primary: false,
-                        padding: const EdgeInsets.all(20),
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        childAspectRatio: (itemWidth / itemHeight),
+                    height: MediaQuery.of(context).size.height * 0.8 - 59,
+                    child: SingleChildScrollView(
+                      child: Column(
                         children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
                           Container(
-                            height:70,
-                            padding: const EdgeInsets.all(8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
                                 Container(
-                                  height:50,
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Үйлдвэрлэсэн улс",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
-                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_country,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Үйлдвэрлэсэн улс',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.countryName ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
                                     ],
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_mark,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Үйлдвэрлэгч',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.markName ?? "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            height:70,
-                            padding: const EdgeInsets.all(8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
                                 Container(
-                                  height:50,
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Үйлдвэрлэгч",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
-                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_model,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Загвар',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.modelName ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
                                     ],
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(
+                                              HyrdNewIcons.car_buildyear,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Үйлдвэрлэсэн он',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.buildYear ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            height:70,
-                            padding: const EdgeInsets.all(8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
                                 Container(
-                                  height:50,
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Загвар",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
-                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_import,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Орж ирсэн огноо',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.importDate ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
                                     ],
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_type,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Төрөл',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.type ?? "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            height:70,
-                            padding: const EdgeInsets.all(8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
                                 Container(
-                                  height:50,
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Үйлдвэрлэсэн он",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
-                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_class,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Ангилал',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.className ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
                                     ],
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_intent,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Зориулалт',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.intent ?? "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            height:70,
-                            padding: const EdgeInsets.all(8),
+                            padding: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 10, top: 10),
+                            child: Divider(
+                              height: 1,
+                              color: Color(0xFFB6BED4),
+                              thickness: 1,
+                            ),
+                          ),
+                          Container(
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
                                 Container(
-                                  height:50,
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Үйлдвэрлэсэн улс",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
-                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_color,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Гадна өнгө',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.colorName ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
                                     ],
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(
+                                              HyrdNewIcons.car_motorname,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Моторын дугаар',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.motorNumber ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            height:70,
-                            padding: const EdgeInsets.all(8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
                                 Container(
-                                  height:50,
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Үйлдвэрлэгч",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
-                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_fueltype,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Шатахууны төрөл',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.fuelType ?? "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
                                     ],
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_mancount,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Суудлын тоо',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.manCount
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            height:70,
-                            padding: const EdgeInsets.all(8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
                                 Container(
-                                  height:50,
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Загвар",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
-                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(
+                                              HyrdNewIcons.car_axlecount,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Тэнхлэгийн тоо',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.axleCount ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
                                     ],
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(
+                                              HyrdNewIcons.car_transmission,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Хурдны хайрцаг',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.transmission ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            height:70,
-                            padding: const EdgeInsets.all(8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(HyrdNewIcons.car_capacity, color: Color(0xff6E7FAA),size: 30.0),
                                 Container(
-                                  height:50,
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Үйлдвэрлэсэн он",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 11),),
-                                      Text("Япон",style: TextStyle(color: Color(0xff6E7FAA),fontSize: 18),),
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_capacity,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Хөд/багтаамж',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.capacity
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
                                     ],
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_mileage,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Явсан км',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.mileage
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(
+                                              HyrdNewIcons.car_drivetrain,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Хөтлөгч',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.drivetrain ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(
+                                              HyrdNewIcons.car_wheelposition,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Хүрдний байрлал',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item
+                                                            ?.wheelPosition ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 10, top: 10),
+                            child: Divider(
+                              height: 1,
+                              color: Color(0xFFB6BED4),
+                              thickness: 1,
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_mass,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Бүх жин',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.mass
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_weight,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Жин',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.weight
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_liength,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Урт',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.length
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_height,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Өргөн',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.width
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 20),
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      20,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                          height: 40.0,
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Icon(HyrdNewIcons.car_height,
+                                              color: Color(0xFF6E7FAA),
+                                              size: 30.0)),
+                                      Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              Text(
+                                                'Өндөр',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: 8,
+                                                    color: Color(0xFF6E7FAA)),
+                                              ),
+                                              Wrap(
+                                                children: <Widget>[
+                                                  Text(
+                                                    widget.item?.height
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF6E7FAA)),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         ],
-                      )
+                      ),
+                    ),
                   )
                 ],
               ));
