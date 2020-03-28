@@ -939,7 +939,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       Container(
                                           height: 40.0,
                                           padding: EdgeInsets.only(right: 10),
-                                          child: Icon(HyrdNewIcons.car_mark,
+                                          child: Icon(Hyrd.car_buildyear_1,
                                               color: Color(0xFF6E7FAA),
                                               size: 30.0)),
                                       Container(
@@ -1338,7 +1338,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               color: Color(0xFF6E7FAA),
                                               size: 30.0)),
                                       Container(
-                                          height: 40,
+                                          height: 50,
                                           width: MediaQuery.of(context)
                                                       .size
                                                       .width /
@@ -1718,7 +1718,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       Container(
                                           height: 40.0,
                                           padding: EdgeInsets.only(right: 10),
-                                          child: Icon(HyrdNewIcons.car_mileage,
+                                          child: Icon(Hyrd.car_mileage_1,
                                               color: Color(0xFF6E7FAA),
                                               size: 30.0)),
                                       Container(
@@ -1779,7 +1779,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           height: 40.0,
                                           padding: EdgeInsets.only(right: 10),
                                           child: Icon(
-                                              HyrdNewIcons.car_drivetrain,
+                                              Hyrd.car_drivetrain_1,
                                               color: Color(0xFF6E7FAA),
                                               size: 30.0)),
                                       Container(
@@ -2124,7 +2124,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       Container(
                                           height: 40.0,
                                           padding: EdgeInsets.only(right: 10),
-                                          child: Icon(HyrdNewIcons.car_height,
+                                          child: Icon(Hyrd.car_height_1,
                                               color: Color(0xFF6E7FAA),
                                               size: 30.0)),
                                       Container(

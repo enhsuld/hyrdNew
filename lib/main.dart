@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         seconds: 2,
         navigateAfterSeconds: HomeScreen(),
         imageBackground:
-        ExactAssetImage('assets/images/splash.png'),
+        ExactAssetImage('assets/images/Artboard.png'),
         gradientBackground: new LinearGradient(
             colors: [Colors.cyan, Colors.blue],
             begin: Alignment.topLeft,

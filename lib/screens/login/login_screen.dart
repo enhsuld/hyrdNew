@@ -131,12 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          /*  decoration: new BoxDecoration(
-                          borderRadius: new BorderRadius.circular(50.0),
-                          color: Colors.white.withOpacity(0.1),
-                        ),*/
+                          height: 200,
                           child: Image.asset(
-                            'assets/images/screen-logo.png',
+                            'assets/images/LOGO-01.png',
                             fit: BoxFit.cover,
                           ),
                         ),
