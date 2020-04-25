@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:hyrd/models/banner_model.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/post_model.dart';
+import 'package:hyrd/models/report_type_model.dart';
 import 'package:hyrd/screens/login/login_screen.dart';
 import 'package:hyrd/screens/notification/notification_screen.dart';
 import 'package:hyrd/screens/popular_ads_screen.dart';
@@ -18,8 +21,8 @@ import 'package:hyrd/widget/horizontal_car_item.dart';
 import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 import 'package:hyrd/widget/vertical_news_item.dart';
-import 'package:page_transition/page_transition.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:hyrd/models/json_data.dart';
 import '../models/car.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -51,18 +54,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
     return result;
   }
-
+ // var reportTypes = new List<ReportTypeModel>();
   var banners = new List<BannerModel>();
-
+  Future<dynamic> cars;
   @override
   void initState() {
+    super.initState();
     BackendService.getBanner().then((data) {
       setState(() {
         this.banners = data;
       });
     });
+/*    BackendService.getReportTypes().then((data) {
+      setState(() {
+        this.reportTypes = data;
+      });
+    });*/
+    cars = _fetchCars(page: 1, pageSize: 5);
+  }
 
-    super.initState();
+  static String api = "https://hyrd.mn/api";
+  static String apiAds = api + "/car-ads";
+
+  Future<dynamic> _fetchCars({page, pageSize: 10}) async {
+    final response = (await http.get(apiAds + '/highlight?page=$page&limit=$pageSize'));
+    if (response.statusCode == 200) {
+      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
+    } else {
+      return null;
+    }
+    /*
+        if (response.statusCode == 200) {
+          final items = JsonData(utf8.decode(response.bodyBytes)).getData().cast<Map<String, dynamic>>();
+          List<CarModel> listOfUsers = items.map<CarModel>((json) {
+            return CarModel.fromJson(json);
+          }).toList();
+
+          print("sss "+listOfUsers.length.toString());
+
+          return listOfUsers;
+        } else {
+          throw Exception('Failed to load internet');
+        }
+    */
   }
 
   @override
@@ -307,7 +341,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             FutureBuilder(
-              future: BackendService.getHighlight(page: 1, pageSize: 5),
+              future: cars,
               builder: (context, snapshot) {
                 List<dynamic> lists;
                 if (snapshot.hasData) {

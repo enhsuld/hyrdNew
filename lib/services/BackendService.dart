@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:hyrd/models/banner_model.dart';
+import 'package:hyrd/models/report_type_model.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/help_model.dart';
 import 'package:hyrd/models/json_data.dart';
@@ -596,5 +597,11 @@ class BackendService {
     } else {
       return null;
     }
+  }
+
+ static Future<List<ReportTypeModel>> getReportTypes() async {
+    final response = (await http.get(api + '/taxonomies/report-types'));
+       return ReportTypeModel.fromJsonList(
+           json.decode(utf8.decode(response.bodyBytes)));
   }
 }
