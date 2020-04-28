@@ -1,18 +1,19 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/utils/color_hyrd.dart';
 import 'package:hyrd/utils/lang.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 
 class SearchResultScreen extends StatefulWidget {
   static const routeName = '/search-car';
   final String keyword;
+  final int searchType;
   final Map<String, String> filter;
 
-  SearchResultScreen({this.keyword, this.filter});
+  SearchResultScreen({this.keyword, this.searchType, this.filter});
 
   @override
   _SearchResultScreenState createState() => _SearchResultScreenState();
@@ -23,6 +24,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   bool isLogin = false;
 
   List<dynamic> searchHistory = new List();
+  List<CarModel> cars = new List();
+
+  String result;
 
   @override
   void initState() {
@@ -35,7 +39,14 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     Map<String, String> body = new HashMap();
     body["keyword"] = keyword;
     _searchController.text = keyword;
-    BackendService.getSearch(body: body).then((onValue) {});
+    BackendService.getSearch(body: body).then((onValue) {
+      setState(() {
+        result = onValue;
+        cars = CarModel.fromJsonList(
+            json.decode(result.toString())["result"]["car_ads"]);
+        print(cars);
+      });
+    });
   }
 
   @override

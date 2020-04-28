@@ -212,6 +212,7 @@ class _SearchScreenState extends State<SearchScreen>
         FadeRoute(
             builder: (context) => SearchResultScreen(
                   keyword: keyword,
+                  searchType: currentIndex,
                 )));
   }
 

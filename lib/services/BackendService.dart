@@ -338,8 +338,8 @@ class BackendService {
     if (method == "put" && url == "pass") {
       map[HttpHeaders.CONTENT_TYPE] = "application/json";
       map[HttpHeaders.ACCEPT] = "application/json";
-      final responseBody =
-      await http.put(api + '/user/password', headers: map, body: json.encode(data));
+      final responseBody = await http.put(api + '/user/password',
+          headers: map, body: json.encode(data));
       print(responseBody.body);
       if (responseBody.statusCode == 200)
         return json.decode(responseBody.body);
@@ -599,9 +599,9 @@ class BackendService {
     }
   }
 
- static Future<List<ReportTypeModel>> getReportTypes() async {
+  static Future<List<ReportTypeModel>> getReportTypes() async {
     final response = (await http.get(api + '/taxonomies/report-types'));
-       return ReportTypeModel.fromJsonList(
-           json.decode(utf8.decode(response.bodyBytes)));
+    return ReportTypeModel.fromJsonList(
+        json.decode(utf8.decode(response.bodyBytes)));
   }
 }

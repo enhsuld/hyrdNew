@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/popular_ads_screen.dart';
 import 'package:hyrd/screens/search_screen.dart';
