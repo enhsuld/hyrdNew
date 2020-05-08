@@ -74,11 +74,16 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                     items: imgList.map((imgUrl) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 0.0),
-                              child: Image.asset(imgUrl,
-                                  width: MediaQuery.of(context).size.width,
-                                  fit: BoxFit.cover));
+                          return InkWell(
+                            onTap: (){
+                              print("hatnaa");
+                            },
+                            child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 0.0),
+                                child: Image.asset(imgUrl,
+                                    width: MediaQuery.of(context).size.width,
+                                    fit: BoxFit.cover)),
+                          );
                         },
                       );
                     }).toList(),

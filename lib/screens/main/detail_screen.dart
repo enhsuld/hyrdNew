@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hyrd/models/car.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/main/dealer_screen.dart';
+import 'package:hyrd/screens/photo_wrapper.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
@@ -36,6 +37,8 @@ class _DetailScreenState extends State<DetailScreen> {
     'assets/images/img4.jpg',
     'assets/images/img5.jpg',
   ];
+
+  bool verticalGallery = false;
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -131,13 +134,18 @@ class _DetailScreenState extends State<DetailScreen> {
                           items: widget.item.medias.map((imgUrl) {
                             return Builder(
                               builder: (BuildContext context) {
-                                return Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 0.0),
-                                    child: Image.network(imgUrl.optimized,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fit: BoxFit.cover));
+                                return InkWell(
+                                  onTap: () {
+                                    open(context, _current, widget.item.medias);
+                                  },
+                                  child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 0.0),
+                                      child: Image.network(imgUrl.optimized,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          fit: BoxFit.cover)),
+                                );
                               },
                             );
                           }).toList(),
@@ -506,7 +514,8 @@ class _DetailScreenState extends State<DetailScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.only(bottom: 10,left: 10),
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 10),
                                   width: MediaQuery.of(context).size.width / 2 -
                                       20,
                                   child: Row(
@@ -556,7 +565,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(bottom: 10,left: 10),
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 10),
                                   width: MediaQuery.of(context).size.width / 2 -
                                       20,
                                   child: Row(
@@ -608,7 +618,8 @@ class _DetailScreenState extends State<DetailScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.only(bottom: 10,left: 10),
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 10),
                                   width: MediaQuery.of(context).size.width / 2 -
                                       20,
                                   child: Row(
@@ -653,7 +664,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(bottom: 10,left: 10),
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 10),
                                   width: MediaQuery.of(context).size.width / 2 -
                                       20,
                                   child: Row(
@@ -1778,8 +1790,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       Container(
                                           height: 40.0,
                                           padding: EdgeInsets.only(right: 10),
-                                          child: Icon(
-                                              Hyrd.car_drivetrain_1,
+                                          child: Icon(Hyrd.car_drivetrain_1,
                                               color: Color(0xFF6E7FAA),
                                               size: 30.0)),
                                       Container(
@@ -2176,5 +2187,35 @@ class _DetailScreenState extends State<DetailScreen> {
                 ],
               ));
         });
+  }
+
+  void open(BuildContext context, final int index, List<Medias> _list) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+        child: GalleryPhotoViewWrapper(
+          galleryItems: _list,
+          backgroundDecoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          initialIndex: index,
+          scrollDirection: verticalGallery ? Axis.vertical : Axis.horizontal,
+        ),
+      ),
+    );
+    // Navigator.push(
+    //   context,
+    //   FadeRoute(
+    //     builder: (context) => GalleryPhotoViewWrapper(
+    //       galleryItems: _list,
+    //       backgroundDecoration: const BoxDecoration(
+    //         color: Colors.transparent,
+    //       ),
+    //       initialIndex: index,
+    //       scrollDirection: verticalGallery ? Axis.vertical : Axis.horizontal,
+    //     ),
+    //   ),
+    // );
   }
 }

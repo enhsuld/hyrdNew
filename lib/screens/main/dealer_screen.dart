@@ -10,6 +10,7 @@ import 'package:hyrd/screens/main/tab_address_screen.dart';
 import 'package:hyrd/screens/main/tab_advertisement_screen.dart';
 import 'package:hyrd/screens/main/tab_home_screen.dart';
 import 'package:hyrd/screens/main/tab_news_screen.dart';
+import 'package:hyrd/screens/photo_wrapper.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
@@ -131,11 +132,18 @@ class _DealerScreenState extends State<DealerScreen>
                         items: widget.item.user.org.medias.map((imgUrl) {
                           return Builder(
                             builder: (BuildContext context) {
-                              return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 0.0),
-                                  child: Image.network(imgUrl.optimized,
-                                      width: MediaQuery.of(context).size.width,
-                                      fit: BoxFit.cover));
+                              return InkWell(
+                                  onTap: () {
+                                    open(context, _current,
+                                        widget.item.user.org.medias);
+                                  },
+                                  child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 0.0),
+                                      child: Image.network(imgUrl.optimized,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          fit: BoxFit.cover)));
                             },
                           );
                         }).toList(),
@@ -215,9 +223,13 @@ class _DealerScreenState extends State<DealerScreen>
                                                   width: 2),
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
-                                                image: (widget.item?.user?.org?.avatar == null)
-                                                    ? AssetImage('assets/images/defualt-org.png')
-                                                    : NetworkImage(widget.item.user.org.avatar),
+                                                image: (widget.item?.user?.org
+                                                            ?.avatar ==
+                                                        null)
+                                                    ? AssetImage(
+                                                        'assets/images/defualt-org.png')
+                                                    : NetworkImage(widget
+                                                        .item.user.org.avatar),
                                                 fit: BoxFit.cover,
                                               ),
                                               /*image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(widget.item.user.org.avatar)),*/
@@ -493,5 +505,35 @@ class _DealerScreenState extends State<DealerScreen>
             ),
           ],
         ));
+  }
+
+  void open(BuildContext context, final int index, List<Medias> _list) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+        child: GalleryPhotoViewWrapper(
+          galleryItems: _list,
+          backgroundDecoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          initialIndex: index,
+          scrollDirection: false ? Axis.vertical : Axis.horizontal,
+        ),
+      ),
+    );
+    // Navigator.push(
+    //   context,
+    //   FadeRoute(
+    //     builder: (context) => GalleryPhotoViewWrapper(
+    //       galleryItems: _list,
+    //       backgroundDecoration: const BoxDecoration(
+    //         color: Colors.transparent,
+    //       ),
+    //       initialIndex: index,
+    //       scrollDirection: verticalGallery ? Axis.vertical : Axis.horizontal,
+    //     ),
+    //   ),
+    // );
   }
 }

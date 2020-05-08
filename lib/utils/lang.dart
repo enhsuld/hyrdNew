@@ -4,6 +4,7 @@ mixin lang {
   static const String CAR_ADS = "МАШИН ЗАР";
   static const String INFO = "Мэдээлэл";
   static const String AAN = "ААН";
+  static const String GALLERY = "Зургийн сан";
   static const String YOU_SUGGEST_ADS = "Танд зориулагдсан зарууд";
   static const String HIGHLIGHT_ADS = "Онцолсон зарууд";
   static const String POPULAR_ADS = "Эрэлттэй зарууд";
