@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/lang.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
@@ -25,6 +26,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
 
   List<dynamic> searchHistory = new List();
   List<CarModel> cars = new List();
+  List<PostModel> posts = new List();
+  List<CarModel> orgs = new List();
+  String cnt = "0";
 
   String result;
 
@@ -42,9 +46,18 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     BackendService.getSearch(body: body).then((onValue) {
       setState(() {
         result = onValue;
-        cars = CarModel.fromJsonList(
-            json.decode(result.toString())["result"]["car_ads"]);
-        print(cars);
+        var jsonss = json.decode(result.toString());
+        //print(jsonss["results"]["car_ads"]);
+        if (widget.searchType == 0) {
+          cars = CarModel.fromJsonListNoData(jsonss["results"]["car_ads"]);
+          cnt = cars.length.toString();
+        } else if (widget.searchType == 0) {
+          posts = PostModel.fromJsonList(jsonss["results"]["posts"]);
+          cnt = posts.length.toString();
+        } else {
+          orgs = CarModel.fromJsonListNoData(jsonss["results"]["orgs"]);
+          cnt = orgs.length.toString();
+        }
       });
     });
   }
@@ -109,39 +122,40 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    lang.SEARCH_RESULT + " (5)",
+                    lang.SEARCH_RESULT + " ($cnt)",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
-            FutureBuilder(
-              future: BackendService.getHighlight(page: 1, pageSize: 5),
-              builder: (context, snapshot) {
-                List<dynamic> lists;
-                if (snapshot.hasData) {
-                  lists = snapshot.data;
-                  return Container(
-                    height: double.parse(lists.length.toString()) * 105,
-                    padding:
-                        EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
-                    child: ListView.builder(
-                      padding: EdgeInsets.only(top: 0, bottom: 0),
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: lists.length,
-                      itemBuilder: (ctx, i) => VerticalAdsItem(
-                        index: i,
-                        item: CarModel.fromJson(lists[i]["car_ad"]),
-                      ),
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
+            _buildList(),
+            // FutureBuilder(
+            //   future: BackendService.getHighlight(page: 1, pageSize: 5),
+            //   builder: (context, snapshot) {
+            //     List<dynamic> lists;
+            //     if (snapshot.hasData) {
+            //       lists = snapshot.data;
+            //       return Container(
+            //         height: double.parse(lists.length.toString()) * 105,
+            //         padding:
+            //             EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
+            //         child: ListView.builder(
+            //           padding: EdgeInsets.only(top: 0, bottom: 0),
+            //           physics: NeverScrollableScrollPhysics(),
+            //           itemCount: lists.length,
+            //           itemBuilder: (ctx, i) => VerticalAdsItem(
+            //             index: i,
+            //             item: CarModel.fromJson(lists[i]["car_ad"]),
+            //           ),
+            //         ),
+            //       );
+            //     } else {
+            //       return Center(
+            //         child: CircularProgressIndicator(),
+            //       );
+            //     }
+            //   },
+            // ),
             // Container(
             //     height: 270,
             //     child: FutureBuilder(
@@ -168,5 +182,54 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildList() {
+    switch (widget.searchType) {
+      case 0:
+        return Container(
+          height: double.parse(cars.length.toString()) * 105,
+          padding: EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
+          child: ListView.builder(
+            padding: EdgeInsets.only(top: 0, bottom: 0),
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: cars.length,
+            itemBuilder: (ctx, i) => VerticalAdsItem(
+              index: i,
+              item: cars[i],
+            ),
+          ),
+        );
+        break;
+      case 1:
+        return Container(
+          height: double.parse(posts.length.toString()) * 105,
+          padding: EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
+          child: ListView.builder(
+            padding: EdgeInsets.only(top: 0, bottom: 0),
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: posts.length,
+            itemBuilder: (ctx, i) => Text(posts[i].title),
+          ),
+        );
+        break;
+      case 2:
+        return Container(
+          height: double.parse(orgs.length.toString()) * 105,
+          padding: EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
+          child: ListView.builder(
+            padding: EdgeInsets.only(top: 0, bottom: 0),
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: orgs.length,
+            itemBuilder: (ctx, i) => VerticalAdsItem(
+              index: i,
+              item: orgs[i],
+            ),
+          ),
+        );
+        break;
+      default:
+        return Container();
+    }
   }
 }

@@ -30,7 +30,6 @@ class VerticalAdsItem extends StatefulWidget {
 }
 
 class _VerticalAdsItemState extends State<VerticalAdsItem> {
-
   TextEditingController _descriptionController = new TextEditingController();
 
   var reportTypes = new List<ReportTypeModel>();
@@ -53,6 +52,7 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.item?.wheelPosition ?? "");
     return Container(
       padding: EdgeInsets.only(bottom: 10),
       child: GestureDetector(
@@ -111,7 +111,8 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
                                   _settingModalBottomSheet(
                                       context,
                                       widget.item.id.toString(),
-                                      "", widget.item.user.id.toString());
+                                      "",
+                                      widget.item.user.id.toString());
                                 },
                               ))
                         ],
@@ -177,7 +178,8 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
     );
   }
 
-  _settingModalBottomSheet(context, String id, String type, String userId) async {
+  _settingModalBottomSheet(
+      context, String id, String type, String userId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String savedUserId = preferences.getString("userId") ?? "";
     showModalBottomSheet(
@@ -493,7 +495,6 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
     );
   }
 
-
   String _myActivity;
   void _showNotifyDialog(String id) {
     showDialog(
@@ -518,11 +519,11 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
                         topRight: Radius.circular(10.0)),
                   ),
                   child: SizedBox(
-                    width: (MediaQuery.of(context).size.width - 96), // match_parent
+                    width: (MediaQuery.of(context).size.width -
+                        96), // match_parent
                     child: FlatButton(
                       child: const Text('Мэдэгдэх'),
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                     ),
                   ),
                 ),
@@ -542,13 +543,13 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
                         _myActivity = value;
                       });
                     },
-                    dataSource: (reportTypes.length>0) ? reportTypes : [],
+                    dataSource: (reportTypes.length > 0) ? reportTypes : [],
                     textField: 'name',
                     valueField: 'id',
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                   child: new Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -560,9 +561,8 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
                         child: TextFormField(
                           controller: _descriptionController,
                           maxLines: 4,
-                          validator: (value) => value.isEmpty
-                              ? 'Description is required'
-                              : null,
+                          validator: (value) =>
+                              value.isEmpty ? 'Description is required' : null,
                           decoration: InputDecoration.collapsed(
                               hintText: "Та энд тайлбараа бичнэ үү ..."),
                         ),
@@ -576,12 +576,13 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
                         bottomRight: Radius.circular(10.0)),
                   ),
                   child: SizedBox(
-                    width: (MediaQuery.of(context).size.width - 96), // match_parent
+                    width: (MediaQuery.of(context).size.width -
+                        96), // match_parent
                     child: FlatButton(
                       child: const Text('Илгээх'),
                       onPressed: () {
                         BackendService.crud(
-                            'post', '/reports/car-ads/' + id, new HashMap())
+                                'post', '/reports/car-ads/' + id, new HashMap())
                             .then((onValue) {
                           showToast("Амжилттай", gravity: Toast.BOTTOM);
                           Navigator.of(context).pop();

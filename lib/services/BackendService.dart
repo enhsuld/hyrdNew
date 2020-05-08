@@ -89,8 +89,8 @@ class BackendService {
 
     final responseBody =
         (await http.post(api + '/search', headers: map, body: body)).body;
-    print(token + "  " + body.toString());
-    print(responseBody);
+    //print(token + "  " + body.toString());
+    //print(responseBody);
     return responseBody;
   }
 
