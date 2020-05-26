@@ -74,11 +74,16 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                     items: imgList.map((imgUrl) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 0.0),
-                              child: Image.asset(imgUrl,
-                                  width: MediaQuery.of(context).size.width,
-                                  fit: BoxFit.cover));
+                          return InkWell(
+                            onTap: (){
+                              print("hatnaa");
+                            },
+                            child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 0.0),
+                                child: Image.asset(imgUrl,
+                                    width: MediaQuery.of(context).size.width,
+                                    fit: BoxFit.cover)),
+                          );
                         },
                       );
                     }).toList(),
@@ -217,8 +222,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                       height: 20,
                     ),
                     new GestureDetector(
-                      onTap: ()=> {
-                        Navigator.push(context, FadeRoute(builder: (context) => DealerScreen()))
+                      onTap: () => {
+                        Navigator.push(context,
+                            FadeRoute(builder: (context) => DealerScreen()))
                       },
                       child: new Card(
                         shape: RoundedRectangleBorder(
@@ -248,7 +254,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                               height: 50,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Text(
                                     "Tavan bogd",
@@ -282,7 +289,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                                     ],
                                   ),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
+                                      BorderRadius.all(Radius.circular(8.0))),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               child: Text("Онцгой",

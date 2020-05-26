@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyrd/common/apifunctions/requestLoginAPI.dart';
-import 'package:hyrd/screens/home_screen.dart';
+import 'package:hyrd/screens/login/password/phone_screen.dart';
 import 'package:hyrd/screens/login/signUp/step_one.dart';
 import 'package:hyrd/utils/fade_route.dart';
 
@@ -14,9 +14,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController =
-      TextEditingController(text: "99203119");
+      TextEditingController(text: "99017211");
   final TextEditingController _passwordController =
-      TextEditingController(text: "123456");
+      TextEditingController(text: "123123");
 
   TextStyle style =
       TextStyle(fontFamily: 'Roboto', color: Colors.white, fontSize: 15.0);
@@ -131,12 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          /*  decoration: new BoxDecoration(
-                          borderRadius: new BorderRadius.circular(50.0),
-                          color: Colors.white.withOpacity(0.1),
-                        ),*/
+                          height: 200,
                           child: Image.asset(
-                            'assets/images/screen-logo.png',
+                            'assets/images/LOGO-01.png',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -205,7 +202,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           onTap: () {
                             // Navigator.pop(context);
-                            // Navigator.of(context).push(FadeRoute(builder: (context) => SignUpPage()));
+                            Navigator.of(context).push(
+                                FadeRoute(builder: (context) => PhoneScreen()));
                           }),
                     ],
                   ),

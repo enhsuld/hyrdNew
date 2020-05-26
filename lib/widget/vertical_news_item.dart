@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/screens/car_details_screen.dart';
+import 'package:hyrd/screens/news_screen.dart';
+import 'package:hyrd/utils/fade_route.dart';
 import 'package:intl/intl.dart';
 
 class VerticalNewsItem extends StatelessWidget {
@@ -22,7 +24,9 @@ class VerticalNewsItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, FadeRoute(builder: (context) => NewsScreen(item:item)));
+          },
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -40,7 +44,9 @@ class VerticalNewsItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(item.coverImage)),
+                        image: (item.coverImage == null)
+                            ? AssetImage('assets/images/defualt-post.png')
+                            : NetworkImage(item.coverImage),),
                   ),
                 ),
                 Container(

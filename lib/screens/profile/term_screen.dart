@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:hyrd/screens/add_car_screen.dart';
 import 'package:hyrd/screens/main/dealer_screen.dart';
 import 'package:hyrd/utils/fade_route.dart';
@@ -17,19 +20,18 @@ class TermScreen extends StatefulWidget {
 }
 
 class _TermScreenState extends State<TermScreen> {
-
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
+    return new WebviewScaffold(
+      url: "https://hyrd.mn/embed/terms-conditions",
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.topRight,
-                colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
-              )),
+            begin: Alignment.centerLeft,
+            end: Alignment.topRight,
+            colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+          )),
         ),
         centerTitle: true,
         leading: Builder(builder: (BuildContext context) {
@@ -46,26 +48,12 @@ class _TermScreenState extends State<TermScreen> {
               ));
         }),
         title: Text("Үйлчилгээний нөхцөл",
-            style:
-            TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+            textAlign: TextAlign.left,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
         elevation: 0.0,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-          child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(bottom: 20),
-              child: Text("Dear John", style:TextStyle(color: Color(0xFF222455), fontWeight: FontWeight.w600),)
-            ),
-            Text("Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestee.", style:TextStyle(color: Color(0xFF222455)),)
-          ],
-        ),
-        ),
-      ),
+      withZoom: false,
+      withLocalStorage: true,
     );
   }
 }

@@ -6,6 +6,8 @@ import 'package:hyrd/screens/home_screen.dart';
 import 'package:hyrd/screens/profile_screen.dart';
 import 'package:hyrd/screens/search_car_screen.dart';
 import 'package:hyrd/screens/total_ad_screen.dart';
+import 'package:hyrd/utils/fade_route.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,7 +26,22 @@ class MyApp extends StatelessWidget {
         TotalAdScreen.routeName: (ctx) => TotalAdScreen(),
         ProfileScreen.routeName: (ctx) => ProfileScreen(),
       },
-      home: HomeScreen(),
+      home: SplashScreen(
+        seconds: 2,
+        navigateAfterSeconds: HomeScreen(),
+        imageBackground:
+        ExactAssetImage('assets/images/Artboard.png'),
+        gradientBackground: new LinearGradient(
+            colors: [Colors.cyan, Colors.blue],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight),
+        backgroundColor: Colors.white,
+        styleTextUnderTheLoader: new TextStyle(),
+        photoSize: 100.0,
+        onClick: () => Navigator.of(context)
+            .push(FadeRoute(builder: (context) => HomeScreen())),
+        loaderColor: Colors.red,
+      ),
     );
   }
 }

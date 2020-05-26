@@ -1,17 +1,8 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
-import 'package:hyrd/screens/add_car_screen.dart';
-import 'package:hyrd/screens/main/dealer_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:toast/toast.dart';
-
-import '../../models/car.dart';
-import '../../widget/vertical_list_item.dart';
-import '../../widget/horizontal_list_item.dart';
 
 class FeedBackScreen extends StatefulWidget {
   static const routeName = '/feed-back';
@@ -134,7 +125,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image:
-                                      AssetImage("assets/images/mainLogo.png"),
+                                      AssetImage("assets/images/screen-logo.png"),
                                   fit: BoxFit.scaleDown,
                                 ),
                               ),
@@ -173,7 +164,8 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                             _priceController.text='';
                             _descriptionController.text='';
                             showToast("Амжилттай", gravity: Toast.BOTTOM);
-                            Navigator.of(context).pop();
+                            _showViewDialog();
+                            //Navigator.of(context).pop();
                           }
                       });
 
@@ -211,6 +203,92 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
       ),
     );
   }
+
+  void _showViewDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(0.0),
+          backgroundColor: Color(0xffF4F4F4),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          content: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(20),
+                  height: 100,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image:
+                      AssetImage("assets/images/screen-logo.png"),
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text("Хүлээн авлаа !",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xff584BDD),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600)),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 50,bottom: 20, right: 50),
+                  child: Text(
+                      "Санал хүсэлт илээсэн танд баярлалаа.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Color(0xff8D8D8D), fontSize: 13)),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10.0),
+                        bottomRight: Radius.circular(10.0)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: (MediaQuery.of(context).size.width-96)/2, // match_parent
+                        child: FlatButton(
+                          child: const Text('Цуцлах'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: (MediaQuery.of(context).size.width-96)/2, // match_parent
+                        child: FlatButton(
+                          child: const Text('Тийм'),
+                          onPressed: () {
+                            showToast("Амжилттай", gravity: Toast.BOTTOM);
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void showToast(String msg, {int duration, int gravity}) {
     Toast.show(msg, context, duration: 1, gravity: gravity);
   }

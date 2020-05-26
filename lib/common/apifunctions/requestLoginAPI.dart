@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:hyrd/common/functions/saveCurrentLogin.dart';
+import 'package:hyrd/common/functions/saveCurrentUser.dart';
 import 'package:hyrd/common/functions/showDialogSingleButton.dart';
 import 'package:hyrd/services/BackendService.dart';
 
@@ -27,6 +28,13 @@ Future<dynamic> requestLoginAPI(
     final responseJson = json.decode(response.body);
     print("logged user " + responseJson.toString());
     saveCurrentLogin(responseJson);
+
+    BackendService.getUserProfileData().then((data) {
+      saveCurrentUser(data);
+    });
+
+
+
     return responseJson;
   } else {
     final responseJson = json.decode(response.body);

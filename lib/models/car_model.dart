@@ -52,55 +52,55 @@ class CarModel {
 
   CarModel(
       {this.id,
-        this.user,
-        this.name,
-        this.condition,
-        this.price,
-        this.priceFormat,
-        this.description,
-        this.plateNumber,
-        this.cabinNumber,
-        this.countryName,
-        this.markName,
-        this.modelName,
-        this.type,
-        this.className,
-        this.manCount,
-        this.weight,
-        this.mass,
-        this.fuelType,
-        this.width,
-        this.height,
-        this.capacity,
-        this.motorNumber,
-        this.colorName,
-        this.axleCount,
-        this.certificateNumber,
-        this.importDate,
-        this.intent,
-        this.transmission,
-        this.ownerCountry,
-        this.ownerRegnum,
-        this.ownerType,
-        this.ownerFirstname,
-        this.ownerLastname,
-        this.ownerHomephone,
-        this.ownerWorkphone,
-        this.ownerHandphone,
-        this.ownerAddress,
-        this.archiveDate,
-        this.buildYear,
-        this.archiveFirstNumber,
-        this.wheelPosition,
-        this.length,
-        this.archiveNumber,
-        this.mileage,
-        this.drivetrain,
-        this.createdAt,
-        this.updatedAt,
-        this.views,
-        this.publishTariff,
-        this.medias});
+      this.user,
+      this.name,
+      this.condition,
+      this.price,
+      this.priceFormat,
+      this.description,
+      this.plateNumber,
+      this.cabinNumber,
+      this.countryName,
+      this.markName,
+      this.modelName,
+      this.type,
+      this.className,
+      this.manCount,
+      this.weight,
+      this.mass,
+      this.fuelType,
+      this.width,
+      this.height,
+      this.capacity,
+      this.motorNumber,
+      this.colorName,
+      this.axleCount,
+      this.certificateNumber,
+      this.importDate,
+      this.intent,
+      this.transmission,
+      this.ownerCountry,
+      this.ownerRegnum,
+      this.ownerType,
+      this.ownerFirstname,
+      this.ownerLastname,
+      this.ownerHomephone,
+      this.ownerWorkphone,
+      this.ownerHandphone,
+      this.ownerAddress,
+      this.archiveDate,
+      this.buildYear,
+      this.archiveFirstNumber,
+      this.wheelPosition,
+      this.length,
+      this.archiveNumber,
+      this.mileage,
+      this.drivetrain,
+      this.createdAt,
+      this.updatedAt,
+      this.views,
+      this.publishTariff,
+      this.medias});
 
   CarModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -222,9 +222,14 @@ class CarModel {
     }
     return data;
   }
+
   static List<CarModel> fromJsonList(jsonList) {
     var data = jsonList['data'];
     return data.map<CarModel>((obj) => CarModel.fromJson(obj)).toList();
+  }
+
+  static List<CarModel> fromJsonListNoData(jsonList) {
+    return jsonList.map<CarModel>((obj) => CarModel.fromJson(obj)).toList();
   }
 }
 
@@ -239,10 +244,10 @@ class User {
   String regnum;
   String address;
   String countryCode;
-  Null markName;
-  Null modelName;
-  Null plateNumber;
-  Null cabinNumber;
+  String markName;
+  String modelName;
+  String plateNumber;
+  String cabinNumber;
   String createdAt;
   String updatedAt;
   Setting setting;
@@ -250,23 +255,23 @@ class User {
 
   User(
       {this.id,
-        this.phone,
-        this.type,
-        this.typeString,
-        this.avatar,
-        this.firstname,
-        this.lastname,
-        this.regnum,
-        this.address,
-        this.countryCode,
-        this.markName,
-        this.modelName,
-        this.plateNumber,
-        this.cabinNumber,
-        this.createdAt,
-        this.updatedAt,
-        this.setting,
-        this.org});
+      this.phone,
+      this.type,
+      this.typeString,
+      this.avatar,
+      this.firstname,
+      this.lastname,
+      this.regnum,
+      this.address,
+      this.countryCode,
+      this.markName,
+      this.modelName,
+      this.plateNumber,
+      this.cabinNumber,
+      this.createdAt,
+      this.updatedAt,
+      this.setting,
+      this.org});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -286,7 +291,7 @@ class User {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     setting =
-    json['setting'] != null ? new Setting.fromJson(json['setting']) : null;
+        json['setting'] != null ? new Setting.fromJson(json['setting']) : null;
     org = json['org'] != null ? new Org.fromJson(json['org']) : null;
   }
 
@@ -331,14 +336,14 @@ class Setting {
 
   Setting(
       {this.autoLogin,
-        this.mobileData,
-        this.notifPosts,
-        this.notifAds,
-        this.notifVibration,
-        this.notifSound,
-        this.sendSearchToOrg,
-        this.saveSearch,
-        this.saveViews});
+      this.mobileData,
+      this.notifPosts,
+      this.notifAds,
+      this.notifVibration,
+      this.notifSound,
+      this.sendSearchToOrg,
+      this.saveSearch,
+      this.saveViews});
 
   Setting.fromJson(Map<String, dynamic> json) {
     autoLogin = json['autoLogin'];
@@ -383,23 +388,25 @@ class Org {
   String createdAt;
   String updatedAt;
   Count count;
+  List<Medias> medias;
 
   Org(
       {this.id,
-        this.name,
-        this.service,
-        this.avatar,
-        this.about,
-        this.address,
-        this.workHours,
-        this.email,
-        this.website,
-        this.phone,
-        this.latitude,
-        this.longitude,
-        this.createdAt,
-        this.updatedAt,
-        this.count});
+      this.name,
+      this.service,
+      this.avatar,
+      this.about,
+      this.address,
+      this.workHours,
+      this.email,
+      this.website,
+      this.phone,
+      this.latitude,
+      this.longitude,
+      this.createdAt,
+      this.updatedAt,
+      this.count,
+      this.medias});
 
   Org.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -417,6 +424,12 @@ class Org {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     count = json['count'] != null ? new Count.fromJson(json['count']) : null;
+    if (json['medias'] != null) {
+      medias = new List<Medias>();
+      json['medias'].forEach((v) {
+        medias.add(new Medias.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -437,6 +450,9 @@ class Org {
     data['updated_at'] = this.updatedAt;
     if (this.count != null) {
       data['count'] = this.count.toJson();
+    }
+    if (this.medias != null) {
+      data['medias'] = this.medias.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -464,43 +480,6 @@ class Count {
   }
 }
 
-class PublishTariff {
-  int id;
-  int duration;
-  int price;
-  Null discount;
-  Null description;
-  Null publishGroup;
-
-  PublishTariff(
-      {this.id,
-        this.duration,
-        this.price,
-        this.discount,
-        this.description,
-        this.publishGroup});
-
-  PublishTariff.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    duration = json['duration'];
-    price = json['price'];
-    discount = json['discount'];
-    description = json['description'];
-    publishGroup = json['publish_group'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['duration'] = this.duration;
-    data['price'] = this.price;
-    data['discount'] = this.discount;
-    data['description'] = this.description;
-    data['publish_group'] = this.publishGroup;
-    return data;
-  }
-}
-
 class Medias {
   String original;
   String thumb;
@@ -522,6 +501,43 @@ class Medias {
     data['thumb'] = this.thumb;
     data['optimized'] = this.optimized;
     data['responsive_images'] = this.responsiveImages;
+    return data;
+  }
+}
+
+class PublishTariff {
+  int id;
+  int duration;
+  int price;
+  Null discount;
+  Null description;
+  Null publishGroup;
+
+  PublishTariff(
+      {this.id,
+      this.duration,
+      this.price,
+      this.discount,
+      this.description,
+      this.publishGroup});
+
+  PublishTariff.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    duration = json['duration'];
+    price = json['price'];
+    discount = json['discount'];
+    description = json['description'];
+    publishGroup = json['publish_group'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['duration'] = this.duration;
+    data['price'] = this.price;
+    data['discount'] = this.discount;
+    data['description'] = this.description;
+    data['publish_group'] = this.publishGroup;
     return data;
   }
 }
