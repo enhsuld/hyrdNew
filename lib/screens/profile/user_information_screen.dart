@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/models/taxonomy.dart';
+import 'package:hyrd/screens/addNewAd/UploadFileInfo.dart';
 import 'package:hyrd/screens/profile/ad_screen.dart';
 import 'package:hyrd/screens/profile/notification_screen.dart';
 import 'package:hyrd/screens/profile/reset_password_screen.dart';
@@ -45,7 +46,6 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
   var carModels = new List<TaxonomyModel>();
 
   TaxonomyModel carMark, carModel;
-
 
   @override
   void initState() {
@@ -121,7 +121,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
   }
 
   List<String> uploadImage() {
-    FormData formData = new FormData.from({"avatar": files});
+    FormData formData = new FormData.fromMap({"avatar": files});
     BackendService.uploadProfile(url: 'avatar', data: formData)
         .then((response) {
       setState(() {

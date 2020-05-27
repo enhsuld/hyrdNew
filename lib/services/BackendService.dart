@@ -14,6 +14,7 @@ import 'package:hyrd/models/organization_model.dart';
 import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/models/taxonomy.dart';
+import 'package:hyrd/screens/addNewAd/UploadFileInfo.dart';
 import 'package:hyrd/utils/debug_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -201,7 +202,7 @@ class BackendService {
   }
 
   static updateCarAds({Map<String, dynamic> taxonomy, int id}) async {
-    FormData formData = new FormData.from(taxonomy);
+    FormData formData = new FormData.fromMap(taxonomy);
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String token = preferences.getString("token") ?? "";
     Map<String, String> map = new HashMap();
@@ -231,8 +232,10 @@ class BackendService {
     if (token.length > 0) {
       map[HttpHeaders.authorizationHeader] = "Bearer $token";
     }
-    FormData formData = new FormData.from(item);
-    formData.add("media[]", data);
+    item["media[]"] = data;
+    FormData formData = new FormData.fromMap(item);
+    //formData.add("media[]", data);
+
     print(formData);
     Dio dio = new Dio();
     var responseBody = await dio.post(api + "/car-ads",
