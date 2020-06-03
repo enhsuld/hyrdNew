@@ -2,12 +2,11 @@ import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:toast/toast.dart';
-import 'package:vibrate/vibrate.dart';
-
 
 class NotificationSettingsScreen extends StatefulWidget {
   static const routeName = '/notification-settings';
@@ -16,10 +15,12 @@ class NotificationSettingsScreen extends StatefulWidget {
   NotificationSettingsScreen({Key key, @required this.user}) : super(key: key);
 
   @override
-  _NotificationSettingsScreenState createState() => _NotificationSettingsScreenState();
+  _NotificationSettingsScreenState createState() =>
+      _NotificationSettingsScreenState();
 }
 
-class _NotificationSettingsScreenState extends State<NotificationSettingsScreen> {
+class _NotificationSettingsScreenState
+    extends State<NotificationSettingsScreen> {
   bool isSwitched = true;
 
   bool _canVibrate = true;
@@ -44,7 +45,6 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
           : print("This device cannot vibrate");
     });
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +53,10 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.topRight,
-                colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
-              )),
+            begin: Alignment.centerLeft,
+            end: Alignment.topRight,
+            colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+          )),
         ),
         centerTitle: true,
         leading: Builder(builder: (BuildContext context) {
@@ -85,24 +85,23 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
             children: <Widget>[
               new GestureDetector(
                 onTap: () => {
-                    setState(() {
-                      if(widget.user.data.setting.notifPosts){
-                        widget.user.data.setting.notifPosts =false;
-                        var map = new Map<String, dynamic>();
-                        map["notifPosts"] = false;
-                        BackendService.updateUser(map).then((onValue) {
-                          showToast("Амжилттай",gravity: Toast.BOTTOM);
-                        });
-                      }
-                      else{
-                        widget.user.data.setting.notifPosts =true;
-                        var map = new Map<String, dynamic>();
-                        map["notifPosts"] = true;
-                        BackendService.updateUser(map).then((onValue) {
-                          showToast("Амжилттай",gravity: Toast.BOTTOM);
-                        });
-                      }
-                    })
+                  setState(() {
+                    if (widget.user.data.setting.notifPosts) {
+                      widget.user.data.setting.notifPosts = false;
+                      var map = new Map<String, dynamic>();
+                      map["notifPosts"] = false;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
+                      });
+                    } else {
+                      widget.user.data.setting.notifPosts = true;
+                      var map = new Map<String, dynamic>();
+                      map["notifPosts"] = true;
+                      BackendService.updateUser(map).then((onValue) {
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
+                      });
+                    }
+                  })
                 },
                 child: new Card(
                   shape: RoundedRectangleBorder(
@@ -110,7 +109,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   ),
                   elevation: 5,
                   child: Container(
-                    padding: EdgeInsets.only(left:20,top: 20,bottom: 20,right: 10),
+                    padding: EdgeInsets.only(
+                        left: 20, top: 20, bottom: 20, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -141,21 +141,25 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                         ),
                         Container(
                           height: 20,
-                          child: Transform.scale( scale: 1,
-                            child:  Switch(
+                          child: Transform.scale(
+                            scale: 1,
+                            child: Switch(
                               value: widget.user.data.setting.notifPosts,
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
-                                  widget.user.data.setting.notifPosts =value;
+                                  widget.user.data.setting.notifPosts = value;
                                   var map = new Map<String, dynamic>();
                                   map["notifPosts"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай",gravity: Toast.BOTTOM);
+                                  BackendService.updateUser(map)
+                                      .then((onValue) {
+                                    showToast("Амжилттай",
+                                        gravity: Toast.BOTTOM);
                                   });
                                 });
                               },
-                              activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
+                              activeTrackColor:
+                                  Color(0xFFB755FF).withOpacity(0.4),
                               activeColor: Color(0xFFB755FF),
                             ),
                           ),
@@ -171,20 +175,19 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               new GestureDetector(
                 onTap: () => {
                   setState(() {
-                    if(widget.user.data.setting.notifAds){
-                      widget.user.data.setting.notifAds =false;
+                    if (widget.user.data.setting.notifAds) {
+                      widget.user.data.setting.notifAds = false;
                       var map = new Map<String, dynamic>();
                       map["notifAds"] = false;
                       BackendService.updateUser(map).then((onValue) {
-                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
                       });
-                    }
-                    else{
-                      widget.user.data.setting.notifAds =true;
+                    } else {
+                      widget.user.data.setting.notifAds = true;
                       var map = new Map<String, dynamic>();
                       map["notifAds"] = true;
                       BackendService.updateUser(map).then((onValue) {
-                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
                       });
                     }
                   })
@@ -195,7 +198,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   ),
                   elevation: 5,
                   child: Container(
-                    padding: EdgeInsets.only(left:20,top: 20,bottom: 20,right: 10),
+                    padding: EdgeInsets.only(
+                        left: 20, top: 20, bottom: 20, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -226,21 +230,25 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                         ),
                         Container(
                           height: 20,
-                          child: Transform.scale( scale: 1,
-                            child:  Switch(
+                          child: Transform.scale(
+                            scale: 1,
+                            child: Switch(
                               value: widget.user.data.setting.notifAds,
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
-                                  widget.user.data.setting.notifAds =value;
+                                  widget.user.data.setting.notifAds = value;
                                   var map = new Map<String, dynamic>();
                                   map["notifAds"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай",gravity: Toast.BOTTOM);
+                                  BackendService.updateUser(map)
+                                      .then((onValue) {
+                                    showToast("Амжилттай",
+                                        gravity: Toast.BOTTOM);
                                   });
                                 });
                               },
-                              activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
+                              activeTrackColor:
+                                  Color(0xFFB755FF).withOpacity(0.4),
                               activeColor: Color(0xFFB755FF),
                             ),
                           ),
@@ -256,21 +264,20 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               new GestureDetector(
                 onTap: () => {
                   setState(() {
-                    if(widget.user.data.setting.notifVibration){
-                      widget.user.data.setting.notifVibration =false;
+                    if (widget.user.data.setting.notifVibration) {
+                      widget.user.data.setting.notifVibration = false;
                       var map = new Map<String, dynamic>();
                       map["notifVibration"] = false;
                       BackendService.updateUser(map).then((onValue) {
-                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
                       });
-                    }
-                    else{
+                    } else {
                       Vibrate.feedback(FeedbackType.heavy);
-                      widget.user.data.setting.notifVibration =true;
+                      widget.user.data.setting.notifVibration = true;
                       var map = new Map<String, dynamic>();
                       map["notifVibration"] = true;
                       BackendService.updateUser(map).then((onValue) {
-                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
                       });
                     }
                   })
@@ -281,7 +288,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   ),
                   elevation: 5,
                   child: Container(
-                    padding: EdgeInsets.only(left:20,top: 20,bottom: 20,right: 10),
+                    padding: EdgeInsets.only(
+                        left: 20, top: 20, bottom: 20, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -312,24 +320,29 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                         ),
                         Container(
                           height: 20,
-                          child: Transform.scale( scale: 1,
-                            child:  Switch(
+                          child: Transform.scale(
+                            scale: 1,
+                            child: Switch(
                               value: widget.user.data.setting.notifVibration,
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
-                                  widget.user.data.setting.notifVibration =value;
+                                  widget.user.data.setting.notifVibration =
+                                      value;
                                   var map = new Map<String, dynamic>();
                                   map["notifVibration"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай",gravity: Toast.BOTTOM);
+                                  BackendService.updateUser(map)
+                                      .then((onValue) {
+                                    showToast("Амжилттай",
+                                        gravity: Toast.BOTTOM);
                                   });
-                                  if(value){
+                                  if (value) {
                                     Vibrate.feedback(FeedbackType.heavy);
                                   }
                                 });
                               },
-                              activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
+                              activeTrackColor:
+                                  Color(0xFFB755FF).withOpacity(0.4),
                               activeColor: Color(0xFFB755FF),
                             ),
                           ),
@@ -345,21 +358,20 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               new GestureDetector(
                 onTap: () => {
                   setState(() {
-                    if(widget.user.data.setting.notifSound){
-                      widget.user.data.setting.notifSound =false;
+                    if (widget.user.data.setting.notifSound) {
+                      widget.user.data.setting.notifSound = false;
                       var map = new Map<String, dynamic>();
                       map["notifSound"] = false;
                       BackendService.updateUser(map).then((onValue) {
-                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
                       });
-                    }
-                    else{
-                      widget.user.data.setting.notifSound =true;
+                    } else {
+                      widget.user.data.setting.notifSound = true;
                       var map = new Map<String, dynamic>();
                       FlutterRingtonePlayer.playNotification();
                       map["notifSound"] = true;
                       BackendService.updateUser(map).then((onValue) {
-                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
                       });
                     }
                   })
@@ -370,7 +382,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   ),
                   elevation: 5,
                   child: Container(
-                    padding: EdgeInsets.only(left:20,top: 20,bottom: 20,right: 10),
+                    padding: EdgeInsets.only(
+                        left: 20, top: 20, bottom: 20, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -401,15 +414,17 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                         ),
                         Container(
                           height: 20,
-                          child: Transform.scale( scale: 1,
-                            child:  Switch(
+                          child: Transform.scale(
+                            scale: 1,
+                            child: Switch(
                               value: widget.user.data.setting.notifSound,
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
                                 });
                               },
-                              activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
+                              activeTrackColor:
+                                  Color(0xFFB755FF).withOpacity(0.4),
                               activeColor: Color(0xFFB755FF),
                             ),
                           ),
@@ -425,20 +440,19 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               new GestureDetector(
                 onTap: () => {
                   setState(() {
-                    if(widget.user.data.setting.sendSearchToOrg){
-                      widget.user.data.setting.sendSearchToOrg =false;
+                    if (widget.user.data.setting.sendSearchToOrg) {
+                      widget.user.data.setting.sendSearchToOrg = false;
                       var map = new Map<String, dynamic>();
                       map["sendSearchToOrg"] = false;
                       BackendService.updateUser(map).then((onValue) {
-                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
                       });
-                    }
-                    else{
-                      widget.user.data.setting.sendSearchToOrg =true;
+                    } else {
+                      widget.user.data.setting.sendSearchToOrg = true;
                       var map = new Map<String, dynamic>();
                       map["sendSearchToOrg"] = true;
                       BackendService.updateUser(map).then((onValue) {
-                        showToast("Амжилттай",gravity: Toast.BOTTOM);
+                        showToast("Амжилттай", gravity: Toast.BOTTOM);
                       });
                     }
                   })
@@ -449,7 +463,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   ),
                   elevation: 5,
                   child: Container(
-                    padding: EdgeInsets.only(left:20,top: 20,bottom: 20,right: 10),
+                    padding: EdgeInsets.only(
+                        left: 20, top: 20, bottom: 20, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -480,21 +495,26 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                         ),
                         Container(
                           height: 20,
-                          child: Transform.scale( scale: 1,
-                            child:  Switch(
+                          child: Transform.scale(
+                            scale: 1,
+                            child: Switch(
                               value: widget.user.data.setting.sendSearchToOrg,
                               onChanged: (value) {
                                 setState(() {
                                   isSwitched = value;
-                                  widget.user.data.setting.sendSearchToOrg =value;
+                                  widget.user.data.setting.sendSearchToOrg =
+                                      value;
                                   var map = new Map<String, dynamic>();
                                   map["sendSearchToOrg"] = value;
-                                  BackendService.updateUser(map).then((onValue) {
-                                    showToast("Амжилттай",gravity: Toast.BOTTOM);
+                                  BackendService.updateUser(map)
+                                      .then((onValue) {
+                                    showToast("Амжилттай",
+                                        gravity: Toast.BOTTOM);
                                   });
                                 });
                               },
-                              activeTrackColor: Color(0xFFB755FF).withOpacity(0.4),
+                              activeTrackColor:
+                                  Color(0xFFB755FF).withOpacity(0.4),
                               activeColor: Color(0xFFB755FF),
                             ),
                           ),
@@ -546,7 +566,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   height: 20,
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 50,bottom: 20, right: 50),
+                  padding: EdgeInsets.only(left: 50, bottom: 20, right: 50),
                   child: Text(
                       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu.",
                       textAlign: TextAlign.center,
@@ -563,7 +583,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(
-                        width: (MediaQuery.of(context).size.width-96)/2, // match_parent
+                        width: (MediaQuery.of(context).size.width - 96) /
+                            2, // match_parent
                         child: FlatButton(
                           child: const Text('Цуцлах'),
                           onPressed: () {
@@ -572,11 +593,14 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                         ),
                       ),
                       SizedBox(
-                        width: (MediaQuery.of(context).size.width-96)/2, // match_parent
+                        width: (MediaQuery.of(context).size.width - 96) /
+                            2, // match_parent
                         child: FlatButton(
                           child: const Text('Тийм'),
                           onPressed: () {
-                            BackendService.crud('delete','/user/views',new HashMap()).then((onValue) {
+                            BackendService.crud(
+                                    'delete', '/user/views', new HashMap())
+                                .then((onValue) {
                               showToast("Амжилттай", gravity: Toast.BOTTOM);
                               Navigator.of(context).pop();
                             });
@@ -593,6 +617,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
       },
     );
   }
+
   void _showSearchDialog() {
     showDialog(
       context: context,
@@ -628,7 +653,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   height: 20,
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 50,bottom: 20, right: 50),
+                  padding: EdgeInsets.only(left: 50, bottom: 20, right: 50),
                   child: Text(
                       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu.",
                       textAlign: TextAlign.center,
@@ -645,20 +670,24 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(
-                          width: (MediaQuery.of(context).size.width-96)/2, // match_parent
-                          child: FlatButton(
-                            child: const Text('Цуцлах'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
+                        width: (MediaQuery.of(context).size.width - 96) /
+                            2, // match_parent
+                        child: FlatButton(
+                          child: const Text('Цуцлах'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ),
                       SizedBox(
-                        width: (MediaQuery.of(context).size.width-96)/2, // match_parent
+                        width: (MediaQuery.of(context).size.width - 96) /
+                            2, // match_parent
                         child: FlatButton(
                           child: const Text('Тийм'),
                           onPressed: () {
-                            BackendService.crud('delete','/user/searches',new HashMap()).then((onValue) {
+                            BackendService.crud(
+                                    'delete', '/user/searches', new HashMap())
+                                .then((onValue) {
                               showToast("Амжилттай", gravity: Toast.BOTTOM);
                               Navigator.of(context).pop();
                             });

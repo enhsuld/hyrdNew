@@ -28,16 +28,17 @@ dependencies:
   flutter_form_builder: ^3.7.2
   expandable: 4.1.2
   flutter_pagewise: ^1.2.3
-  shared_preferences: ^0.5.6+2
+  shared_preferences: ^0.5.7+3
   http: ^0.12.1
   toast: ^0.1.5
   country_code_picker: ^1.2.4
   pin_code_fields: ^2.3.0+3
-  url_launcher: ^5.2.5
+  url_launcher: ^5.4.10
   google_maps_flutter: ^0.4.0
   flutter_webview_plugin: ^0.3.10+1
   flutter_html: ^0.11.1
-  vibrate: ^0.0.4
+  # vibrate: ^0.0.4
+  flutter_vibrate: ^1.0.0
   splashscreen: ^1.2.0
   share: ^0.6.3+6
   flutter_ringtone_player: ^2.0.0
