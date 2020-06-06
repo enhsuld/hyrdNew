@@ -33,7 +33,8 @@ dependencies:
   country_code_picker: ^1.2.4
   pin_code_fields: ^2.3.0+3
   url_launcher: ^5.2.5
-  google_maps_flutter: ^0.4.0
+  # google_maps_flutter: ^0.4.0
+  google_maps_flutter: ^0.5.28+1
   flutter_webview_plugin: ^0.3.10+1
   flutter_html: ^0.11.1
   vibrate: ^0.0.4
