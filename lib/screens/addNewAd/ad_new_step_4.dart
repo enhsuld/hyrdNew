@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyrd/models/car_model.dart';
+import 'package:hyrd/screens/addNewAd/UploadFileInfo.dart';
 import 'package:hyrd/screens/addNewAd/UploadImage.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_3.dart';
 import 'package:hyrd/screens/addNewAd/ad_new_step_5.dart';
@@ -22,7 +21,6 @@ class AdNewStep4Screen extends StatefulWidget {
 }
 
 class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
-
   Map<String, dynamic> formData;
   List<Asset> images = List<Asset>();
   List<UploadFileInfo> imageFiles = new List<UploadFileInfo>();
@@ -42,41 +40,41 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
         Asset asset = images[index];
         return Container(
             child: Column(
+          children: <Widget>[
+            Stack(
               children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    AssetThumb(
-                      asset: asset,
-                      width: 300,
-                      height: 300,
-                    ),
-                    Positioned(
-                      right: 8.0,
-                      bottom: 8.0,
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            images.removeAt(index);
-                          });
-                        },
-                        child: new Container(
-                          decoration: new BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                              new BorderRadius.all(Radius.circular(35.0))),
-                          height: 35,
-                          width: 35,
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                AssetThumb(
+                  asset: asset,
+                  width: 300,
+                  height: 300,
                 ),
+                Positioned(
+                  right: 8.0,
+                  bottom: 8.0,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        images.removeAt(index);
+                      });
+                    },
+                    child: new Container(
+                      decoration: new BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              new BorderRadius.all(Radius.circular(35.0))),
+                      height: 35,
+                      width: 35,
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                )
               ],
-            ));
+            ),
+          ],
+        ));
       }),
     );
   }
@@ -100,13 +98,13 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
         ),
       );
 
-
       for (var asset in resultList) {
         int maxWIDTH = 500; //keep ratio
-        int height = ((500 * asset.originalHeight) / asset.originalWidth).round();
+        int height =
+            ((500 * asset.originalHeight) / asset.originalWidth).round();
 
         ByteData byteData =
-        await asset.requestThumbnail(maxWIDTH, height, quality: 80);
+            await asset.requestThumbnail(maxWIDTH, height, quality: 80);
 
         if (byteData != null) {
           List<int> imageData = byteData.buffer.asUint8List();
@@ -128,7 +126,8 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
   String uploadImage() {
     print(imageFiles.length);
 
-    BackendService.uploadFiles(widget.car.toJson(),imageFiles).then((response) {
+    BackendService.uploadFiles(widget.car.toJson(), imageFiles)
+        .then((response) {
       return response;
     });
     return null;
@@ -137,132 +136,134 @@ class _AdNewStep4ScreenState extends State<AdNewStep4Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.topRight,
-                  colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
-                )),
-          ),
-          centerTitle: true,
-          leading: Builder(builder: (BuildContext context) {
-            return new SizedBox(
-                height: 18.0,
-                width: 18.0,
-                child: new IconButton(
-                  padding: new EdgeInsets.all(0.0),
-                  color: Colors.white,
-                  icon: new Icon(Icons.arrow_back_ios, size: 20.0),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ));
-          }),
-          actions: <Widget>[
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                },
-                child: Container(
-                  padding: EdgeInsets.only(right: 20, left: 10),
-                  child: new SizedBox(
-                      height: 15.0,
-                      width: 15.0,
-                      child: new Icon(Icons.close,
-                          color: Colors.white, size: 30.0)),
-                ),
-              ),
-            )
-          ],
-          title: Text("Зар оруулах 4/5",
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-          elevation: 0.0,
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.topRight,
+            colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+          )),
         ),
-        body:Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top:20,bottom: 20),
-              width: MediaQuery.of(context).size.width - 40,
-              child: RaisedButton(
-                onPressed: loadAssets,
-                elevation: 0,
+        centerTitle: true,
+        leading: Builder(builder: (BuildContext context) {
+          return new SizedBox(
+              height: 18.0,
+              width: 18.0,
+              child: new IconButton(
+                padding: new EdgeInsets.all(0.0),
                 color: Colors.white,
-                shape: new RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.grey[300], width: 1),
-                    borderRadius: new BorderRadius.circular(7.0)),
-                child: SizedBox(
-                    height: 100,
-                    /*  width: 90,
-                      height: 90,*/
-                    child: Column(
-                      children: <Widget>[
-                        Center(
-                          child: Icon(
-                            Icons.linked_camera,
-                            color: Color(0xFF584BDD),
-                            size: 70,
-                          ),
-                        ),
-                        Center(
-                          child: Text('Upload media',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Color(0xFF584BDD),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600)),
-                        )
-                      ],
-                    )),
+                icon: new Icon(Icons.arrow_back_ios, size: 20.0),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ));
+        }),
+        actions: <Widget>[
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+              child: Container(
+                padding: EdgeInsets.only(right: 20, left: 10),
+                child: new SizedBox(
+                    height: 15.0,
+                    width: 15.0,
+                    child:
+                        new Icon(Icons.close, color: Colors.white, size: 30.0)),
               ),
             ),
-            Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: buildGridView(),
-                )
+          )
+        ],
+        title: Text("Зар оруулах 4/5",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+        elevation: 0.0,
+      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 20, bottom: 20),
+            width: MediaQuery.of(context).size.width - 40,
+            child: RaisedButton(
+              onPressed: loadAssets,
+              elevation: 0,
+              color: Colors.white,
+              shape: new RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.grey[300], width: 1),
+                  borderRadius: new BorderRadius.circular(7.0)),
+              child: SizedBox(
+                  height: 100,
+                  /*  width: 90,
+                      height: 90,*/
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                        child: Icon(
+                          Icons.linked_camera,
+                          color: Color(0xFF584BDD),
+                          size: 70,
+                        ),
+                      ),
+                      Center(
+                        child: Text('Upload media',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Color(0xFF584BDD),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600)),
+                      )
+                    ],
+                  )),
             ),
-            Container(
-              padding:
-              EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
-              width: MediaQuery.of(context).size.width,
-              child: FlatButton(
-                onPressed: () {
-                  BackendService.uploadFiles(widget.car.toJson(),imageFiles).then((response) {
+          ),
+          Expanded(
+              child: Container(
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: buildGridView(),
+          )),
+          Container(
+            padding: EdgeInsets.only(right: 0, left: 0, top: 10, bottom: 20),
+            width: MediaQuery.of(context).size.width,
+            child: FlatButton(
+              onPressed: () {
+                BackendService.uploadFiles(widget.car.toJson(), imageFiles)
+                    .then((response) {
                   //  Map<String, dynamic> rVal =response;
                   //  print(rVal['data']);
-                    widget.car.id=CarModel.fromJson(response['data']).id;
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => AdNewStep5Screen(car: widget.car)));
-                  });
-                },
-                textColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0)),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: <Color>[
-                          Color(0xFFB755FF),
-                          Color(0xFF584BDD),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                  child: const Text('Үргэлжлүүлэх',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 16)),
-                ),
+                  widget.car.id = CarModel.fromJson(response['data']).id;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AdNewStep5Screen(car: widget.car)));
+                });
+              },
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[
+                        Color(0xFFB755FF),
+                        Color(0xFF584BDD),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                child: const Text('Үргэлжлүүлэх',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 16)),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 }
