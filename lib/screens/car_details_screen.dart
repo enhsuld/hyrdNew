@@ -75,7 +75,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                       return Builder(
                         builder: (BuildContext context) {
                           return InkWell(
-                            onTap: (){
+                            onTap: () {
                               print("hatnaa");
                             },
                             child: Container(
