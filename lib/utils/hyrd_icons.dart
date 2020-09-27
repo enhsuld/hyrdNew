@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/Hyrd.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -22,8 +22,10 @@ class Hyrd {
 
   static const IconData mobile_data = IconData(0xe800, fontFamily: _kFontFam);
   static const IconData money = IconData(0xe801, fontFamily: _kFontFam);
-  static const IconData notification_off = IconData(0xe802, fontFamily: _kFontFam);
-  static const IconData notification_on = IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData notification_off =
+      IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData notification_on =
+      IconData(0xe803, fontFamily: _kFontFam);
   static const IconData padlock = IconData(0xe804, fontFamily: _kFontFam);
   static const IconData page = IconData(0xe805, fontFamily: _kFontFam);
   static const IconData plus_circle = IconData(0xe806, fontFamily: _kFontFam);
@@ -60,7 +62,8 @@ class Hyrd {
   static const IconData car_class = IconData(0xe825, fontFamily: _kFontFam);
   static const IconData car_color = IconData(0xe826, fontFamily: _kFontFam);
   static const IconData car_country = IconData(0xe827, fontFamily: _kFontFam);
-  static const IconData car_drivetrain = IconData(0xe828, fontFamily: _kFontFam);
+  static const IconData car_drivetrain =
+      IconData(0xe828, fontFamily: _kFontFam);
   static const IconData car_fueltype = IconData(0xe829, fontFamily: _kFontFam);
   static const IconData car_height = IconData(0xe82a, fontFamily: _kFontFam);
   static const IconData car_import = IconData(0xe82b, fontFamily: _kFontFam);
@@ -74,10 +77,12 @@ class Hyrd {
   static const IconData car_model = IconData(0xe833, fontFamily: _kFontFam);
   static const IconData car_motorname = IconData(0xe834, fontFamily: _kFontFam);
   static const IconData car_register = IconData(0xe835, fontFamily: _kFontFam);
-  static const IconData car_transmission = IconData(0xe836, fontFamily: _kFontFam);
+  static const IconData car_transmission =
+      IconData(0xe836, fontFamily: _kFontFam);
   static const IconData car_type = IconData(0xe837, fontFamily: _kFontFam);
   static const IconData car_weight = IconData(0xe838, fontFamily: _kFontFam);
-  static const IconData car_wheelposition = IconData(0xe839, fontFamily: _kFontFam);
+  static const IconData car_wheelposition =
+      IconData(0xe839, fontFamily: _kFontFam);
   static const IconData chat = IconData(0xe83a, fontFamily: _kFontFam);
   static const IconData checked = IconData(0xe83b, fontFamily: _kFontFam);
   static const IconData close = IconData(0xe83c, fontFamily: _kFontFam);
@@ -97,11 +102,15 @@ class Hyrd {
   static const IconData left_arrow = IconData(0xe84a, fontFamily: _kFontFam);
   static const IconData logout = IconData(0xe84b, fontFamily: _kFontFam);
   static const IconData mail = IconData(0xe84c, fontFamily: _kFontFam);
-  static const IconData manual_transmission = IconData(0xe84d, fontFamily: _kFontFam);
-  static const IconData menu_horizontal = IconData(0xe84e, fontFamily: _kFontFam);
+  static const IconData manual_transmission =
+      IconData(0xe84d, fontFamily: _kFontFam);
+  static const IconData menu_horizontal =
+      IconData(0xe84e, fontFamily: _kFontFam);
   static const IconData menu_vertical = IconData(0xe84f, fontFamily: _kFontFam);
-  static const IconData car_buildyear_1 = IconData(0xe850, fontFamily: _kFontFam);
-  static const IconData car_drivetrain_1 = IconData(0xe851, fontFamily: _kFontFam);
+  static const IconData car_buildyear_1 =
+      IconData(0xe850, fontFamily: _kFontFam);
+  static const IconData car_drivetrain_1 =
+      IconData(0xe851, fontFamily: _kFontFam);
   static const IconData car_height_1 = IconData(0xe852, fontFamily: _kFontFam);
   static const IconData car_mileage_1 = IconData(0xe853, fontFamily: _kFontFam);
 }

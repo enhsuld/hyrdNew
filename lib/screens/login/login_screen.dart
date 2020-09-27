@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hyrd/common/apifunctions/requestLoginAPI.dart';
 import 'package:hyrd/screens/login/password/phone_screen.dart';
 import 'package:hyrd/screens/login/signUp/step_one.dart';
+import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -100,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   context, _phoneController.text, _passwordController.text)
               .then((onValue) {
             if (onValue != null) {
+              BackendService.isLogin = true;
               Navigator.pop(context);
               //Navigator.of(context).pushReplacement(                  FadeRoute(builder: (context) => HomeScreen()));
             }

@@ -1,10 +1,8 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/widget/vertical_ads_item.dart';
 import 'package:hyrd/widget/vertical_news_item.dart';
 
 class TabNewsScreen extends StatefulWidget {
@@ -18,7 +16,6 @@ class TabNewsScreen extends StatefulWidget {
 }
 
 class _TabNewsScreenState extends State<TabNewsScreen> {
-
   static const int PAGE_SIZE = 2;
 
   Future<List<CarModel>> _fetchCash(pageIndex) async {
@@ -38,14 +35,12 @@ class _TabNewsScreenState extends State<TabNewsScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top:5,bottom: 10,left:20),
+              padding: EdgeInsets.only(top: 5, bottom: 10, left: 20),
               width: MediaQuery.of(context).size.width,
-              child:  Text(
+              child: Text(
                 'Мэдээлэл',
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFF222455)),
+                style: TextStyle(fontSize: 16, color: Color(0xFF222455)),
               ),
             ),
             Container(
@@ -67,13 +62,11 @@ class _TabNewsScreenState extends State<TabNewsScreen> {
                   pageLoadController: PagewiseLoadController(
                       pageSize: PAGE_SIZE,
                       pageFuture: (pageIndex) => BackendService.getOrgPosts(
-                          widget.item.user.org.id,
-                          pageIndex + 1,
-                          PAGE_SIZE)),
+                          widget.item.user.org.id, pageIndex + 1, PAGE_SIZE)),
                 ),
               ),
             ),
-           /* FutureBuilder(
+            /* FutureBuilder(
               future: BackendService.getHighlight(page: 1, pageSize: 5),
               builder: (context, snapshot) {
                 List<dynamic> lists;

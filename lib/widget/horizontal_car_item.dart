@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyrd/models/car_model.dart';
-import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:hyrd/screens/main/detail_screen.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +19,6 @@ class HorizontalCarItem extends StatefulWidget {
 }
 
 class _HorizontalCarItemState extends State<HorizontalCarItem> {
-
   final formatter = new NumberFormat("#,###");
 
   @override
@@ -111,7 +110,8 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
       width: 206,
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, FadeRoute(builder: (context) => DetailScreen(item: widget.item)));
+          Navigator.push(context,
+              FadeRoute(builder: (context) => DetailScreen(item: widget.item)));
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -133,11 +133,12 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                             topLeft: const Radius.circular(5.0),
                             topRight: const Radius.circular(5.0)),
                         image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: (widget.item.medias.length==0)
-                                ? AssetImage('assets/images/defualt-car.png')
-                                : NetworkImage(widget.item?.medias[0]?.thumb),
-                            ),
+                          fit: BoxFit.cover,
+                          image: (widget.item.medias.length == 0)
+                              ? AssetImage('assets/images/defualt-car.png')
+                              : CachedNetworkImageProvider(
+                                  widget?.item?.medias[0]?.thumb ?? ""),
+                        ),
                       ),
                     ),
                   ),
@@ -184,7 +185,7 @@ class _HorizontalCarItemState extends State<HorizontalCarItem> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Үнэ: " + (widget.item?.priceFormat??"") + " ₮",
+                            "Үнэ: " + (widget.item?.priceFormat ?? "") + " ₮",
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,

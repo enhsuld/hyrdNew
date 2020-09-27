@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:hyrd/utils/lang.dart';
 
-class TermScreen extends StatefulWidget {
+class PrivacyScreen extends StatefulWidget {
   static const routeName = '/terms';
 
   @override
-  _TermScreenState createState() => _TermScreenState();
+  _PrivacyScreenState createState() => _PrivacyScreenState();
 }
 
-class _TermScreenState extends State<TermScreen> {
+class _PrivacyScreenState extends State<PrivacyScreen> {
   @override
   Widget build(BuildContext context) {
     return new WebviewScaffold(
-      url: "https://hyrd.mn/embed/terms-conditions",
+      url: "https://hyrd.mn/embed/privacy-policy",
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -37,7 +37,7 @@ class _TermScreenState extends State<TermScreen> {
                 },
               ));
         }),
-        title: Text(lang.TERM,
+        title: Text(lang.PRIVACY,
             textAlign: TextAlign.left,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
         elevation: 0.0,

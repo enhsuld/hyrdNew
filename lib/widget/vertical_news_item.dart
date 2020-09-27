@@ -1,8 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/post_model.dart';
-import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:hyrd/screens/news_screen.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:intl/intl.dart';
@@ -18,14 +17,14 @@ class VerticalNewsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formatter = new NumberFormat("#,###");
     final formatterDate = new DateFormat.yMMMMd('en_US');
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            Navigator.push(context, FadeRoute(builder: (context) => NewsScreen(item:item)));
+            Navigator.push(context,
+                FadeRoute(builder: (context) => NewsScreen(item: item)));
           },
           child: Card(
             shape: RoundedRectangleBorder(
@@ -43,10 +42,11 @@ class VerticalNewsItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: (item.coverImage == null)
-                            ? AssetImage('assets/images/defualt-post.png')
-                            : NetworkImage(item.coverImage),),
+                      fit: BoxFit.cover,
+                      image: (item.coverImage == null)
+                          ? AssetImage('assets/images/defualt-post.png')
+                          : CachedNetworkImageProvider(item?.coverImage ?? ""),
+                    ),
                   ),
                 ),
                 Container(
@@ -92,9 +92,7 @@ class VerticalNewsItem extends StatelessWidget {
                       ),
                       Text(
                         formatterDate.format(DateTime.parse(item.publishedAt)),
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: bigTextColor),
+                        style: TextStyle(fontSize: 13, color: bigTextColor),
                       ),
                     ],
                   ),

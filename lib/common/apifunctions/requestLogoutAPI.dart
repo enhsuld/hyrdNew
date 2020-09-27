@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hyrd/common/functions/saveLogout.dart';
+import 'package:hyrd/services/BackendService.dart';
 
 Future<String> requestLogoutAPI(BuildContext context) async {
   //final url = "https://pims.publicinvestment.gov.mn/api/auth/logout";
@@ -18,6 +19,7 @@ Future<String> requestLogoutAPI(BuildContext context) async {
   // );
 
   // if (response.statusCode == 200) {
+  BackendService.isLogin = false;
   saveLogout();
   return null;
   // } else {

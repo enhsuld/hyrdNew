@@ -54,23 +54,33 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                   color: Colors.blueGrey,
                   child: CarouselSlider(
                     //height: MediaQuery.of(context).size.height*0.4,
-                    initialPage: 0,
-                    height: 400,
-                    aspectRatio: MediaQuery.of(context).size.aspectRatio,
-                    enlargeCenterPage: false,
-                    autoPlay: false,
-                    viewportFraction: 1.0,
-                    reverse: false,
-                    enableInfiniteScroll: true,
-                    autoPlayInterval: Duration(seconds: 2),
-                    autoPlayAnimationDuration: Duration(milliseconds: 2000),
-                    pauseAutoPlayOnTouch: Duration(seconds: 1),
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _current = index;
-                      });
-                    },
+                    // initialPage: 0,
+                    // height: 400,
+                    // aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                    // enlargeCenterPage: false,
+                    // autoPlay: false,
+                    // viewportFraction: 1.0,
+                    // reverse: false,
+                    // enableInfiniteScroll: true,
+                    // autoPlayInterval: Duration(seconds: 2),
+                    // autoPlayAnimationDuration: Duration(milliseconds: 2000),
+                    // pauseAutoPlayOnTouch: Duration(seconds: 1),
+                    // scrollDirection: Axis.horizontal,
+                    // onPageChanged: (index) {
+                    //   setState(() {
+                    //     _current = index;
+                    //   });
+                    // },
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        height: 400,
+                        aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
                     items: imgList.map((imgUrl) {
                       return Builder(
                         builder: (BuildContext context) {

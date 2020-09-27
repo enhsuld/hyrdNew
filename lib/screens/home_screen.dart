@@ -9,7 +9,6 @@ import 'package:hyrd/screens/profile_screen.dart';
 import 'package:hyrd/screens/search_car_screen.dart';
 import 'package:hyrd/screens/total_ad_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
-import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List<Widget> _children = [];
 
   ProfileModel user;
-  bool isLogin = false;
   String token = "";
   SharedPreferences sharedPreferences;
 
@@ -43,23 +41,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       AddCarScreen()
     ];
     _tabController = TabController(vsync: this, length: _children.length);
+    BackendService.getToken().then((_token) {
+      if (mounted) {
+        setState(() {
+          if (_token != null && _token != "") BackendService.isLogin = true;
+        });
+      }
+    });
   }
 
   int currentIndex = 0;
 
   void _selectedTab(int index) {
     setState(() {
-      if (index == 3) {
-        print(isLogin);
-        if (!isLogin) {
+      print(BackendService.isLogin);
+      if (index == 4) {
+        if (!BackendService.isLogin) {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => LoginScreen()));
+        } else {
+          currentIndex = index;
+          _tabController.animateTo(currentIndex);
         }
+      } else {
+        if (index == 3) {
+          if (!BackendService.isLogin) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => LoginScreen()));
+          }
+        }
+        currentIndex = index;
+        _tabController.animateTo(currentIndex);
       }
-      currentIndex = index;
-      _tabController.animateTo(currentIndex);
-
-      print('Selected: $index');
     });
   }
 
@@ -69,8 +82,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       setState(() {
         token = sharedPreferences.getString("token") ?? "";
         if (token != "") {
-          isLogin = true;
-        }
+          BackendService.isLogin = true;
+        } else
+          BackendService.isLogin = false;
       });
     }
   }
@@ -81,7 +95,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.black,
-        statusBarIconBrightness: Brightness.dark));
+        statusBarIconBrightness: Brightness.light));
+
+    // Container(
+    //       decoration: BoxDecoration(
+    //           gradient: LinearGradient(
+    //         colors: [Color(0xff584BDD), Color(0xffB755FF)],
+    //       )),
+    //       width: double.infinity,
+    //       height: MediaQuery.of(context).padding.top,
+    //     ),
 
     final bottomBar = FABBottomAppBar(
       onTabSelected: _selectedTab,
@@ -117,10 +140,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
         extendBody: true,
         bottomNavigationBar: bottomBar,
-        body: TabBarView(
-            children: _children,
-            controller: _tabController,
-            physics: NeverScrollableScrollPhysics()));
+        body: Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              //top: MediaQuery.of(context).padding.top,
+              child: TabBarView(
+                  children: _children,
+                  controller: _tabController,
+                  physics: NeverScrollableScrollPhysics()),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                colors: [Color(0xff584BDD), Color(0xffB755FF)],
+              )),
+              width: double.infinity,
+              height: MediaQuery.of(context).padding.top,
+            ),
+          ],
+        ));
   }
 }
 

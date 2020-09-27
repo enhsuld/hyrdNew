@@ -1,17 +1,16 @@
 import 'dart:collection';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/report_type_model.dart';
-import 'package:hyrd/screens/car_details_screen.dart';
 import 'package:hyrd/screens/main/detail_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
-import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -77,7 +76,8 @@ class _VerticalAdsItemState extends State<VerticalAdsItem> {
                     fit: BoxFit.fitHeight,
                     image: (widget.item.medias.length == 0)
                         ? AssetImage('assets/images/defualt-car.png')
-                        : NetworkImage(widget.item?.medias[0]?.thumb),
+                        : CachedNetworkImageProvider(
+                            widget.item?.medias[0]?.thumb ?? ""),
                   ),
                 ),
               ),

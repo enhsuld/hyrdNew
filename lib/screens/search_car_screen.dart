@@ -25,14 +25,14 @@ class _SearchCarScreenState extends State<SearchCarScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                colors: [Color(0xff584BDD), Color(0xffB755FF)],
-              )),
-              width: double.infinity,
-              height: MediaQuery.of(context).padding.top,
-            ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //       gradient: LinearGradient(
+            //     colors: [Color(0xff584BDD), Color(0xffB755FF)],
+            //   )),
+            //   width: double.infinity,
+            //   height: MediaQuery.of(context).padding.top,
+            // ),
             Padding(
               padding: EdgeInsets.only(top: 12, left: 15.0, right: 15.0),
               child: Material(

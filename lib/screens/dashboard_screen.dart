@@ -1,29 +1,21 @@
-import 'dart:convert';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:hyrd/models/banner_model.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/models/post_model.dart';
-import 'package:hyrd/models/report_type_model.dart';
-import 'package:hyrd/screens/login/login_screen.dart';
 import 'package:hyrd/screens/notification/notification_screen.dart';
-import 'package:hyrd/screens/popular_ads_screen.dart';
-import 'package:hyrd/screens/profile/setting_screen.dart';
 import 'package:hyrd/screens/special_ads_screen.dart';
 import 'package:hyrd/screens/total_post_screen.dart';
 import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
+import 'package:hyrd/utils/lang.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
-import 'package:hyrd/widget/recent_list_item.dart';
 import 'package:hyrd/widget/vertical_ads_item.dart';
 import 'package:hyrd/widget/vertical_news_item.dart';
-import 'package:http/http.dart' as http;
-import 'package:hyrd/models/json_data.dart';
-import '../models/car.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -54,7 +46,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
     return result;
   }
- // var reportTypes = new List<ReportTypeModel>();
+
+  // var reportTypes = new List<ReportTypeModel>();
   var banners = new List<BannerModel>();
   Future<dynamic> cars;
   @override
@@ -65,38 +58,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         this.banners = data;
       });
     });
-/*    BackendService.getReportTypes().then((data) {
-      setState(() {
-        this.reportTypes = data;
-      });
-    });*/
-    cars = _fetchCars(page: 1, pageSize: 5);
-  }
-
-  static String api = "https://hyrd.mn/api";
-  static String apiAds = api + "/car-ads";
-
-  Future<dynamic> _fetchCars({page, pageSize: 10}) async {
-    final response = (await http.get(apiAds + '/highlight?page=$page&limit=$pageSize'));
-    if (response.statusCode == 200) {
-      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
-    } else {
-      return null;
-    }
-    /*
-        if (response.statusCode == 200) {
-          final items = JsonData(utf8.decode(response.bodyBytes)).getData().cast<Map<String, dynamic>>();
-          List<CarModel> listOfUsers = items.map<CarModel>((json) {
-            return CarModel.fromJson(json);
-          }).toList();
-
-          print("sss "+listOfUsers.length.toString());
-
-          return listOfUsers;
-        } else {
-          throw Exception('Failed to load internet');
-        }
-    */
+    // BackendService.getReportTypes().then((data) {
+    //   setState(() {
+    //     this.reportTypes = data;
+    //   });
+    // });
+    cars = BackendService.fetchCars(page: 1, pageSize: 5);
   }
 
   @override
@@ -108,23 +75,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                colors: [Color(0xff584BDD), Color(0xffB755FF)],
-              )),
-              width: double.infinity,
-              height: MediaQuery.of(context).padding.top,
-            ),
-            Container(
               padding: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Нүүр',
+                    lang.HOME.toUpperCase(),
                     style: TextStyle(
                       fontSize: 21.0,
-                      color: Color(0xFF222455),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -144,21 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           NotificationScreen()));
                             },
                             color: Color(0xFF222455),
-                            iconSize: 20.0,
-                          ),
-                        ),
-                        Container(
-                          width: 30,
-                          child: IconButton(
-                            icon: Icon(Hyrd.settings),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  FadeRoute(
-                                      builder: (context) => SettingScreen()));
-                            },
-                            color: Color(0xFF222455),
-                            iconSize: 20.0,
+                            iconSize: 22.0,
                           ),
                         ),
                       ],
@@ -169,151 +113,105 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             (banners != null && banners.length > 0)
                 ? CarouselSlider(
-                    height: 190.0,
-                    initialPage: 1,
-                    viewportFraction: 0.8,
-                    aspectRatio: MediaQuery.of(context).size.aspectRatio,
-                    enlargeCenterPage: true,
-                    autoPlay: false,
-                    reverse: false,
-                    enableInfiniteScroll: true,
-                    autoPlayInterval: Duration(seconds: 2),
-                    autoPlayAnimationDuration: Duration(milliseconds: 2000),
-                    pauseAutoPlayOnTouch: Duration(seconds: 10),
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _current = index;
-                      });
-                    },
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        height: 190,
+                        viewportFraction: 0.8,
+                        autoPlayInterval: Duration(seconds: 2),
+                        aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
                     items: banners.map((imgUrl) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Stack(
-                                children: <Widget>[
-                                  new ClipRRect(
-                                      borderRadius:
-                                          new BorderRadius.circular(8.0),
-                                      child: Image.network(imgUrl.banner,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height,
-                                          fit: BoxFit.fill)),
-                                ],
-                              ));
+                          return InkWell(
+                            onTap: () => _launchURL(imgUrl.link),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Stack(
+                                  children: <Widget>[
+                                    new ClipRRect(
+                                        borderRadius:
+                                            new BorderRadius.circular(8.0),
+                                        child: CachedNetworkImage(
+                                            imageUrl: imgUrl.banner,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            fit: BoxFit.fill)),
+                                  ],
+                                )),
+                          );
                         },
                       );
                     }).toList(),
                   )
-                : CarouselSlider(
-                    height: 190.0,
-                    initialPage: 1,
-                    viewportFraction: 0.8,
-                    aspectRatio: MediaQuery.of(context).size.aspectRatio,
-                    enlargeCenterPage: true,
-                    autoPlay: false,
-                    reverse: false,
-                    enableInfiniteScroll: true,
-                    autoPlayInterval: Duration(seconds: 2),
-                    autoPlayAnimationDuration: Duration(milliseconds: 2000),
-                    pauseAutoPlayOnTouch: Duration(seconds: 10),
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _current = index;
-                      });
-                    },
-                    items: imgList.map((imgUrl) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Stack(
-                                children: <Widget>[
-                                  new ClipRRect(
-                                      borderRadius:
-                                          new BorderRadius.circular(8.0),
-                                      child: Image.asset(imgUrl,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height,
-                                          fit: BoxFit.fill)),
-                                ],
-                              ));
-                        },
+                : Container(),
+            // CarouselSlider(
+            //     options: CarouselOptions(
+            //         autoPlay: true,
+            //         height: 190,
+            //         aspectRatio: MediaQuery.of(context).size.aspectRatio,
+            //         enlargeCenterPage: true,
+            //         onPageChanged: (index, reason) {
+            //           setState(() {
+            //             _current = index;
+            //           });
+            //         }),
+            //     items: imgList.map((imgUrl) {
+            //       return Builder(
+            //         builder: (BuildContext context) {
+            //           return Container(
+            //               width: MediaQuery.of(context).size.width,
+            //               margin: EdgeInsets.symmetric(horizontal: 10.0),
+            //               child: Stack(
+            //                 children: <Widget>[
+            //                   new ClipRRect(
+            //                       borderRadius:
+            //                           new BorderRadius.circular(8.0),
+            //                       child: Image.asset(imgUrl,
+            //                           width:
+            //                               MediaQuery.of(context).size.width,
+            //                           height: MediaQuery.of(context)
+            //                               .size
+            //                               .height,
+            //                           fit: BoxFit.fill)),
+            //                 ],
+            //               ));
+            //         },
+            //       );
+            //     }).toList(),
+            //   ),
+            (banners != null && banners.length > 0)
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: map<Widget>(
+                        (banners != null && banners.length > 0)
+                            ? banners
+                            : imgList, (index, url) {
+                      return Container(
+                        width: 10.0,
+                        height: 4.0,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 3.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: _current == index
+                              ? Color(0xFF584BDD)
+                              : Colors.grey,
+                        ),
                       );
-                    }).toList(),
-                  ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: map<Widget>(imgList, (index, url) {
-                return Container(
-                  width: 10.0,
-                  height: 4.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 3.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    color: _current == index ? Color(0xFF584BDD) : Colors.grey,
-                  ),
-                );
-              }),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10, left: 20, right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Эрэлттэй зарууд',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF222455),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  FlatButton(
-                    child: Text(
-                      'бүгдийг харах',
-                      style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          FadeRoute(builder: (context) => PopularAdsScreen()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Container(
-                height: 270,
-                child: FutureBuilder(
-                  future: BackendService.getPopular(page: 1, pageSize: 5),
-                  builder: (context, snapshot) {
-                    List<dynamic> adsPopulars;
-                    if (snapshot.hasData) {
-                      adsPopulars = snapshot.data;
-                      return ListView.builder(
-                        padding: EdgeInsets.only(top: 0, bottom: 0),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: adsPopulars.length,
-                        itemBuilder: (ctx, i) => HorizontalCarItem(
-                            index: i, item: CarModel.fromJson(adsPopulars[i])),
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                )),
+                    }),
+                  )
+                : Container(),
             Padding(
               padding: EdgeInsets.only(left: 20, right: 5),
               child: Row(
@@ -329,7 +227,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   FlatButton(
                     child: Text(
-                      'бүгдийг харах',
+                      lang.ALLVIEW,
                       style: TextStyle(color: Color(0xFF6E7FAA), fontSize: 13),
                     ),
                     onPressed: () {
@@ -347,14 +245,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 if (snapshot.hasData) {
                   lists = snapshot.data;
                   return Container(
-                    height: double.parse(lists.length.toString()) * 105,
+                    height: 270,
                     padding:
                         EdgeInsets.only(bottom: 0, top: 0, left: 10, right: 10),
                     child: ListView.builder(
                       padding: EdgeInsets.only(top: 0, bottom: 0),
-                      physics: NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      //physics: NeverScrollableScrollPhysics(),
                       itemCount: lists.length,
-                      itemBuilder: (ctx, i) => VerticalAdsItem(
+                      itemBuilder: (ctx, i) => HorizontalCarItem(
                         index: i,
                         item: CarModel.fromJson(lists[i]["car_ad"]),
                       ),
@@ -480,5 +379,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
     );
+  }
+
+  _launchURL(url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

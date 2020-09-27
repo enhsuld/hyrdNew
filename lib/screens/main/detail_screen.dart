@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hyrd/models/car.dart';
 import 'package:hyrd/models/car_model.dart';
 import 'package:hyrd/screens/main/dealer_screen.dart';
 import 'package:hyrd/screens/photo_wrapper.dart';
@@ -11,8 +10,8 @@ import 'package:hyrd/services/BackendService.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/utils/hyrd_icons.dart';
 import 'package:hyrd/utils/hyrd_new_icons_icons.dart';
+import 'package:hyrd/utils/lang.dart';
 import 'package:hyrd/widget/horizontal_car_item.dart';
-import 'package:hyrd/widget/horizontal_list_item.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,6 +55,36 @@ class _DetailScreenState extends State<DetailScreen> {
     print(widget.item.medias);
     print(widget.item.toJson());
     return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.topRight,
+            colors: <Color>[Color(0xFF584BDD), Color(0xFFB755FF)],
+          )),
+        ),
+        centerTitle: true,
+        leading: Builder(builder: (BuildContext context) {
+          return new SizedBox(
+              height: 18.0,
+              width: 18.0,
+              child: new IconButton(
+                padding: new EdgeInsets.all(0.0),
+                color: Colors.white,
+                icon: new Icon(Icons.arrow_back_ios, size: 20.0),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ));
+        }),
+        title: Text(
+            (widget?.item?.markName ?? "") +
+                ' ' +
+                (widget?.item?.modelName ?? ""),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+        elevation: 0.0,
+      ),
       backgroundColor: Color(0xfff4f4f4),
       body: SingleChildScrollView(
         child: Column(
@@ -68,24 +97,35 @@ class _DetailScreenState extends State<DetailScreen> {
                   child: (widget.item.medias.isEmpty)
                       ? CarouselSlider(
                           //height: MediaQuery.of(context).size.height*0.4,
-                          initialPage: 0,
-                          height: 400,
-                          aspectRatio: MediaQuery.of(context).size.aspectRatio,
-                          enlargeCenterPage: false,
-                          autoPlay: false,
-                          viewportFraction: 1.0,
-                          reverse: false,
-                          enableInfiniteScroll: true,
-                          autoPlayInterval: Duration(seconds: 2),
-                          autoPlayAnimationDuration:
-                              Duration(milliseconds: 2000),
-                          pauseAutoPlayOnTouch: Duration(seconds: 1),
-                          scrollDirection: Axis.horizontal,
-                          onPageChanged: (index) {
-                            setState(() {
-                              _current = index;
-                            });
-                          },
+                          // initialPage: 0,
+                          // height: 400,
+                          // aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                          // enlargeCenterPage: false,
+                          // autoPlay: false,
+                          // viewportFraction: 1.0,
+                          // reverse: false,
+                          // enableInfiniteScroll: true,
+                          // autoPlayInterval: Duration(seconds: 2),
+                          // autoPlayAnimationDuration:
+                          //     Duration(milliseconds: 2000),
+                          // pauseAutoPlayOnTouch: Duration(seconds: 1),
+                          // scrollDirection: Axis.horizontal,
+                          // onPageChanged: (index) {
+                          //   setState(() {
+                          //     _current = index;
+                          //   });
+                          // },
+                          options: CarouselOptions(
+                              autoPlay: true,
+                              height: 400,
+                              aspectRatio:
+                                  MediaQuery.of(context).size.aspectRatio,
+                              enlargeCenterPage: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              }),
                           items: imgList.map((imgUrl) {
                             return Builder(
                               builder: (BuildContext context) {
@@ -113,24 +153,35 @@ class _DetailScreenState extends State<DetailScreen> {
                           }).toList(),
                         )
                       : CarouselSlider(
-                          initialPage: 0,
-                          height: 400,
-                          aspectRatio: MediaQuery.of(context).size.aspectRatio,
-                          enlargeCenterPage: false,
-                          autoPlay: false,
-                          viewportFraction: 1.0,
-                          reverse: false,
-                          enableInfiniteScroll: true,
-                          autoPlayInterval: Duration(seconds: 2),
-                          autoPlayAnimationDuration:
-                              Duration(milliseconds: 2000),
-                          pauseAutoPlayOnTouch: Duration(seconds: 1),
-                          scrollDirection: Axis.horizontal,
-                          onPageChanged: (index) {
-                            setState(() {
-                              _current = index;
-                            });
-                          },
+                          // initialPage: 0,
+                          // height: 400,
+                          // aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                          // enlargeCenterPage: false,
+                          // autoPlay: false,
+                          // viewportFraction: 1.0,
+                          // reverse: false,
+                          // enableInfiniteScroll: true,
+                          // autoPlayInterval: Duration(seconds: 2),
+                          // autoPlayAnimationDuration:
+                          //     Duration(milliseconds: 2000),
+                          // pauseAutoPlayOnTouch: Duration(seconds: 1),
+                          // scrollDirection: Axis.horizontal,
+                          // onPageChanged: (index) {
+                          //   setState(() {
+                          //     _current = index;
+                          //   });
+                          // },
+                          options: CarouselOptions(
+                              autoPlay: true,
+                              height: 400,
+                              aspectRatio:
+                                  MediaQuery.of(context).size.aspectRatio,
+                              enlargeCenterPage: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              }),
                           items: widget.item.medias.map((imgUrl) {
                             return Builder(
                               builder: (BuildContext context) {
@@ -151,39 +202,39 @@ class _DetailScreenState extends State<DetailScreen> {
                           }).toList(),
                         ),
                 ),
-                Positioned(
-                  top: 40,
-                  right: 20,
-                  left: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                        padding: new EdgeInsets.only(left: 5),
-                        color: Colors.white,
-                        icon: new Icon(Icons.arrow_back_ios, size: 25.0),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      Text(
-                        widget.item.markName + ' ' + widget.item.modelName,
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      SizedBox(
-                          height: 18.0,
-                          width: 18.0,
-                          child: new IconButton(
-                            padding: new EdgeInsets.all(0.0),
-                            color: Colors.white,
-                            icon: new Icon(Icons.more_vert, size: 25.0),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          )),
-                    ],
-                  ),
-                ),
+                // Positioned(
+                //   top: 40,
+                //   right: 20,
+                //   left: 0,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: <Widget>[
+                //       IconButton(
+                //         padding: new EdgeInsets.only(left: 5),
+                //         color: Colors.white,
+                //         icon: new Icon(Icons.arrow_back_ios, size: 25.0),
+                //         onPressed: () {
+                //           Navigator.of(context).pop();
+                //         },
+                //       ),
+                //       Text(
+                //         widget.item.markName + ' ' + widget.item.modelName,
+                //         style: TextStyle(color: Colors.white, fontSize: 20),
+                //       ),
+                //       SizedBox(
+                //           height: 18.0,
+                //           width: 18.0,
+                //           child: new IconButton(
+                //             padding: new EdgeInsets.all(0.0),
+                //             color: Colors.white,
+                //             icon: new Icon(Icons.more_vert, size: 25.0),
+                //             onPressed: () {
+                //               Navigator.of(context).pop();
+                //             },
+                //           )),
+                //     ],
+                //   ),
+                // ),
                 Positioned(
                   bottom: 40,
                   right: 20,
@@ -776,24 +827,24 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 80,
+        height: 60,
         color: Colors.white,
-        padding: const EdgeInsets.all(15),
-        width: MediaQuery.of(context).size.width - 40,
+        //padding: const EdgeInsets.all(15),
+        //width: MediaQuery.of(context).size.width - 40,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width / 2,
-              padding: EdgeInsets.only(left: 30, top: 5),
+              padding: EdgeInsets.only(left: 30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    "үнэ:",
+                    lang.PRICE,
                     style: TextStyle(
-                      fontSize: 8,
+                      fontSize: 12,
                       color: Color(0xFF6E7FAA),
                     ),
                   ),

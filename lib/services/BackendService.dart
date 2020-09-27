@@ -8,9 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:hyrd/models/banner_model.dart';
 import 'package:hyrd/models/report_type_model.dart';
 import 'package:hyrd/models/car_model.dart';
-import 'package:hyrd/models/help_model.dart';
 import 'package:hyrd/models/json_data.dart';
-import 'package:hyrd/models/organization_model.dart';
 import 'package:hyrd/models/post_model.dart';
 import 'package:hyrd/models/profile_model.dart';
 import 'package:hyrd/models/taxonomy.dart';
@@ -20,9 +18,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class BackendService {
   static String api = "https://hyrd.mn/api";
-
   static String apiAds = api + "/car-ads";
+
   static String apiUser = api + "/user";
+  static bool isLogin = false;
 
   final BuildContext _context;
 
@@ -78,6 +77,16 @@ class BackendService {
       return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
     else
       return null;
+  }
+
+  static Future<dynamic> fetchCars({page, pageSize: 10}) async {
+    final response = (await http
+        .get(BackendService.apiAds + '/highlight?page=$page&limit=$pageSize'));
+    if (response.statusCode == 200) {
+      return Future.value(JsonData(utf8.decode(response.bodyBytes)).getData());
+    } else {
+      return null;
+    }
   }
 
   static Future<String> getSearch({Map<String, String> body}) async {
