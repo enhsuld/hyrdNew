@@ -66,7 +66,7 @@ class _StepOneScreenScreenState extends State<StepOneScreen> {
                         //   'date': DateTime.now(),
                         //   'accept_terms': false,
                         // },
-                        autovalidate: true,
+                        //autovalidate: true,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[

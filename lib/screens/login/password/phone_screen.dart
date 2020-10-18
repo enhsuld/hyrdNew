@@ -53,7 +53,7 @@ class PhoneScreenScreenState extends State<PhoneScreen> {
                     children: <Widget>[
                       FormBuilder(
                         key: _fbKey,
-                        autovalidate: true,
+                        //autovalidate: true,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
