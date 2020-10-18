@@ -421,38 +421,35 @@ class _DealerScreenState extends State<DealerScreen>
                                                       }
                                                     },
                                                     child: Container(
-                                                        padding: const EdgeInsets.fromLTRB(
-                                                            10, 5, 10, 5),
-                                                        decoration:
-                                                            (!isFollowing)
-                                                                ? BoxDecoration(
-                                                                    gradient: LinearGradient(
-                                                                        begin: Alignment
-                                                                            .topCenter,
-                                                                        end: Alignment
-                                                                            .bottomCenter,
-                                                                        colors: [
-                                                                          Color(
-                                                                              0xFFB755FF),
-                                                                          Color(
-                                                                              0xFF584BDD),
-                                                                        ]),
-                                                                    borderRadius:
-                                                                        BorderRadius.all(Radius.circular(
+                                                        padding:
+                                                            const EdgeInsets.fromLTRB(
+                                                                10, 5, 10, 5),
+                                                        decoration: (!(isFollowing ??
+                                                                false))
+                                                            ? BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Color(
+                                                                          0xFFB755FF),
+                                                                      Color(
+                                                                          0xFF584BDD),
+                                                                    ]),
+                                                                borderRadius:
+                                                                    BorderRadius.all(
+                                                                        Radius.circular(
                                                                             80.0)))
-                                                                : BoxDecoration(
-                                                                    border: new Border.all(
-                                                                        color: Color(
-                                                                            0xFF6E7FAA),
-                                                                        width:
-                                                                            1.0),
-                                                                    gradient: LinearGradient(
-                                                                        begin: Alignment
-                                                                            .topCenter,
-                                                                        end: Alignment.bottomCenter,
-                                                                        colors: <Color>[Colors.white, Colors.white]),
-                                                                    borderRadius: BorderRadius.all(Radius.circular(80.0))),
-                                                        child: (this.isFollowing) ? Text(lang.FOLLOWING, textAlign: TextAlign.center, style: TextStyle(fontSize: 15, color: Color(0xFF6E7FAA))) : Text(lang.FOLLOW, textAlign: TextAlign.center, style: TextStyle(fontSize: 15))),
+                                                            : BoxDecoration(
+                                                                border: new Border.all(
+                                                                    color:
+                                                                        Color(0xFF6E7FAA),
+                                                                    width: 1.0),
+                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: <Color>[Colors.white, Colors.white]),
+                                                                borderRadius: BorderRadius.all(Radius.circular(80.0))),
+                                                        child: (isFollowing ?? false) ? Text(lang.FOLLOWING, textAlign: TextAlign.center, style: TextStyle(fontSize: 15, color: Color(0xFF6E7FAA))) : Text(lang.FOLLOW, textAlign: TextAlign.center, style: TextStyle(fontSize: 15))),
                                                   ),
                                                 ),
                                               ],

@@ -116,11 +116,12 @@ class _DetailScreenState extends State<DetailScreen> {
                           //   });
                           // },
                           options: CarouselOptions(
-                              autoPlay: true,
+                              //autoPlay: true,
                               height: 400,
+                              viewportFraction: 1,
                               aspectRatio:
                                   MediaQuery.of(context).size.aspectRatio,
-                              enlargeCenterPage: true,
+                              //enlargeCenterPage: true,
                               onPageChanged: (index, reason) {
                                 setState(() {
                                   _current = index;
@@ -145,7 +146,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                 height: MediaQuery.of(context)
                                                     .size
                                                     .height,
-                                                fit: BoxFit.fill)),
+                                                fit: BoxFit.fitWidth)),
                                       ],
                                     ));
                               },
@@ -172,8 +173,9 @@ class _DetailScreenState extends State<DetailScreen> {
                           //   });
                           // },
                           options: CarouselOptions(
-                              autoPlay: true,
+                              //autoPlay: true,
                               height: 400,
+                              viewportFraction: 1,
                               aspectRatio:
                                   MediaQuery.of(context).size.aspectRatio,
                               enlargeCenterPage: true,
