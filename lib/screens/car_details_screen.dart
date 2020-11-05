@@ -7,8 +7,6 @@ import 'package:hyrd/screens/main/dealer_screen.dart';
 import 'package:hyrd/utils/fade_route.dart';
 import 'package:hyrd/widget/horizontal_list_item.dart';
 
-import 'add_car_screen.dart';
-
 class CarDetailsScreen extends StatefulWidget {
   static const routeName = '/car-details';
 

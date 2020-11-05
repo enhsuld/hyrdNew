@@ -21,7 +21,7 @@ class DealerScreen extends StatefulWidget {
 
   final CarModel item;
 
-  DealerScreen({Key key, @required this.item}) : super(key: key);
+  DealerScreen({Key key, this.item}) : super(key: key);
 
   @override
   _DealerScreenState createState() => _DealerScreenState();
